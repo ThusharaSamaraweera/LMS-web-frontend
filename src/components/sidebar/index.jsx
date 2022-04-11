@@ -12,11 +12,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Dashboard } from "@mui/icons-material";
 import SchoolIcon from "@mui/icons-material/School";
-import { Menu } from "antd";
-
-const { SubMenu } = Menu;
-// submenu keys of first level
-const rootSubmenuKeys = ["sub1", "sub2", "sub4"];
+import CoursesMenu from "./CoursesMenu";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -49,14 +45,27 @@ const Sidebar = () => {
     },
   ];
 
-  const onOpenChange = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      setOpenKeys(keys);
-    } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-    }
-  };
+  const enrollCourses = [
+    {
+      level: 1,
+      courses: [
+        "course1",
+        "course2",
+        "course3",
+        "course4",
+      ]
+    },
+    {
+      level: 2,
+      courses: [
+        "course5",
+        "course6",
+        "course7",
+        "course8",
+      ]
+    },
+
+  ]
 
   return (
     <Drawer variant="permanent" open={isDrawerOpen}>
@@ -72,7 +81,7 @@ const Sidebar = () => {
 
       <List>
         {sidebarItems.map((item, index) => (
-          <>
+          <React.Fragment key={index}>
             <ListItemButton
               key={index}
               sx={{
@@ -97,25 +106,9 @@ const Sidebar = () => {
             </ListItemButton>
 
             {item.text === "Courses" && (
-              <Menu
-                mode="inline"
-                openKeys={openKeys}
-                onOpenChange={onOpenChange}
-                style={{ width: 256 }}
-              >
-                <SubMenu key="sub1" title="Level 1" >
-                  <SubMenu title="1st Semester">
-                    <Menu.Item key="3">Option 3</Menu.Item>
-                    <Menu.Item key="4">Option 4</Menu.Item>
-                  </SubMenu>
-                  <SubMenu title="2nd Semester">
-                    <Menu.Item key="3">Option 3</Menu.Item>
-                    <Menu.Item key="4">Option 4</Menu.Item>
-                  </SubMenu>
-                </SubMenu>
-              </Menu>
+              <CoursesMenu enrollCourses={enrollCourses}/>
             )}
-          </>
+          </React.Fragment>
         ))}
       </List>
     </Drawer>

@@ -1,6 +1,6 @@
 import { Box, Container } from '@mui/material'
 import React from 'react'
-import Sidebar from '../common/Sidebar'
+import Sidebar from '../sidebar'
 
 const Dashboard = () => {
   return (
