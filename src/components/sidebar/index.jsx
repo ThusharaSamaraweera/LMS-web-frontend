@@ -1,12 +1,12 @@
 import {
-  Drawer,
   IconButton,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import React, { useState } from "react";
+import MuiDrawer from '@mui/material/Drawer';
+import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -14,22 +14,61 @@ import { Dashboard } from "@mui/icons-material";
 import SchoolIcon from "@mui/icons-material/School";
 import CoursesMenu from "./CoursesMenu";
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
+const drawerWidth = 256;
+
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-const Sidebar = () => {
+const StyledDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
+
+const Sidebar = (props) => {
+  const {isDrawerOpen, toggleDrawer} =  props;
   const theme = useTheme();
-  const [isDrawerOpen, setDrawerOpen] = useState(true);
-  const [openKeys, setOpenKeys] = React.useState(["sub1"]);
 
   const handleDrawerClose = () => {
-    setDrawerOpen(false);
+    toggleDrawer()
   };
 
   const sidebarItems = [
@@ -64,11 +103,16 @@ const Sidebar = () => {
         "course8",
       ]
     },
+    {
+      level: 3,
+      courses: [
 
+      ]
+    },
   ]
 
   return (
-    <Drawer variant="permanent" open={isDrawerOpen}>
+    <StyledDrawer variant="permanent" open={isDrawerOpen}>
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (
@@ -101,17 +145,17 @@ const Sidebar = () => {
               </ListItemIcon>
               <ListItemText
                 primary={item.text}
-                sx={{ opacity: isDrawerOpen ? 1 : 1 }}
+                sx={{ opacity: isDrawerOpen ? 1 : 0 }}
               />
             </ListItemButton>
 
-            {item.text === "Courses" && (
+            {item.text === "Courses" && isDrawerOpen && (
               <CoursesMenu enrollCourses={enrollCourses}/>
             )}
           </React.Fragment>
         ))}
       </List>
-    </Drawer>
+    </StyledDrawer>
   );
 };
 

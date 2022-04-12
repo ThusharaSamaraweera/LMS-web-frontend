@@ -1,13 +1,22 @@
-import { Box, Container } from '@mui/material'
-import React from 'react'
-import Sidebar from '../sidebar'
+import { Box, Container, CssBaseline } from "@mui/material";
+import React, { useState } from "react";
+import Navbar from "../navbar";
+import Sidebar from "../sidebar";
 
 const Dashboard = () => {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!isDrawerOpen);
+  };
+
   return (
     <Box>
-      <Sidebar/>
+      <Navbar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
+      <CssBaseline />
+      <Sidebar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
     </Box>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

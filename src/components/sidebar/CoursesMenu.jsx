@@ -1,9 +1,11 @@
-import { Menu } from 'antd'
+import { Menu, Typography } from 'antd'
 import React from 'react'
 
 const { SubMenu } = Menu;
 // submenu keys of first level
-const rootSubmenuKeys = [];
+const openedMenu = [];
+
+const {Text} = Typography;
 
 const CoursesMenu = (props) => {
 
@@ -11,7 +13,7 @@ const CoursesMenu = (props) => {
   const [openKeys, setOpenKeys] = React.useState([]);
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+    if (openedMenu.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys);
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
@@ -19,6 +21,10 @@ const CoursesMenu = (props) => {
   };
 
   const renderCourses = (courses) => {
+    // if(courses.length === 0){
+    //   return <Text type="secondary" >Ant Design (secondary)</Text>
+    // }
+
     return courses.map( (course, index) => {
       return <Menu.Item key={course}>{course}</Menu.Item>
     })
@@ -39,13 +45,12 @@ const CoursesMenu = (props) => {
         {renderCourses(enrollCourses[1].courses)}
       </SubMenu>
 
-      {/* <SubMenu key='level3' title={`Level 3`} >
+      <SubMenu key='level3' title={`Level 3`} >
         {renderCourses(enrollCourses[2].courses)}
       </SubMenu>
 
       <SubMenu key='level4' title={`Level 4`} >
-        {renderCourses(enrollCourses[3].courses)}
-      </SubMenu> */}
+      </SubMenu>
     </Menu>
   )
 }
