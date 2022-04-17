@@ -5,7 +5,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import MuiDrawer from '@mui/material/Drawer';
+import MuiDrawer from "@mui/material/Drawer";
 import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -18,57 +18,57 @@ const drawerWidth = 256;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-const StyledDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const StyledDrawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
   }),
-);
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
 const Sidebar = (props) => {
-  const {isDrawerOpen, toggleDrawer} =  props;
+  const { isDrawerOpen, toggleDrawer } = props;
   const theme = useTheme();
 
   const handleDrawerClose = () => {
-    toggleDrawer()
+    toggleDrawer();
   };
 
   const sidebarItems = [
@@ -87,29 +87,17 @@ const Sidebar = (props) => {
   const enrollCourses = [
     {
       level: 1,
-      courses: [
-        "course1",
-        "course2",
-        "course3",
-        "course4",
-      ]
+      courses: ["course1", "course2", "course3", "course4"],
     },
     {
       level: 2,
-      courses: [
-        "course5",
-        "course6",
-        "course7",
-        "course8",
-      ]
+      courses: ["course5", "course6", "course7", "course8"],
     },
     {
       level: 3,
-      courses: [
-
-      ]
+      courses: [],
     },
-  ]
+  ];
 
   return (
     <StyledDrawer variant="permanent" open={isDrawerOpen}>
@@ -150,7 +138,7 @@ const Sidebar = (props) => {
             </ListItemButton>
 
             {item.text === "Courses" && isDrawerOpen && (
-              <CoursesMenu enrollCourses={enrollCourses}/>
+              <CoursesMenu enrollCourses={enrollCourses} />
             )}
           </React.Fragment>
         ))}
