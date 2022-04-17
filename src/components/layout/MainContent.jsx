@@ -1,6 +1,7 @@
 import React from 'react'
-import Typography from '@mui/material/Typography';
 import { styled, useTheme } from '@mui/material/styles';
+
+import CourseOverview from '../courseOverview'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -39,7 +40,7 @@ const MainContent = (props) => {
   return (
     <Main open={isDrawerOpen}>
       <DrawerHeader />
-
+      <CourseOverview/>
     </Main>
   )
 }

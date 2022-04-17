@@ -1,6 +1,6 @@
-import { Backdrop, Box, CircularProgress, CssBaseline, Main } from "@mui/material";
+import { Backdrop, Box, CircularProgress, CssBaseline} from "@mui/material";
 import React, { useState } from "react";
-import MainContent from "./Main";
+import MainContent from "./MainContent";
 import Navbar from "../navbar";
 import Sidebar from "../sidebar";
 
