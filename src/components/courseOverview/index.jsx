@@ -18,12 +18,16 @@ const CourseOverview = () => {
     },
   ]
 
+  const renderEnrollCourses = enrollCourses.map((course, index) => {
+    return <CourseCard details={enrollCourses[index]} key={index}/>
+  })
+
   return (
     <>
       <Typography variant="h5" gutterBottom component="div">
         Course overview
       </Typography>
-      <CourseCard details={enrollCourses[0]} />
+      {renderEnrollCourses}
     </>
   )
 }

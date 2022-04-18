@@ -9,21 +9,27 @@ const CourseCard = (props) => {
   return (
     <Card sx={{ 
       padding: 0.8,
-      cursor: 'pointer'
-      
+      cursor: 'pointer',
+      marginY: 1,
     }}>
       <Box sx={{ 
         display: 'flex',
       }}>
         <ArticleIcon sx={{ fontSize: 60}}/>
         <Box sx={{paddingY: 0.8, display: ''}}>
-          <Typography variant="body1" gutterBottom component="div">
+          <Typography variant="body2" gutterBottom component="div">
             Year {code[5]}
           </Typography>
 
-          <Typography variant="body1" gutterBottom component="div">
-            {name}
-          </Typography>
+          <Box sx={{display: 'flex'}}>
+            <Typography variant="body2" gutterBottom component="div" sx={{marginRight: 1}}>
+              {code}
+            </Typography>
+            <Typography variant="body2" gutterBottom component="div">
+              {name}
+            </Typography>
+          </Box>
+
         </Box>
       </Box>
     </Card>
