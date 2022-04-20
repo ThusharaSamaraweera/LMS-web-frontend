@@ -3,17 +3,25 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/layout/Dashboard";
 import Home from './components/home';
 import Login from './components/login/Login';
+import Signup from './components/signup/Signup';
+import { Provider } from 'react-redux';
+import configureStore from './store/store';
 
 function App() {
+  const store = configureStore()
+
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path='/me' element={<Dashboard/>} />
-          <Route path='/login' element={<Login/>} />
-        </Routes>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path='/me' element={<Dashboard/>} />
+            <Route path='/login' element={<Login/>} />
+            <Route path='/signup' element={<Signup/>} />
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     </div>
   );
 }
