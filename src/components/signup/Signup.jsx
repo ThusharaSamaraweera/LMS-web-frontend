@@ -1,4 +1,12 @@
-import { Box, Button, FormControl, IconButton, Input, InputAdornment, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Input,
+  InputAdornment,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import Appbar from "../home/Appbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -14,17 +22,16 @@ const Signup = () => {
   };
 
   const handleOnPasswordChanged = (password) => {
-    setPassword(password)
-  }
+    setPassword(password);
+  };
 
   const handleOnPasswordVisible = () => {
     setPasswordVisible(!isPasswordVisible);
   };
-  
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
 
-  }
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -35,14 +42,15 @@ const Signup = () => {
           display: "flex",
           justifyContent: "center",
           marginTop: 2,
+          marginX: 3,
         }}
       >
         <Stack
           sx={{
             border: 1,
-            width: "400px",
+            width: "500px",
             marginY: "auto",
-            marginX: 2,
+            marginX: "auto",
             paddingTop: 2,
             paddingBottom: 5,
             paddingX: 1,
@@ -51,17 +59,32 @@ const Signup = () => {
           }}
         >
           <AccountCircleIcon sx={{ marginX: "auto", fontSize: 60 }} />
-          <Typography align="center" variant="h4" sx={{marginY: 2}}>
+          <Typography
+            align="center"
+            sx={{
+              marginY: 2,
+              fontSize: {
+                xs: "1rem",
+                sm: "2rem",
+              },
+            }}
+          >
             Signup
           </Typography>
 
-          <Box flexDirection="row" sx={{display: 'flex', justifyContent: 'start', marginY: 1}}>
+          <Box
+            flexDirection="row"
+            sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+          >
             <Typography
-              variant="body1"
               component="label"
               sx={{
                 paddingY: 1,
-                width: "130px",
+                width: "12rem",
+                fontSize: {
+                  xs: "0.8rem",
+                  sm: "1rem",
+                },
               }}
             >
               University email
@@ -71,49 +94,75 @@ const Signup = () => {
               type="text"
               value={universityEmail}
               onChange={(e) => handleOnUnversityEmailChanged(e.target.value)}
+              fullWidth={true}
               sx={{
                 marginX: 0,
+                fontSize: {
+                  xs: "0.8rem",
+                  sm: "1rem",
+                }
               }}
             ></Input>
           </Box>
 
-          <Box flexDirection="row" sx={{display: 'flex', justifyContent: 'start'}}>
+          <Box
+            flexDirection="row"
+            sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+          >
             <Typography
               variant="body1"
               component="label"
               sx={{
                 paddingY: 1,
-                width: "130px",
+                width: "12rem",
+                fontSize: {
+                  xs: "0.8rem",
+                  sm: "1rem",
+                },
               }}
             >
               Password
             </Typography>
-            <FormControl variant="standard">
-              <Input
-                id="standard-adornment-password"
-                type={isPasswordVisible ? "text" : "password"}
-                value={password}
-                onChange={(e) => handleOnPasswordChanged(e.target.value)}
-                fullWidth={true}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => handleOnPasswordVisible()}
-                    >
-                      {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-          </FormControl>
+            <Input
+              id="standard-adornment-password"
+              type={isPasswordVisible ? "text" : "password"}
+              value={password}
+              onChange={(e) => handleOnPasswordChanged(e.target.value)}
+              fullWidth={true}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => handleOnPasswordVisible()}
+                  >
+                    {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              sx={{
+                fontSize: {
+                  xs: "0.8rem",
+                  sm: "1rem",
+                },
+              }}
+            />
           </Box>
-          <Button variant="contained" sx={{marginY: 2, width: '100px', marginX: 'auto'}}
+          <Button
+            variant="contained"
+            sx={{
+              marginY: 2,
+              width: "100px",
+              marginX: "auto",
+              fontSize: {
+                xs: "0.8rem",
+                sm: "1rem",
+              },
+
+            }}
             onClick={(e) => handleOnSubmit(e)}
           >
             Login
           </Button>
-
         </Stack>
       </Box>
     </>

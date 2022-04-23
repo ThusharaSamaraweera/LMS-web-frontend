@@ -12,11 +12,22 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/images/uni-logo.png";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["About", "Academic", "Library"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [
+  {
+    title: "Profile",
+    path: "/profile"
+  },
+  {
+    title: "Dashboard",
+    path: "/dashboard"
+  }
+];
 
 const Appbar = () => {
+  const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -34,6 +45,10 @@ const Appbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleOnNavigate = (path) => {
+    navigate(`${path}`)
+  }
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "white" }}>
@@ -138,8 +153,8 @@ const Appbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.title} onClick={() => handleOnNavigate(setting.path)}>
+                  <Typography textAlign="center">{setting.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>

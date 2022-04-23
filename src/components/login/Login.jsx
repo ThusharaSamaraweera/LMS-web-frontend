@@ -14,8 +14,8 @@ import {
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Appbar from "../home/Appbar";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import {useDispatch} from 'react-redux'
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useDispatch } from "react-redux";
 import { login } from "../../store/actions/authAction";
 
 const Login = () => {
@@ -24,7 +24,7 @@ const Login = () => {
   const [usernameError, setUsernameError] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleOnUsernameChanged = (inputUsername) => {
     setUsername(inputUsername);
@@ -39,10 +39,10 @@ const Login = () => {
   };
 
   const handleOnSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    dispatch(login({username, password}))
-  }
+    dispatch(login({ username, password }));
+  };
 
   return (
     <>
@@ -52,14 +52,14 @@ const Login = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          height: '80vh',
+          height: "80vh",
         }}
       >
         <Stack
           sx={{
             border: 1,
             width: "400px",
-            marginY: 'auto',
+            marginY: "auto",
             marginX: 2,
             paddingTop: 2,
             paddingBottom: 5,
@@ -67,9 +67,19 @@ const Login = () => {
             display: "flex",
             justifyContent: "center",
           }}
-        > 
-          <AccountCircleIcon sx={{marginX: 'auto', fontSize: 60}} />
-          <Typography align="center" variant="h4">Login</Typography>
+        >
+          <AccountCircleIcon sx={{ marginX: "auto", fontSize: 60 }} />
+          <Typography
+            align="center"
+            sx={{
+              fontSize: {
+                xs: "1rem",
+                sm: "2rem",
+              },
+            }}
+          >
+            Login
+          </Typography>
           <TextField
             error={isUsernameHasError}
             id="standard-error-helper-text"
@@ -80,6 +90,10 @@ const Login = () => {
             placeholder="university email"
             sx={{
               marginY: 2,
+              fontSize: {
+                xs: "0.8rem",
+                sm: "1rem",
+              },
             }}
             onChange={(e) => handleOnUsernameChanged(e.target.value)}
           />
@@ -104,17 +118,23 @@ const Login = () => {
                   </IconButton>
                 </InputAdornment>
               }
+              sx={{
+                fontSize: {
+                  xs: "0.8rem",
+                  sm: "1rem",
+                },
+              }}
             />
           </FormControl>
-          <Button variant="contained" sx={{marginY: 2, width: '100px', marginX: 'auto'}}
+          <Button
+            variant="contained"
+            sx={{ marginY: 2, width: "100px", marginX: "auto" }}
             onClick={(e) => handleOnSubmit(e)}
           >
             Login
           </Button>
 
-          <Link to={'/signup'}>
-            Do you haven't account? 
-          </Link>
+          <Link to={"/signup"}>Do you haven't account?</Link>
         </Stack>
       </Box>
     </>
