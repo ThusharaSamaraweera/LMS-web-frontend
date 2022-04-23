@@ -1,4 +1,5 @@
 import React from 'react'
+import Typography from '@mui/material/Typography';
 import { styled, useTheme } from '@mui/material/styles';
 
 import CourseOverview from '../courseOverview'
