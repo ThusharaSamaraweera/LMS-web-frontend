@@ -1,6 +1,5 @@
 import React from 'react'
-import Typography from '@mui/material/Typography';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',

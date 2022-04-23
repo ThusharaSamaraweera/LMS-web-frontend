@@ -14,6 +14,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { CssBaseline } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 256;
 
@@ -39,6 +40,7 @@ const Navbar = (props) => {
   const { isDrawerOpen, toggleDrawer } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -63,6 +65,10 @@ const Navbar = (props) => {
     toggleDrawer();
   };
 
+  const handleOnNavigateDashboard = () => {
+    navigate("/dashboard")
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -81,7 +87,7 @@ const Navbar = (props) => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
