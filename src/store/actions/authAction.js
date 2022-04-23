@@ -12,10 +12,9 @@ export const login = ({username, password}) => async dispatch => {
   const body = JSON.stringify({username, password})
   
   try {
-    // const res = await axios.post(`${BASE_URL}/public`, body, config)
-    const res = await axios.get(`${BASE_URL}/public`, config)
-    console.log(res)
 
+    const res = await axios.post(`${BASE_URL}/auth/login`,body, config)
+    console.log(res)
     dispatch({
       type: ACTIONS.LOGIN,
       payload: body

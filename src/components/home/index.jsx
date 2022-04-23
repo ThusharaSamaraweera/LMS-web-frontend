@@ -3,6 +3,7 @@ import React from "react";
 import Appbar from "./Appbar";
 import CarouselImages from "./CarouselImages";
 import { useNavigate } from "react-router-dom";
+import Footer from "../layout/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,14 +25,32 @@ const Home = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginY: 3,
+          marginY: 2,
+          height: 40,
         }}
       >
-        <Button color="secondary" onClick={() => handleOnClickLogin()}>
+        <Button
+          color="secondary"
+          onClick={() => handleOnClickLogin()}
+          variant={"outlined"}
+          sx={{
+            marginX: 1,
+          }}
+        >
           Login
         </Button>
-        <Button color="secondary">Signup</Button>
+        <Button
+          color="secondary"
+          onClick={() => handleOnClickSignup()}
+          variant={"outlined"}
+          sx={{
+            marginX: 1,
+          }}
+        >
+          Signup
+        </Button>
       </Box>
+      <Footer />
     </>
   );
 };
