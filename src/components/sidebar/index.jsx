@@ -13,6 +13,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Dashboard } from "@mui/icons-material";
 import SchoolIcon from "@mui/icons-material/School";
 import CoursesMenu from "./CoursesMenu";
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Link, useNavigate, Outlet } from "react-router-dom";
 
 const drawerWidth = 256;
 
@@ -66,6 +68,7 @@ const StyledDrawer = styled(MuiDrawer, {
 const Sidebar = (props) => {
   const { isDrawerOpen, toggleDrawer } = props;
   const theme = useTheme();
+  const navigate = useNavigate()
 
   const handleDrawerClose = () => {
     toggleDrawer();
@@ -76,12 +79,19 @@ const Sidebar = (props) => {
       text: "Dashboard",
       type: "main",
       icon: <Dashboard />,
+      path: '/dashboard'
     },
     {
       text: "Courses",
       type: "main",
       icon: <SchoolIcon />,
     },
+    {
+      text: "Course management",
+      type: "main",
+      icon: <SettingsIcon/>,
+      path: "/dashboard/courses-management"
+    }
   ];
 
   const enrollCourses = [
@@ -99,6 +109,10 @@ const Sidebar = (props) => {
     },
   ];
 
+  const handleOnNavigate = (path) => {
+    
+  }
+
   return (
     <StyledDrawer variant="permanent" open={isDrawerOpen}>
       <DrawerHeader>
@@ -114,32 +128,36 @@ const Sidebar = (props) => {
       <List>
         {sidebarItems.map((item, index) => (
           <React.Fragment key={index}>
-            <ListItemButton
-              key={index}
-              sx={{
-                minHeight: 48,
-                justifyContent: isDrawerOpen ? "initial" : "center",
-                pl: 2.5,
-              }}
-            >
-              <ListItemIcon
+            <Link to={item?.path || ''}>
+
+              <ListItemButton
                 sx={{
-                  minWidth: 0,
-                  mr: isDrawerOpen ? 3 : "auto",
-                  justifyContent: "center",
+                  minHeight: 48,
+                  justifyContent: isDrawerOpen ? "initial" : "center",
+                  pl: 2.5,
+                  color: 'gray'
                 }}
               >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.text}
-                sx={{ opacity: isDrawerOpen ? 1 : 0 }}
-              />
-            </ListItemButton>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: isDrawerOpen ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </Link>
 
             {item.text === "Courses" && isDrawerOpen && (
               <CoursesMenu enrollCourses={enrollCourses} />
             )}
+            <Outlet/>
           </React.Fragment>
         ))}
       </List>

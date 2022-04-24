@@ -6,6 +6,7 @@ import Login from './components/login/Login';
 import Signup from './components/signup/Signup';
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
+import CourseManagement from './components/courseManagement';
 
 function App() {
   const store = configureStore()
@@ -16,7 +17,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path='/dashboard' element={<Dashboard/>} />
+            <Route path='dashboard/*' element={<Dashboard/>} />
             <Route path='/login' element={<Login/>} />
             <Route path='/signup' element={<Signup/>} />
           </Routes>

@@ -6,7 +6,7 @@ import Sidebar from "../sidebar";
 
 const Dashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -16,9 +16,9 @@ const Dashboard = () => {
     setLoading(false);
   };
 
-  setTimeout(() => {
-    handleOnLoading()
-  }, 2000);
+  // setTimeout(() => {
+  //   handleOnLoading()
+  // }, 2000);
 
   if (isLoading) {
     return (
