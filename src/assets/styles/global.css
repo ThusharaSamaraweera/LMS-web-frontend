@@ -1,0 +1,10 @@
+.ant-form-item-label{
+  text-align: start;
+}
+.ant-form-item-with-help {
+  margin-bottom: 1rem;
+}
+
+.ant-form-item-explain-error{
+  font-size: 0.7rem;
+}

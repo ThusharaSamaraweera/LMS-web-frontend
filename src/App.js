@@ -7,6 +7,17 @@ import Signup from './components/signup/Signup';
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
 import CourseManagement from './components/courseManagement';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { brown } from '@mui/material/colors';
+import "./assets/styles/global.css";
+
+const theme = createTheme({
+  palette: {
+    mainBrown: {
+      main: '#a52a2a',
+    },
+  },
+});
 
 function App() {
   const store = configureStore()
@@ -14,14 +25,16 @@ function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path='dashboard/*' element={<Dashboard/>} />
-            <Route path='/login' element={<Login/>} />
-            <Route path='/signup' element={<Signup/>} />
-          </Routes>
-        </BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home/>} />
+              <Route path='dashboard/*' element={<Dashboard/>} />
+              <Route path='/login' element={<Login/>} />
+              <Route path='/signup' element={<Signup/>} />
+            </Routes>
+          </BrowserRouter>
+      </ThemeProvider>
       </Provider>
     </div>
   );
