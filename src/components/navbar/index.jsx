@@ -4,7 +4,6 @@ import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -16,6 +15,8 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { CssBaseline } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/uni-logo.png";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/actions/authAction";
 
 const drawerWidth = 256;
 
@@ -42,6 +43,7 @@ const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -66,8 +68,8 @@ const Navbar = (props) => {
     toggleDrawer();
   };
 
-  const handleOnNavigateDashboard = () => {
-    navigate("/dashboard");
+  const handleOnLogout = () => {
+    dispatch(logout())
   };
 
   const menuId = "primary-search-account-menu";
@@ -88,7 +90,7 @@ const Navbar = (props) => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={() => handleOnLogout()}>Logout</MenuItem>
     </Menu>
   );
 

@@ -18,6 +18,13 @@ export function authReducer(state = authInitState, action ) {
         ...state,
         authUser: action.payload
       }
+
+    case ACTIONS.LOGOUT: 
+      return {
+        ...state,
+        authUser: null
+      }
+      
     default:
       return state
   }
