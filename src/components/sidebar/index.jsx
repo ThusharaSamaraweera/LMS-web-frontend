@@ -15,6 +15,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import CoursesMenu from "./CoursesMenu";
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Link, useNavigate, Outlet } from "react-router-dom";
+import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 256;
 
@@ -76,6 +77,12 @@ const Sidebar = (props) => {
 
   const sidebarItems = [
     {
+      text: "Home",
+      type: 'main',
+      icon: <HomeIcon/>,
+      path: '/'
+    },
+    {
       text: "Dashboard",
       type: "main",
       icon: <Dashboard />,
@@ -125,7 +132,11 @@ const Sidebar = (props) => {
         </IconButton>
       </DrawerHeader>
 
-      <List>
+      <List
+        sx={{
+          top: '10px'
+        }}
+      >
         {sidebarItems.map((item, index) => (
           <React.Fragment key={index}>
             <Link to={item?.path || ''}>

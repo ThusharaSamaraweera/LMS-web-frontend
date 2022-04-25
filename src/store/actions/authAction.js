@@ -1,26 +1,21 @@
-import axios from "axios"
-import { BASE_URL } from "../../utils/restClient"
-import * as ACTIONS from '../actionTypes/authActionTypes'
+import * as ACTIONS from "../actionTypes/authActionTypes";
+import authService from "../../servers/auth.service";
 
-export const login = ({username, password}) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
+export const login =
+  ({ username, password }) =>
+  async dispatch => {
+    try {
+      const res = await authService.login({ username, password });
+      const { responseUser, jwtToken, message } = res;
+      localStorage.setItem("token", jwtToken);
+
+      dispatch({
+        type: ACTIONS.LOGIN,
+        payload: { responseUser, message },
+      });
+      
+      return message;
+    } catch (error) {
+      return error;
     }
-  }
-
-  const body = JSON.stringify({username, password})
-  
-  try {
-
-    const res = await axios.post(`${BASE_URL}/auth/login`,body, config)
-    console.log(res)
-    dispatch({
-      type: ACTIONS.LOGIN,
-      payload: body
-    })
-  } catch (error) {
-    
-  }
-
-}
+  };

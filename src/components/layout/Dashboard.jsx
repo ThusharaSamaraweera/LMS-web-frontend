@@ -23,10 +23,9 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <Backdrop
-        sx={{ color: "red", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "blue", zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'white' }}
         open={isLoading}
         onClick={handleOnLoading}
-        onBlurCapture={false}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

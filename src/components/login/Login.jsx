@@ -12,19 +12,25 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Appbar from "../home/Appbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/authAction";
+import alert from "../utilsComponents/Alert";
+import { message } from "antd";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState("");
   const [isUsernameHasError, setUsernameHasError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+
+  const authUser = useSelector((state) => state.authReducer.authUser);
 
   const handleOnUsernameChanged = (inputUsername) => {
     setUsername(inputUsername);
@@ -38,10 +44,18 @@ const Login = () => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(login({ username, password }));
+    dispatch(login({ username, password }))
+      .then((message) => {
+        console.log(message)
+        if(message === 'Successful'){
+          navigate('/dashboard')
+        }else {
+          alert({message: message, type: 'error'})
+        }
+      })  
   };
 
   return (

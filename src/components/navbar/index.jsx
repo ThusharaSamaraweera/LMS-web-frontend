@@ -15,6 +15,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { CssBaseline } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/uni-logo.png";
 
 const drawerWidth = 256;
 
@@ -66,7 +67,7 @@ const Navbar = (props) => {
   };
 
   const handleOnNavigateDashboard = () => {
-    navigate("/dashboard")
+    navigate("/dashboard");
   };
 
   const menuId = "primary-search-account-menu";
@@ -144,17 +145,20 @@ const Navbar = (props) => {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex"}}>
       <CssBaseline />
-      <AppBar position="fixed" open={isDrawerOpen}>
-        <Toolbar>
+      <AppBar position="fixed" open={isDrawerOpen} sx={{height: '4.5rem'}}>
+        <Toolbar
+          sx={{
+            marginTop: '0.3rem'
+          }}
+        >
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
             sx={{
-              mr: 2,
               marginRight: 5,
               ...(isDrawerOpen && { display: "none" }),
             }}
@@ -162,14 +166,18 @@ const Navbar = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            MUI
-          </Typography>
+          <Box
+            component="img"
+            sx={{
+              padding: 0.5,
+              display: { xs: "none", sm: "flex" },
+              width: "150px",
+              backgroundColor: "white",
+              borderRadius:  3,
+            }}
+            src={logo}
+            alt="logo"
+          ></Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
