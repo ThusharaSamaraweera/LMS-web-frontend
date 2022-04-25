@@ -7,8 +7,8 @@ export const login =
     try {
       const res = await authService.login({ username, password });
       const { responseUser, jwtToken, message } = res;
-      localStorage.setItem("token", jwtToken);
-      localStorage.setItem("responseUser", responseUser)
+      sessionStorage.setItem("token", jwtToken);
+      sessionStorage.setItem("responseUser", JSON.stringify(responseUser) )
       dispatch({
         type: ACTIONS.LOGIN,
         payload: responseUser,
@@ -19,3 +19,10 @@ export const login =
       return error;
     }
   };
+
+export const setAuthUser = (user) => dispatch => {
+  dispatch({
+    type: ACTIONS.SET_AUTHUSER,
+    payload: user
+  })
+}

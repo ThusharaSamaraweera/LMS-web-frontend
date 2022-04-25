@@ -7,12 +7,17 @@ const authInitState = {
 export function authReducer(state = authInitState, action ) {
   switch(action.type){
     case ACTIONS.LOGIN:
-
+      console.log(action.payload)
       return {
         ...state,
         authUser: action.payload
       }
     
+    case ACTIONS.SET_AUTHUSER:
+      return {
+        ...state,
+        authUser: action.payload
+      }
     default:
       return state
   }
