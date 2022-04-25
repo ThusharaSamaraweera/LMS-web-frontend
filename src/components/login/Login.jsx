@@ -18,7 +18,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/authAction";
 import alert from "../utilsComponents/Alert";
-import { message } from "antd";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -29,8 +28,6 @@ const Login = () => {
   const [usernameError, setUsernameError] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState("");
-
-  const authUser = useSelector((state) => state.authReducer.authUser);
 
   const handleOnUsernameChanged = (inputUsername) => {
     setUsername(inputUsername);
@@ -49,7 +46,7 @@ const Login = () => {
 
     dispatch(login({ username, password }))
       .then((message) => {
-        console.log(message)
+
         if(message === 'Successful'){
           navigate('/dashboard')
         }else {

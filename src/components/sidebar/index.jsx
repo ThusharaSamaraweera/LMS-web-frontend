@@ -16,6 +16,8 @@ import CoursesMenu from "./CoursesMenu";
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
+import { ROLES } from "../../constants/roles";
+import {useSelector} from 'react-redux';
 
 const drawerWidth = 256;
 
@@ -70,6 +72,7 @@ const Sidebar = (props) => {
   const { isDrawerOpen, toggleDrawer } = props;
   const theme = useTheme();
   const navigate = useNavigate()
+  const currentUserRole = useSelector(state => state.authReducer.authUser.role[0].roleName);
 
   const handleDrawerClose = () => {
     toggleDrawer();
@@ -80,7 +83,7 @@ const Sidebar = (props) => {
       text: "Home",
       type: 'main',
       icon: <HomeIcon/>,
-      path: '/'
+      path: '/',
     },
     {
       text: "Dashboard",
@@ -97,7 +100,8 @@ const Sidebar = (props) => {
       text: "Course management",
       type: "main",
       icon: <SettingsIcon/>,
-      path: "/dashboard/courses-management"
+      path: "/dashboard/courses-management",
+      role: ROLES.LECTURER,
     }
   ];
 
@@ -115,10 +119,6 @@ const Sidebar = (props) => {
       courses: [],
     },
   ];
-
-  const handleOnNavigate = (path) => {
-    
-  }
 
   return (
     <StyledDrawer variant="permanent" open={isDrawerOpen}>

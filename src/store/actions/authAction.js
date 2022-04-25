@@ -8,10 +8,10 @@ export const login =
       const res = await authService.login({ username, password });
       const { responseUser, jwtToken, message } = res;
       localStorage.setItem("token", jwtToken);
-
+      localStorage.setItem("responseUser", responseUser)
       dispatch({
         type: ACTIONS.LOGIN,
-        payload: { responseUser, message },
+        payload: responseUser,
       });
       
       return message;
