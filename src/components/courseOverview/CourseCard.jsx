@@ -9,7 +9,6 @@ const CourseCard = (props) => {
   const {code, name} = details;
 
   const handleOnNavigate = () => {
-    console.log('hi')
     navigate(`course/${name}`)
   }
 

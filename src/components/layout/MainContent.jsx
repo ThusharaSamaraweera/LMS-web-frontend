@@ -10,6 +10,7 @@ import Course from '../course';
 import { useSelector } from 'react-redux';
 import { ROLES } from '../../constants/roles';
 import LecturerCourse from '../lecturerCourse';
+import Grades from '../courseGrades';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -55,7 +56,10 @@ const MainContent = (props) => {
 
         {
           currentUserRole === ROLES.STUDENT && (
-          <Route path="course/:course" element={<Course/>} />
+            <>
+              <Route path="course/:course" element={<Course />} />
+              <Route path="grades" element={<Grades />} />
+            </>
           )
         }
 

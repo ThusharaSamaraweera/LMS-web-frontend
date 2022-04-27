@@ -4,6 +4,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import React from "react";
@@ -18,6 +19,7 @@ import { Link, useNavigate, Outlet } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import { ROLES } from "../../constants/roles";
 import {useSelector} from 'react-redux';
+import GradingIcon from '@mui/icons-material/Grading';
 
 const drawerWidth = 256;
 
@@ -96,13 +98,6 @@ const Sidebar = (props) => {
       type: "main",
       icon: <SchoolIcon />,
     },
-    {
-      text: "Course management",
-      type: "main",
-      icon: <SettingsIcon/>,
-      path: "/dashboard/courses-management",
-      role: ROLES.LECTURER,
-    }
   ];
 
   const enrollCourses = [
@@ -140,7 +135,43 @@ const Sidebar = (props) => {
         {sidebarItems.map((item, index) => (
           <React.Fragment key={index}>
             <Link to={item?.path || ''}>
+              <Tooltip title={item.text} placement="right-start">
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: isDrawerOpen ? "initial" : "center",
+                    pl: 2.5,
+                    color: 'gray'
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: isDrawerOpen ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.text}
+                    sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </Tooltip>
+            </Link>
 
+            {item.text === "Courses" && isDrawerOpen && (
+              <CoursesMenu enrollCourses={enrollCourses} />
+            )}
+            <Outlet/>
+          </React.Fragment>
+        ))}
+
+        {
+          currentUserRole === ROLES.STUDENT && (
+            <Link to='/dashboard/grades'>
+            <Tooltip title="Grades" placement="right-start">
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -156,21 +187,48 @@ const Sidebar = (props) => {
                     justifyContent: "center",
                   }}
                 >
-                  {item.icon}
+                  <GradingIcon/>
                 </ListItemIcon>
                 <ListItemText
-                  primary={item.text}
+                  primary='Grades'
                   sx={{ opacity: isDrawerOpen ? 1 : 0 }}
                 />
               </ListItemButton>
+            </Tooltip>
             </Link>
+          )
+        }        
 
-            {item.text === "Courses" && isDrawerOpen && (
-              <CoursesMenu enrollCourses={enrollCourses} />
-            )}
-            <Outlet/>
-          </React.Fragment>
-        ))}
+        {
+          currentUserRole === ROLES.LECTURER && (
+            <Link to='/dashboard/courses-management'>
+            <Tooltip title="Course management" placement="right-start">
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: isDrawerOpen ? "initial" : "center",
+                  pl: 2.5,
+                  color: 'gray'
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: isDrawerOpen ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <SettingsIcon/>
+                </ListItemIcon>
+                <ListItemText
+                  primary='Course management'
+                  sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </Tooltip>
+            </Link>
+          )
+        }
       </List>
     </StyledDrawer>
   );
