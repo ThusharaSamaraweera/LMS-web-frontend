@@ -1,5 +1,12 @@
 import React from 'react'
-import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import { styled, useTheme } from '@mui/material/styles';
+
+import CourseOverview from '../courseOverview'
+import { Route, Routes, Outlet } from 'react-router-dom';
+import Dashboard from './Dashboard';
+import CourseManagement from '../courseManagement';
+import Course from '../course';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -38,7 +45,13 @@ const MainContent = (props) => {
   return (
     <Main open={isDrawerOpen}>
       <DrawerHeader />
+      <Routes>
+        <Route index element={<CourseOverview/>} />
+        <Route path='courses-management' element={<CourseManagement/>} />
+        <Route path="course/:course" element={<Course/>} />
 
+      </Routes>
+      <Outlet />
     </Main>
   )
 }

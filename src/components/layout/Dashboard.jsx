@@ -1,12 +1,12 @@
-import { Backdrop, Box, CircularProgress, CssBaseline, Main } from "@mui/material";
+import { Backdrop, Box, CircularProgress, CssBaseline} from "@mui/material";
 import React, { useState } from "react";
-import MainContent from "./Main";
+import MainContent from "./MainContent";
 import Navbar from "../navbar";
 import Sidebar from "../sidebar";
 
 const Dashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -16,9 +16,9 @@ const Dashboard = () => {
     setLoading(false);
   };
 
-  setTimeout(() => {
-    handleOnLoading()
-  }, 2000);
+  // setTimeout(() => {
+  //   handleOnLoading()
+  // }, 2000);
 
   if (isLoading) {
     return (
