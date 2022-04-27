@@ -2,8 +2,8 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import {Link} from 'react-router-dom'
 const faculties = [
-  "Commerce and Management Studies",
-  "Science",
+  "commerce and Management Studies",
+  "science",
 ]
 
 const More = () => {
