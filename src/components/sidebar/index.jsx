@@ -20,6 +20,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { ROLES } from "../../constants/roles";
 import {useSelector} from 'react-redux';
 import GradingIcon from '@mui/icons-material/Grading';
+import InfoIcon from '@mui/icons-material/Info';
 
 const drawerWidth = 256;
 
@@ -170,32 +171,61 @@ const Sidebar = (props) => {
 
         {
           currentUserRole === ROLES.STUDENT && (
-            <Link to='/dashboard/grades'>
-            <Tooltip title="Grades" placement="right-start">
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: isDrawerOpen ? "initial" : "center",
-                  pl: 2.5,
-                  color: 'gray'
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: isDrawerOpen ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <GradingIcon/>
-                </ListItemIcon>
-                <ListItemText
-                  primary='Grades'
-                  sx={{ opacity: isDrawerOpen ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </Tooltip>
-            </Link>
+            <>
+              <Link to='/dashboard/grades'>
+                <Tooltip title="Grades" placement="right-start">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: isDrawerOpen ? "initial" : "center",
+                      pl: 2.5,
+                      color: 'gray'
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: isDrawerOpen ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <GradingIcon/>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary='Grades'
+                      sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </Link>
+
+              <Link to='/dashboard/more'>
+                <Tooltip title="More" placement="right-start">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: isDrawerOpen ? "initial" : "center",
+                      pl: 2.5,
+                      color: 'gray'
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: isDrawerOpen ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <InfoIcon/>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary='More'
+                      sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </Link>
+            </>
           )
         }        
 
