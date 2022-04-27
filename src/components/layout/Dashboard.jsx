@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import MainContent from "./MainContent";
 import Navbar from "../navbar";
 import Sidebar from "../sidebar";
+import Footer from "./Footer";
 
 const Dashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -37,6 +38,7 @@ const Dashboard = () => {
       <CssBaseline />
       <Sidebar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
       <MainContent isDrawerOpe={isDrawerOpen} />
+      <Footer/>
     </Box>
   );
 };
