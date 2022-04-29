@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 
 const Degree = () => {
   const allCourses = [
@@ -8,8 +9,29 @@ const Degree = () => {
     "SENG 11223 - Programming Concepts (2019/2020)",
   ];
 
+  const [isDialogOpen, setDialopOpen] = useState(false)
+
   const handleOnClickEnrollMe = () => {
-    
+    setDialopOpen(true)
+  };
+
+  const handleOnAccept = () => {
+    console.log('accept')
+    setDialopOpen(false)
+  }
+
+  const handleOnCancel = () => {
+    console.log('cancel')
+    setDialopOpen(false)
+  }
+
+  if(isDialogOpen){
+    return <ConfirmationDialog 
+      title={'Do you want to enroll?'}
+      handleOnAccept={handleOnAccept}
+      handleOnCancel={handleOnCancel}
+    />
+
   }
 
   const renderCourses = allCourses.map((course) => {
@@ -19,12 +41,17 @@ const Degree = () => {
         sx={{
           marginY: 1,
         }}
+        key={course}
       >
         <Grid item xs={12} sm={9}>
           <Typography>{course}</Typography>
         </Grid>
-        <Grid item xs={12} sm={3} >
-          <Button variant="outlined" size="small">Enroll me</Button>
+        <Grid item xs={12} sm={3}>
+          <Button variant="outlined" size="small"
+            onClick={handleOnClickEnrollMe}
+          >
+            Enroll me
+          </Button>
         </Grid>
       </Grid>
     );
