@@ -12,6 +12,7 @@ import { ROLES } from '../../constants/roles';
 import LecturerCourse from '../lecturerCourse';
 import Grades from '../courseGrades';
 import More from '../more/routes';
+import StudentProfile from '../studentProfile';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -55,13 +56,13 @@ const MainContent = (props) => {
       <Routes>
         <Route index element={<CourseOverview/>} />
         <Route path='courses-management' element={<CourseManagement/>} />
-        <Route path='more/*' element={<More/>}/>
 
         {
           currentUserRole === ROLES.STUDENT && (
             <>
               <Route path="course/:course" element={<Course />} />
               <Route path="grades" element={<Grades />} />
+              <Route path='profile' element={<StudentProfile/>}/>
             </>
           )
         }
@@ -71,6 +72,8 @@ const MainContent = (props) => {
             <Route path='course/:course' element={<LecturerCourse />} />
           )
         }
+
+        <Route path='more/*' element={<More/>}/>
       </Routes>
       <Outlet />
     </Main>
