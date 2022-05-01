@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import MainContent from "./MainContent";
 import Navbar from "../navbar";
 import Sidebar from "../sidebar";
+import Footer from "./Footer";
 
 const Dashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -23,10 +24,9 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <Backdrop
-        sx={{ color: "red", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "blue", zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'white' }}
         open={isLoading}
         onClick={handleOnLoading}
-        onBlurCapture={false}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -38,6 +38,7 @@ const Dashboard = () => {
       <CssBaseline />
       <Sidebar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
       <MainContent isDrawerOpe={isDrawerOpen} />
+      <Footer/>
     </Box>
   );
 };

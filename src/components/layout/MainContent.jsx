@@ -7,6 +7,11 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import CourseManagement from '../courseManagement';
 import Course from '../course';
+import { useSelector } from 'react-redux';
+import { ROLES } from '../../constants/roles';
+import LecturerCourse from '../lecturerCourse';
+import Grades from '../courseGrades';
+import More from '../more/routes';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -23,6 +28,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
+    height: '95vh',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -41,6 +47,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 
 const MainContent = (props) => {
   const {isDrawerOpen} = props;
+  const currentUserRole = useSelector(state => state.authReducer.authUser.role[0].roleName);
 
   return (
     <Main open={isDrawerOpen}>
@@ -48,8 +55,22 @@ const MainContent = (props) => {
       <Routes>
         <Route index element={<CourseOverview/>} />
         <Route path='courses-management' element={<CourseManagement/>} />
-        <Route path="course/:course" element={<Course/>} />
+        <Route path='more/*' element={<More/>}/>
 
+        {
+          currentUserRole === ROLES.STUDENT && (
+            <>
+              <Route path="course/:course" element={<Course />} />
+              <Route path="grades" element={<Grades />} />
+            </>
+          )
+        }
+
+        {
+          currentUserRole === ROLES.LECTURER && (
+            <Route path='course/:course' element={<LecturerCourse />} />
+          )
+        }
       </Routes>
       <Outlet />
     </Main>

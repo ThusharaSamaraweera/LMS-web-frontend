@@ -3,7 +3,7 @@ import React from "react";
 import Appbar from "./Appbar";
 import CarouselImages from "./CarouselImages";
 import { useNavigate } from "react-router-dom";
-import Footer from "../layout/Footer";
+import Footer from "./Footer";
 
 const Home = () => {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ const CourseManagement = () => {
 
   return (
     <Container>
-      <Typography>Course Management</Typography>
+      <Typography variant="h5" >Course Management</Typography>
       <Stack>      
         <Stack
           spacing={2}

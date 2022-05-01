@@ -1,14 +1,14 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-const Course = () => {
+const LecturerCourse = () => {
   const {course} = useParams();
 
   return (
     <div>
-      course - {course}
+      Lecturer Course - {course}
     </div>
   )
 }
 
-export default Course
+export default LecturerCourse

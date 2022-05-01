@@ -13,6 +13,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/images/uni-logo.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/actions/authAction";
 
 const pages = ["About", "Academic", "Library"];
 const settings = [
@@ -28,6 +30,7 @@ const settings = [
 
 const Appbar = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -48,6 +51,10 @@ const Appbar = () => {
 
   const handleOnNavigate = (path) => {
     navigate(`${path}`)
+  }
+
+  const handleOnLogout = () => {
+    dispatch(logout())
   }
 
   return (
@@ -157,6 +164,9 @@ const Appbar = () => {
                   <Typography textAlign="center">{setting.title}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key='logout' onClick={() => handleOnLogout()}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

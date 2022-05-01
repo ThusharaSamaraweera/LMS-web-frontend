@@ -1,16 +1,17 @@
-import { Box } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import React from 'react'
 
 const Footer = () => {
   return (
-    <Box
+    <Container
       sx={{
-        height: 40,
-        background: 'brown'
+        backgroundColor: 'primary.main',
+        height: 50,
+        bottom: 0,
       }}
     >
-      
-    </Box>
+
+    </Container>
   )
 }
 
