@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
+import Alert from "../utilsComponents/Alert";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 
 const Degree = () => {
@@ -9,30 +10,35 @@ const Degree = () => {
     "SENG 11223 - Programming Concepts (2019/2020)",
   ];
 
-  const [isDialogOpen, setDialopOpen] = useState(false)
+  const [isDialogOpen, setDialopOpen] = useState(false);
 
   const handleOnClickEnrollMe = () => {
-    setDialopOpen(true)
+    setDialopOpen(true);
   };
 
   const handleOnAccept = () => {
-    console.log('accept')
-    setDialopOpen(false)
-  }
+    console.log("accept");
+    setDialopOpen(false);
+    setTimeout(() => {
+      
+      Alert({ message: "Enrolled", type: "success" });
+    }, 800);
+  };
 
   const handleOnCancel = () => {
-    console.log('cancel')
-    setDialopOpen(false)
-  }
+    console.log("cancel");
+    setDialopOpen(false);
+  };
 
-  if(isDialogOpen){
-    return <ConfirmationDialog 
-      title={'Do you want to enroll?'}
-      handleOnAccept={handleOnAccept}
-      handleOnCancel={handleOnCancel}
-    />
-
-  }
+  // if (isDialogOpen) {
+  //   return (
+  //     <ConfirmationDialog
+  //       title={"Do you want to enroll?"}
+  //       handleOnAccept={handleOnAccept}
+  //       handleOnCancel={handleOnCancel}
+  //     />
+  //   );
+  // }
 
   const renderCourses = allCourses.map((course) => {
     return (
@@ -47,7 +53,9 @@ const Degree = () => {
           <Typography>{course}</Typography>
         </Grid>
         <Grid item xs={12} sm={3}>
-          <Button variant="outlined" size="small"
+          <Button
+            variant="outlined"
+            size="small"
             onClick={handleOnClickEnrollMe}
           >
             Enroll me
@@ -58,10 +66,19 @@ const Degree = () => {
   });
 
   return (
-    <Box>
-      Courses
-      <Stack>{renderCourses}</Stack>
-    </Box>
+    <>
+      {isDialogOpen && (
+        <ConfirmationDialog
+          title={"Do you want to enroll?"}
+          handleOnAccept={handleOnAccept}
+          handleOnCancel={handleOnCancel}
+        />
+      )}
+      <Box>
+        Courses
+        <Stack>{renderCourses}</Stack>
+      </Box>
+    </>
   );
 };
 

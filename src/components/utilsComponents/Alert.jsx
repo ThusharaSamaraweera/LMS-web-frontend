@@ -1,12 +1,12 @@
 import { notification } from "antd";
 
-const alert = ({message, description, type}) => {
+const Alert = ({message, description, type}) => {
 
   notification.error({
     message,
     description,
-    type
+    type,
   });
 };
 
-export default alert;
+export default Alert;

@@ -17,7 +17,7 @@ import Appbar from "../home/Appbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/authAction";
-import alert from "../utilsComponents/Alert";
+import Alert from "../utilsComponents/Alert";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const Login = () => {
         if(message === 'Successful'){
           navigate('/dashboard')
         }else {
-          alert({message: message, type: 'error'})
+          Alert({message: message, type: 'error'})
         }
       })  
   };
