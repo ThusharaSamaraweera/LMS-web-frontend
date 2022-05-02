@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
 import {Link} from 'react-router-dom'
 const faculties = [
@@ -15,12 +15,12 @@ const More = () => {
   })
 
   return (
-    <Box>
+    <Container>
       <Box>
         <Typography variant='h5'>Faculties</Typography>
         {renderLinkList}
       </Box>
-    </Box>
+    </Container>
   )
 }
 
