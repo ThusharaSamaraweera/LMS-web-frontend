@@ -1,10 +1,11 @@
+import { Container } from '@mui/material'
 import React from 'react'
 
 const Grades = () => {
   return (
-    <div>
+    <Container>
       course grades
-    </div>
+    </Container>
   )
 }
 

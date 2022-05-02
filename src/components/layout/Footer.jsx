@@ -3,15 +3,16 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <Container
+    <Box
       sx={{
         backgroundColor: 'primary.main',
         height: 50,
         bottom: 0,
+        width: '100%'
       }}
     >
 
-    </Container>
+    </Box>
   )
 }
 
