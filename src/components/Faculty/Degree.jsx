@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import Alert from "../utilsComponents/Alert";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 
@@ -9,7 +10,7 @@ const Degree = () => {
     "SENG 11232 - Engineering Foundation (2019/2020)",
     "SENG 11223 - Programming Concepts (2019/2020)",
   ];
-
+  const {title, year} = useParams()
   const [isDialogOpen, setDialopOpen] = useState(false);
 
   const handleOnClickEnrollMe = () => {
@@ -75,7 +76,7 @@ const Degree = () => {
         />
       )}
       <Box>
-        Courses
+        {title} {year}
         <Stack>{renderCourses}</Stack>
       </Box>
     </>
