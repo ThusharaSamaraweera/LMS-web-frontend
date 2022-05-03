@@ -13,7 +13,6 @@ const ClientApp = () => {
   useEffect(() => {
     if (!user) {
       const responseUser = JSON.parse(sessionStorage.getItem("responseUser"));
-      console.log(responseUser)
       dispatch(setAuthUser(responseUser));
       setUser(responseUser);
     }else{

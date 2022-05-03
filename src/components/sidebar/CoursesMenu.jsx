@@ -1,4 +1,5 @@
-import { Menu, Typography } from "antd";
+import { Box, Typography } from "@mui/material";
+import { Menu } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -21,14 +22,31 @@ const CoursesMenu = (props) => {
   };
 
   const renderCourses = (courses) => {
-    if(courses.length === 0){
-      return <Text type="secondary" >Ant Design (secondary)</Text>
+    if (courses.length === 0) {
+      return (
+        <Box
+          sx={{
+            height: 20,
+          }}
+          textAlign="center"
+        >
+          <Typography
+            variant="overline"
+            sx={{
+              fontSize: 10,
+              color: "red",
+            }}
+          >
+            No enrolled courses
+          </Typography>
+        </Box>
+      );
     }
 
     return courses.map((course, index) => {
       return (
         <Link to={`course/${course}`} key={course}>
-          <Menu.Item style={{color: 'gray'}}>{course}</Menu.Item>
+          <Menu.Item style={{ color: "gray" }}>{course}</Menu.Item>
         </Link>
       );
     });
@@ -53,7 +71,9 @@ const CoursesMenu = (props) => {
         {renderCourses(enrollCourses[2].courses)}
       </SubMenu>
 
-      <SubMenu key="level4" title={`Level 4`}></SubMenu>
+      <SubMenu key="level4" title={`Level 4`}>
+        {/* {renderCourses(enrollCourses[3].courses)} */}
+      </SubMenu>
     </Menu>
   );
 };

@@ -38,6 +38,13 @@ const Dashboard = () => {
       <CssBaseline />
       <Sidebar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
       <MainContent isDrawerOpe={isDrawerOpen} />
+      <Box
+        sx={{
+          height: 90
+        }}
+      >
+
+      </Box>
       <Footer/>
     </Box>
   );

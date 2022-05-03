@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -9,30 +8,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-
-function createData(level, courses) {
-  const totCredits = getTotalCredits(courses);
-  const calGpa = getAvgGPA(courses);
-  const gpa = calGpa ? calGpa : 0;
-
-  return {
-    level,
-    totCredits,
-    gpa,
-    courses: courses.map((course) => {
-      return {
-        courseCode: course.course_id,
-        courseName: course.course_name,
-        academicYear: "",
-        coureGPA: getGPAFromScore(course.score),
-      };
-    }),
-  };
-}
 
 const grades = [
   {
@@ -54,13 +32,34 @@ const grades = [
     grade: "A",
   },
   {
-    course_id: "11222",
+    course_id: "31222",
     course_name: "SE",
     score: 20,
     grade: "A",
   },
 ];
 
+function createData(level, courses) {
+  const totCredits = getTotalCredits(courses);
+  const calGpa = getAvgGPA(courses);
+  const gpa = calGpa ? calGpa : 0;
+
+  return {
+    level,
+    totCredits,
+    gpa,
+    courses: courses.map((course) => {
+      return {
+        courseCode: course.course_id,
+        courseName: course.course_name,
+        academicYear: "",
+        coureGPA: getGPAFromScore(course.score),
+      };
+    }),
+  };
+}
+
+// get GPA by passing score
 const getGPAFromScore = (mark) => {
   if (mark >= 75) return 4.0;
   else if (mark >= 50) return 2.0;
@@ -80,6 +79,7 @@ const getAvgGPA = (courses) => {
   return avgGPA;
 };
 
+// categorize courses by level
 const level1Courses = grades.filter((course) => course.course_id[0] === "1");
 const level2Courses = grades.filter((course) => course.course_id[0] === "2");
 const level3Courses = grades.filter((course) => course.course_id[0] === "3");
@@ -100,7 +100,9 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow
+        sx={{ "& > *": { borderBottom: "" }, border: 2, borderBottom: 0 }}
+      >
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -116,17 +118,31 @@ function Row(props) {
         <TableCell align="right">{row.totCredits}</TableCell>
         <TableCell align="right">{row.gpa}</TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow sx={{border: 1.5, borderTop: 0}}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Course code</TableCell>
-                    <TableCell>Course name</TableCell>
-                    <TableCell align="right">Academic year</TableCell>
-                    <TableCell align="right">GPA</TableCell>
+                    <TableCell sx={{ fontWeight: 600, fontSize: 15 }}>
+                      Course code
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 600, fontSize: 15 }}>
+                      Course name
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ fontWeight: 600, fontSize: 15 }}
+                    >
+                      Academic year
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ fontWeight: 600, fontSize: 15 }}
+                    >
+                      GPA
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -150,24 +166,6 @@ function Row(props) {
   );
 }
 
-// Row.propTypes = {
-//   row: PropTypes.shape({
-//     calories: PropTypes.number.isRequired,
-//     carbs: PropTypes.number.isRequired,
-//     fat: PropTypes.number.isRequired,
-//     history: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         academicYear: PropTypes.number.isRequired,
-//         courseName: PropTypes.string.isRequired,
-//         courseCode: PropTypes.string.isRequired,
-//       }),
-//     ).isRequired,
-//     level: PropTypes.string.isRequired,
-//     price: PropTypes.number.isRequired,
-//     protein: PropTypes.number.isRequired,
-//   }).isRequired,
-// };
-
 const rows = [
   createData("Level 1", level1Courses),
   createData("Level 2", level2Courses),
@@ -177,14 +175,22 @@ const rows = [
 
 const GradeTable = () => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper}
+      sx={{
+        marginTop: 3
+      }}
+    >
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ border: 2 }}>
             <TableCell />
-            <TableCell>Level</TableCell>
-            <TableCell align="right">Total credits</TableCell>
-            <TableCell align="right">GPA</TableCell>
+            <TableCell sx={{ fontWeight: 800, fontSize: 20 }}>Level</TableCell>
+            <TableCell align="right" sx={{ fontWeight: 800, fontSize: 20 }}>
+              Total credits
+            </TableCell>
+            <TableCell align="right" sx={{ fontWeight: 800, fontSize: 20 }}>
+              GPA
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
