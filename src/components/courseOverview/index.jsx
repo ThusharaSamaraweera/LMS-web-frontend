@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import CourseCard from './CourseCard';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 const CourseOverview = () => {
   const enrollCourses = [
@@ -29,6 +29,7 @@ const CourseOverview = () => {
         Course overview
       </Typography>
       {renderEnrollCourses}
+
     </Container>
   )
 }
