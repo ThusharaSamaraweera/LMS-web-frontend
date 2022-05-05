@@ -12,3 +12,8 @@
 #department-select-label {
   left: -13px;
 }
+
+#department-error {
+  color: red;
+  margin-left: 0;
+}
