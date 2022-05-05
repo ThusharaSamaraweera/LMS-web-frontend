@@ -1,8 +1,11 @@
-import { CardContent, Typography, Card, TextField, Grid, Button } from '@mui/material'
+import { CardContent, Typography, Card, TextField, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material'
 import React from 'react'
 import { useState, useEffect } from 'react';
 import validation from './validation';
 
+const department = [
+  "SE", "PS", "PE"
+]
 
 const UpdateForm = () => {
 
@@ -14,16 +17,15 @@ const UpdateForm = () => {
   const [isStudentIdHasError, setIsStudentIdHasError] = useState(false);
   const [isDepartmentHasError, setIsDepartmentHasError] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
 
   const handleChange = (e) => {
-
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
   const handleReset = (e) => {
     setFormValues(initialValues);
-
   }
 
   useEffect(() => {
@@ -55,10 +57,13 @@ const UpdateForm = () => {
 
     setIsSubmit(true);
   };
-  const isDisabled = (Object.keys(formErrors).length === 0 && isSubmit);
-  return (
 
-    <div>
+  const renderDepartment = department.map( (department) => {
+    return <MenuItem value={department}>{department}</MenuItem>
+  })
+
+  return (
+    <Box>
       <Typography
         fontWeight="fontWeightBold"
         align="center"
@@ -71,10 +76,8 @@ const UpdateForm = () => {
         Student - Profile
       </Typography>
       
-
       <Card>
         <CardContent>
-
           <form onSubmit={handleSubmit}>
             <Grid container sx={{width:"auto"}}spacing={3} >
             
@@ -88,11 +91,9 @@ const UpdateForm = () => {
                   placeholder="Enter First Name"
                   value={formValues.firstName}
                   onChange={handleChange}
-                  InputProps={{
-                    readOnly: isDisabled,
-                  }}
                   variant="standard"
                   fullWidth
+                  disabled={isDisabled}
                 />
               </Grid>
 
@@ -106,9 +107,7 @@ const UpdateForm = () => {
                   placeholder="Enter Last Name"
                   value={formValues.lastName}
                   onChange={handleChange}
-                  InputProps={{
-                    readOnly: isDisabled,
-                  }}
+                  disabled={isDisabled}
                   variant="standard"
                   fullWidth />
               </Grid>
@@ -121,9 +120,7 @@ const UpdateForm = () => {
                   name="email"
                   placeholder="Enter email"
                   value={formValues.email}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  disabled={isDisabled}
                   variant="standard"
                   fullWidth
                 />
@@ -140,31 +137,27 @@ const UpdateForm = () => {
                   placeholder="Enter Student ID"
                   value={formValues.studentId}
                   onChange={handleChange}
-                  InputProps={{
-                    readOnly: isDisabled,
-                  }}
+                  disabled={isDisabled}
                   variant="standard"
                   fullWidth />
               </Grid>
 
-
               <Grid xs={12} item>
-                <TextField
-                  error={isDepartmentHasError}
-                  id="standard-error-helper-text"
-                  helperText={formErrors.department}
-                  label="Department"
-                  name="department"
-                  placeholder="Enter department"
-                  value={formValues.department}
-                  onChange={handleChange}
-                  variant="standard"
-                  InputProps={{
-                    readOnly: isDisabled,
-                  }}
-
-                  fullWidth
-                />
+                <FormControl fullWidth>
+                  <InputLabel id="department-select-label">Department</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={formValues.department}
+                    label="department"
+                    name='department'
+                    onChange={handleChange}
+                    variant='standard'
+                    placeholder="Enter department"
+                  >
+                  {renderDepartment}
+                  </Select>
+                </FormControl>
               </Grid>
 
               <Grid xs={12} sm={6} item>
@@ -194,7 +187,7 @@ const UpdateForm = () => {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   )
 }
 
