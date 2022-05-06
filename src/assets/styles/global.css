@@ -9,14 +9,7 @@
   font-size: 0.7rem;
 }
 
+/*style course description label in course creation form  */
 .description-label .ant-form-item-label label{
     margin-left: 10px;
-
-#department-select-label {
-  left: -13px;
-}
-
-#department-error {
-  color: red;
-  margin-left: 0;
 }

@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Button, Form, Input, Select } from "antd";
-import { addNewCourse } from "../../servers/course.service";
+import { addNewCourse } from "../../servers/lecturer.service";
 import Alert from "../utilsComponents/Alert";
 
 const department = ["Software Engineering", "Physical Science"];

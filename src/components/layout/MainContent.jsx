@@ -1,10 +1,8 @@
 import React from 'react'
-import Typography from '@mui/material/Typography';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import CourseOverview from '../courseOverview'
 import { Route, Routes, Outlet } from 'react-router-dom';
-import Dashboard from './Dashboard';
 import CourseManagement from '../courseManagement';
 import Course from '../course';
 import { useSelector } from 'react-redux';
