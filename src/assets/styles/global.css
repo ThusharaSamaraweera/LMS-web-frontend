@@ -9,6 +9,9 @@
   font-size: 0.7rem;
 }
 
+.description-label .ant-form-item-label label{
+    margin-left: 10px;
+
 #department-select-label {
   left: -13px;
 }

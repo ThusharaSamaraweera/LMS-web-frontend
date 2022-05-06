@@ -8,7 +8,7 @@ const CourseManagement = () => {
     <Container>
       <Typography variant="h5" >Course Management</Typography>
       <Stack>      
-        <Stack
+        {/* <Stack
           spacing={2}
           sx={{
             direction: "row",
@@ -18,12 +18,13 @@ const CourseManagement = () => {
           <Button variant="outlined" size="large">
             Add course
           </Button>
-        </Stack>
+        </Stack> */}
 
         <Box 
           sx={{
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            marginY: 2,
           }}
         >
           <CourseCreationForm />
