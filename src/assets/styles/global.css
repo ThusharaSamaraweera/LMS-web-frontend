@@ -8,3 +8,7 @@
 .ant-form-item-explain-error{
   font-size: 0.7rem;
 }
+
+.description-label .ant-form-item-label label{
+    margin-left: 10px;
+}
