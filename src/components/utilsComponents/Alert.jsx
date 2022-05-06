@@ -2,10 +2,12 @@ import { notification } from "antd";
 
 const Alert = ({message, description, type}) => {
 
-  notification.error({
+  notification.open({
     message,
     description,
     type,
+    placement: "topRight",
+    style: {zIndex: 1000}
   });
 };
 

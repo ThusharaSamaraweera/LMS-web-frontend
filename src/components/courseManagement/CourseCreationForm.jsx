@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Button, Form, Input, Select } from "antd";
 import { addNewCourse } from "../../servers/course.service";
+import Alert from "../utilsComponents/Alert";
 
 const department = ["Software Engineering", "Physical Science"];
 
@@ -19,9 +20,13 @@ const CourseCreationForm = () => {
   const { Option } = Select;
 
   const HandleOnSubmit = async (values) => {
-    // console.log(values);
-    await addNewCourse(values)
-    // form.resetFields();
+    try {
+      await addNewCourse(values)
+      Alert({ message: "New course creation successful", type: "success"})
+      // form.resetFields();
+    } catch (error) {
+      Alert({ message: error.message, type: "error"})
+    }
   };
 
   const departmentOptions = department.map((department) => {

@@ -6,7 +6,6 @@ export const addNewCourse = async (newCourse) => {
     url: "/lectures/new_course/",
     body: newCourse
   }).then((res) => {
-    console.log(res)
     return res;
   }).catch((err) => {
     throw new Error("New course creation failed")

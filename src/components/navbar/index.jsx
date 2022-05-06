@@ -149,7 +149,7 @@ const Navbar = (props) => {
   return (
     <Box sx={{ display: "flex"}}>
       <CssBaseline />
-      <AppBar position="fixed" open={isDrawerOpen} sx={{height: '4.5rem'}}>
+      <AppBar position="fixed" open={isDrawerOpen} sx={{height: '4.5rem', zIndex: 100}}>
         <Toolbar
           sx={{
             marginTop: '0.3rem'

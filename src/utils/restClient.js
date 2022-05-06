@@ -20,11 +20,10 @@ export const restClient = async ({ method, url, body = {} }) => {
       "auth-token": `Bearer ${token}`,
       Accept: "application/json",
     },
-  })
-    .then((res) => {
+  }).then((res) => {
       return res;
     })
     .catch((err) => {
-      return err;
+      throw new Error()
     });
 };
