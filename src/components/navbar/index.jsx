@@ -72,6 +72,10 @@ const Navbar = (props) => {
     dispatch(logout())
   };
 
+  const handleOnNavigateProfile = () => {
+    navigate('profile')
+  }
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -89,7 +93,7 @@ const Navbar = (props) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleOnNavigateProfile}>Profile</MenuItem>
       <MenuItem onClick={() => handleOnLogout()}>Logout</MenuItem>
     </Menu>
   );

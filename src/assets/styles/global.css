@@ -8,3 +8,12 @@
 .ant-form-item-explain-error{
   font-size: 0.7rem;
 }
+
+#department-select-label {
+  left: -13px;
+}
+
+#department-error {
+  color: red;
+  margin-left: 0;
+}
