@@ -1,5 +1,5 @@
 import axios from "axios";
-export const BASE_URL = "http://localhost:8080/api/v1";
+export const BASE_URL = "http://localhost:8080";
 
 export const HTTPS_METHODS = {
   GET: "get",
@@ -9,6 +9,7 @@ export const HTTPS_METHODS = {
 };
 
 export const restClient = async ({ method, url, body = {} }) => {
+  const token = sessionStorage.getItem('token')
 
   return await axios({
     method,
@@ -16,7 +17,7 @@ export const restClient = async ({ method, url, body = {} }) => {
     url,
     data: body,
     headers: {
-      Authorization: ``,
+      "auth-token": `Bearer ${token}`,
       Accept: "application/json",
     },
   })

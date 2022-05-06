@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Button, Form, Input, Select } from "antd";
+import { addNewCourse } from "../../servers/course.service";
 
 const department = ["Software Engineering", "Physical Science"];
 
@@ -17,9 +18,10 @@ const CourseCreationForm = () => {
   const [form] = Form.useForm();
   const { Option } = Select;
 
-  const HandleOnSubmit = (values) => {
-    console.log(values);
-    form.resetFields();
+  const HandleOnSubmit = async (values) => {
+    // console.log(values);
+    await addNewCourse(values)
+    // form.resetFields();
   };
 
   const departmentOptions = department.map((department) => {
@@ -39,7 +41,7 @@ const CourseCreationForm = () => {
   });
 
   const handleOnResetClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     form.resetFields();
   };
 
@@ -71,7 +73,7 @@ const CourseCreationForm = () => {
         onFinish={HandleOnSubmit}
       >
         <Form.Item
-          name="courseId"
+          name="course_id"
           label="Course Id"
           hasFeedback
           rules={[{ required: true, message: "Please enter Course Id" }]}
@@ -80,7 +82,7 @@ const CourseCreationForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="curseName"
+          name="course_name"
           label="Course name"
           hasFeedback
           rules={[{ required: true, message: "Please enter Course name" }]}
@@ -89,19 +91,8 @@ const CourseCreationForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="lecturerEmail"
-          label="Lecturer email"
-          hasFeedback
-          rules={[
-            { required: true, message: "Please enter lecturer email" },
-            { type: "email", message: "Please input a valid email" },
-          ]}
-        >
-          <Input placeholder="Enter Lecture email" />
-        </Form.Item>
-
-        <Form.Item
           label="Description"
+          name="course_description"
           hasFeedback
           className="description-label"
         >
@@ -109,7 +100,7 @@ const CourseCreationForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="academicYear"
+          name="academic_year"
           label="Academic year"
           hasFeedback
           rules={[{ required: true, message: "Please enter lecturer email" }]}
@@ -144,7 +135,7 @@ const CourseCreationForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="department"
+          name="department_name"
           label="Department"
           hasFeedback
           rules={[{ required: true, message: "Please select department!" }]}
@@ -155,7 +146,7 @@ const CourseCreationForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="faculty"
+          name="faculty_name"
           label="Faculty"
           hasFeedback
           rules={[{ required: true, message: "Please select faculty!" }]}
