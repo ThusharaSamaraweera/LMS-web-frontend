@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Button, Form, Input, Select } from "antd";
-import { addNewCourse } from "../../servers/lecturer.service";
+import lecturerServices from "../../servers/lecturer.service";
 import Alert from "../utilsComponents/Alert";
 
 const department = ["Software Engineering", "Physical Science"];
@@ -21,7 +21,7 @@ const CourseCreationForm = () => {
 
   const HandleOnSubmit = async (values) => {
     try {
-      await addNewCourse(values)
+      await lecturerServices.addNewCourse(values)
       Alert({ message: "New course creation successful", type: "success"})
       // form.resetFields();
     } catch (error) {
