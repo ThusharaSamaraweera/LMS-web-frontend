@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Col, Form, Input, Row, Select } from "antd";
 import lecturerServices from "../../servers/lecturer.service";
 import Alert from "../utilsComponents/Alert";
 
@@ -53,7 +53,7 @@ const CourseCreationForm = () => {
   return (
     <Box
       sx={{
-        width: 600,
+        width: 1200,
         border: 1,
         paddingBottom: 3,
         paddingTop: 1,
@@ -77,104 +77,119 @@ const CourseCreationForm = () => {
         form={form}
         onFinish={HandleOnSubmit}
       >
-        <Form.Item
-          name="course_id"
-          label="Course Id"
-          hasFeedback
-          rules={[{ required: true, message: "Please enter Course Id" }]}
-        >
-          <Input placeholder="Enter Course Id" />
-        </Form.Item>
+        <Row>
 
-        <Form.Item
-          name="course_name"
-          label="Course name"
-          hasFeedback
-          rules={[{ required: true, message: "Please enter Course name" }]}
-        >
-          <Input placeholder="Enter Couse name" />
-        </Form.Item>
+          <Col xs={{span: 24}} lg={{span: 11}}>
 
-        <Form.Item
-          label="Description"
-          name="course_description"
-          hasFeedback
-          className="description-label"
-        >
-          <Input.TextArea allowClear showCount maxLength={255} />
-        </Form.Item>
 
-        <Form.Item
-          name="academic_year"
-          label="Academic year"
-          hasFeedback
-          rules={[{ required: true, message: "Please enter lecturer email" }]}
-        >
-          <Input placeholder="Enter academic year" />
-        </Form.Item>
+            <Form.Item
+              name="course_id"
+              label="Course Id"
+              hasFeedback
+              rules={[{ required: true, message: "Please enter Course Id" }]}
+            >
+              <Input placeholder="Enter Course Id" />
+            </Form.Item>
 
-        <Form.Item
-          name="semester"
-          label="Semester"
-          hasFeedback
-          rules={[{ required: true, message: "Please select semester!" }]}
-        >
-          <Select placeholder="Select semester">
-            <Option value="1">Semester 1</Option>
-            <Option value="2">Semester 2</Option>
-          </Select>
-        </Form.Item>
+            <Form.Item
+              name="course_name"
+              label="Course name"
+              hasFeedback
+              rules={[{ required: true, message: "Please enter Course name" }]}
+            >
+              <Input placeholder="Enter Couse name" />
+            </Form.Item>
 
-        <Form.Item
-          name="level"
-          label="Level"
-          hasFeedback
-          rules={[{ required: true, message: "Please select level!" }]}
-        >
-          <Select placeholder="Select level">
-            <Option value="1">Level 1</Option>
-            <Option value="2">Level 2</Option>
-            <Option value="3">Level 3</Option>
-            <Option value="4">Level 4</Option>
-          </Select>
-        </Form.Item>
+            <Form.Item
+              label="Description"
+              name="course_description"
+              hasFeedback
+              className="description-label"
+            >
+              <Input.TextArea allowClear showCount maxLength={255} />
+            </Form.Item>
 
-        <Form.Item
-          name="department_name"
-          label="Department"
-          hasFeedback
-          rules={[{ required: true, message: "Please select department!" }]}
-        >
-          <Select placeholder="Select department" showSearch>
-            {departmentOptions}
-          </Select>
-        </Form.Item>
+            <Form.Item
+              name="academic_year"
+              label="Academic year"
+              hasFeedback
+              rules={[{ required: true, message: "Please enter lecturer email" }]}
+            >
+              <Input placeholder="Enter academic year" />
+            </Form.Item>
 
-        <Form.Item
-          name="faculty_name"
-          label="Faculty"
-          hasFeedback
-          rules={[{ required: true, message: "Please select faculty!" }]}
-        >
-          <Select placeholder="Select faculty" showSearch>
-            {facultyOptions}
-          </Select>
-        </Form.Item>
+            <Form.Item
+              name="semester"
+              label="Semester"
+              hasFeedback
+              rules={[{ required: true, message: "Please select semester!" }]}
+            >
+              <Select placeholder="Select semester">
+                <Option value="1">Semester 1</Option>
+                <Option value="2">Semester 2</Option>
+              </Select>
+            </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            ADD
-          </Button>
+          </Col>
 
-          <Button
-            type="default"
-            htmlType="submit"
-            style={{ marginLeft: "10px" }}
-            onClick={(e) => handleOnResetClick(e)}
-          >
-            Reset
-          </Button>
-        </Form.Item>
+          <Col xs={{span: 24}} lg={{span: 11, offset: 1}}>
+
+            <Form.Item
+              name="level"
+              label="Level"
+              hasFeedback
+              rules={[{ required: true, message: "Please select level!" }]}
+            >
+              <Select placeholder="Select level">
+                <Option value="1">Level 1</Option>
+                <Option value="2">Level 2</Option>
+                <Option value="3">Level 3</Option>
+                <Option value="4">Level 4</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="department_name"
+              label="Department"
+              hasFeedback
+              rules={[{ required: true, message: "Please select department!" }]}
+            >
+              <Select placeholder="Select department" showSearch>
+                {departmentOptions}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="faculty_name"
+              label="Faculty"
+              hasFeedback
+              rules={[{ required: true, message: "Please select faculty!" }]}
+            >
+              <Select placeholder="Select faculty" showSearch>
+                {facultyOptions}
+              </Select>
+            </Form.Item>
+
+
+            <Form.Item wrapperCol={{ offset:11, span: 13 }}>
+              <Button type="primary" htmlType="submit">
+                ADD
+              </Button>
+
+              <Button
+                type="default"
+                htmlType="submit"
+                style={{ marginLeft: "10px" }}
+                onClick={(e) => handleOnResetClick(e)}
+              >
+                Reset
+              </Button>
+            </Form.Item>
+          </Col>
+        </Row>
+
+
+
       </Form>
     </Box>
   );

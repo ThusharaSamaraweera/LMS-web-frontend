@@ -6,7 +6,6 @@ import {useSelector} from 'react-redux'
 
 const CourseOverview = () => {
   const courses = useSelector(state => state.lecturerReducer.courses);
-  console.log(courses)
 
   const renderEnrollCourses = courses.map((course, index) => {
     return <CourseCard course={course} key={index}/>

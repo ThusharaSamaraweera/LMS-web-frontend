@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Menu } from "antd";
-import {useState} from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const { SubMenu } = Menu;
@@ -11,10 +11,10 @@ const CoursesMenu = (props) => {
   const { courses } = props;
 
   // categorize courses by level
-const level1Courses = courses.filter((course) => course.course_id[4] === "1");
-const level2Courses = courses.filter((course) => course.course_id[4] === "2");
-const level3Courses = courses.filter((course) => course.course_id[4] === "3");
-const level4Courses = courses.filter((course) => course.course_id[4] === "4");
+  const level1Courses = courses.filter((course) => course.course_id[4] === "1");
+  const level2Courses = courses.filter((course) => course.course_id[4] === "2");
+  const level3Courses = courses.filter((course) => course.course_id[4] === "3");
+  const level4Courses = courses.filter((course) => course.course_id[4] === "4");
 
   const [openKeys, setOpenKeys] = useState([]);
   const onOpenChange = (keys) => {
@@ -50,9 +50,13 @@ const level4Courses = courses.filter((course) => course.course_id[4] === "4");
 
     return courses.map((course, index) => {
       return (
-        <Link to={`course/${course.course_id}`} key={course.course_id}>
-          <Menu.Item style={{ color: "gray" }}>{course.course_name}</Menu.Item>
-        </Link>
+        <Box key={course.course_id} sx={{marginLeft: 2}}>
+          <Link to={`course/${course.course_id}`} >
+            <Menu.Item style={{ color: "gray" }}>
+              {course.course_name}
+            </Menu.Item>
+          </Link>
+        </Box>
       );
     });
   };

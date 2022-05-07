@@ -185,32 +185,7 @@ const Sidebar = (props) => {
                 </Tooltip>
               </Link>
 
-              <Link to='/dashboard/more'>
-                <Tooltip title="More" placement="right-start">
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: isDrawerOpen ? "initial" : "center",
-                      pl: 2.5,
-                      color: 'gray'
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: isDrawerOpen ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <InfoIcon/>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary='More'
-                      sx={{ opacity: isDrawerOpen ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </Tooltip>
-              </Link>
+
             </>
           )
         }        
@@ -245,6 +220,33 @@ const Sidebar = (props) => {
             </Link>
           )
         }
+
+        <Link to='/dashboard/more'>
+          <Tooltip title="More" placement="right-start">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: isDrawerOpen ? "initial" : "center",
+                pl: 2.5,
+                color: 'gray'
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: isDrawerOpen ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <InfoIcon/>
+              </ListItemIcon>
+              <ListItemText
+                primary='More'
+                sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
+        </Link>
       </List>
     </StyledDrawer>
   );
