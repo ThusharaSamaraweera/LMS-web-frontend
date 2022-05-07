@@ -1,17 +1,22 @@
 import { Box, Typography } from "@mui/material";
 import { Menu } from "antd";
-import React from "react";
+import {useState} from "react";
 import { Link } from "react-router-dom";
 
 const { SubMenu } = Menu;
 // submenu keys of first level
 const openedMenu = [];
 
-const { Text } = Typography;
-
 const CoursesMenu = (props) => {
-  const { enrollCourses } = props;
-  const [openKeys, setOpenKeys] = React.useState([]);
+  const { courses } = props;
+
+  // categorize courses by level
+const level1Courses = courses.filter((course) => course.course_id[4] === "1");
+const level2Courses = courses.filter((course) => course.course_id[4] === "2");
+const level3Courses = courses.filter((course) => course.course_id[4] === "3");
+const level4Courses = courses.filter((course) => course.course_id[4] === "4");
+
+  const [openKeys, setOpenKeys] = useState([]);
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (openedMenu.indexOf(latestOpenKey) === -1) {
@@ -37,7 +42,7 @@ const CoursesMenu = (props) => {
               color: "red",
             }}
           >
-            No enrolled courses
+            No courses
           </Typography>
         </Box>
       );
@@ -45,8 +50,8 @@ const CoursesMenu = (props) => {
 
     return courses.map((course, index) => {
       return (
-        <Link to={`course/${course}`} key={course}>
-          <Menu.Item style={{ color: "gray" }}>{course}</Menu.Item>
+        <Link to={`course/${course.course_id}`} key={course.course_id}>
+          <Menu.Item style={{ color: "gray" }}>{course.course_name}</Menu.Item>
         </Link>
       );
     });
@@ -60,19 +65,19 @@ const CoursesMenu = (props) => {
       style={{ width: 256 }}
     >
       <SubMenu key="level1" title={`Level 1`}>
-        {renderCourses(enrollCourses[0].courses)}
+        {renderCourses(level1Courses)}
       </SubMenu>
 
       <SubMenu key="level2" title={`Level 2`}>
-        {renderCourses(enrollCourses[1].courses)}
+        {renderCourses(level2Courses)}
       </SubMenu>
 
       <SubMenu key="level3" title={`Level 3`}>
-        {renderCourses(enrollCourses[2].courses)}
+        {renderCourses(level3Courses)}
       </SubMenu>
 
       <SubMenu key="level4" title={`Level 4`}>
-        {/* {renderCourses(enrollCourses[3].courses)} */}
+        {renderCourses(level4Courses)}
       </SubMenu>
     </Menu>
   );
