@@ -2,25 +2,14 @@ import React from 'react'
 import Typography from '@mui/material/Typography';
 import CourseCard from './CourseCard';
 import { Box, Container } from '@mui/material';
+import {useSelector} from 'react-redux'
 
 const CourseOverview = () => {
-  const enrollCourses = [
-    {
-      code: "SENG 22212",
-      name: "Software Architecture and Design",
-    },
-    {
-      code: "SENG 22212",
-      name: "Software Architecture and Design",
-    },
-    {
-      code: "SENG 22212",
-      name: "Software Architecture and Design",
-    },
-  ]
+  const courses = useSelector(state => state.lecturerReducer.courses);
+  console.log(courses)
 
-  const renderEnrollCourses = enrollCourses.map((course, index) => {
-    return <CourseCard details={enrollCourses[index]} key={index}/>
+  const renderEnrollCourses = courses.map((course, index) => {
+    return <CourseCard course={course} key={index}/>
   })
 
   return (

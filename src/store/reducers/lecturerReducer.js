@@ -1,7 +1,7 @@
 import * as ACTIONS from "../actionTypes/lecturerActionTypes"
 
 const lecturerInitState = {
-  courses: null
+  courses: []
 }
 
 export default function lecturerReducer(state = lecturerInitState, action){
