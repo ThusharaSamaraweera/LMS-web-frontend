@@ -6,7 +6,6 @@ export const login =
   async (dispatch) => {
     try {
       const res = await authService.login({ username, password });
-      console.log(res);
       const { responseUser, jwtToken, message } = res;
       sessionStorage.setItem("token", jwtToken);
       sessionStorage.setItem("responseUser", JSON.stringify(responseUser));

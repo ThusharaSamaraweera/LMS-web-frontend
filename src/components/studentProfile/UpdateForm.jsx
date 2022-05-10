@@ -13,15 +13,18 @@ import {
   FormHelperText,
 } from "@mui/material";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const department = ["SE", "PS", "PE"];
 
 const UpdateForm = () => {
+  const userEmail = useSelector(state => state.authReducer.authUser.username)
+
   const initialValues = {
     firstName: "",
     lastName: "",
-    email: "radhushani@gmail.com",
+    email: userEmail,
     studentId: "",
     department: "",
   };

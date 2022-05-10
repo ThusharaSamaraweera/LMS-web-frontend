@@ -1,12 +1,10 @@
 import React from 'react'
-import Typography from '@mui/material/Typography';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import CourseOverview from '../courseOverview'
 import { Route, Routes, Outlet } from 'react-router-dom';
-import Dashboard from './Dashboard';
 import CourseManagement from '../courseManagement';
-import Course from '../course';
+import studentCourse from '../studentCourse';
 import { useSelector } from 'react-redux';
 import { ROLES } from '../../constants/roles';
 import LecturerCourse from '../lecturerCourse';
@@ -59,7 +57,7 @@ const MainContent = (props) => {
         {
           currentUserRole === ROLES.STUDENT && (
             <>
-              <Route path="course/:course" element={<Course />} />
+              <Route path="course/:course" element={<studentCourse />} />
               <Route path="grades" element={<Grades />} />
               <Route path='profile' element={<StudentProfile/>}/>
             </>

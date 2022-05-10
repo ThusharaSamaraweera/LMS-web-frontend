@@ -1,12 +1,13 @@
 import * as ACTIONS from '../actionTypes/authActionTypes'
 
 const authInitState = {
-  authUser: null
+  authUser: null,
 }
 
 export function authReducer(state = authInitState, action ) {
   switch(action.type){
     case ACTIONS.LOGIN:
+      console.log(action.payload)
       return {
         ...state,
         authUser: action.payload

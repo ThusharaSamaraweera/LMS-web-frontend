@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 
 const CourseCard = (props) => {
   const navigate = useNavigate()
-  const {details} = props;
-  const {code, name} = details;
+  const {course} = props;
 
   const handleOnNavigate = () => {
-    navigate(`course/${name}`)
+    navigate(`course/${course.course_id}`)
   }
 
   return (
@@ -26,15 +25,15 @@ const CourseCard = (props) => {
         <ArticleIcon sx={{ fontSize: 60}}/>
         <Box sx={{paddingY: 0.8, display: ''}}>
           <Typography variant="body2" gutterBottom component="div">
-            Year {code[5]}
+            Year {course.course_id[4]}
           </Typography>
 
           <Box sx={{display: 'flex'}}>
             <Typography variant="body2" gutterBottom component="div" sx={{marginRight: 1}}>
-              {code}
+              {course.course_id}
             </Typography>
             <Typography variant="body2" gutterBottom component="div">
-              {name}
+              {course.course_name}
             </Typography>
           </Box>
 
