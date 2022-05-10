@@ -14,14 +14,18 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const department = ["SE", "PS", "PE"];
 
 const UpdateForm = () => {
+
+  const userEmail = useSelector(state=>state.authReducer.authUser.username)
+
   const initialValues = {
     firstName: "",
     lastName: "",
-    email: "radhushani@gmail.com",
+    email: userEmail,
     studentId: "",
     department: "",
   };
@@ -35,10 +39,16 @@ const UpdateForm = () => {
 
   const handleReset = (e) => {
     setFormValues(initialValues);
+    setDepartmentError("");
+    setStudentIdError("");
+    setFirstNameError("");
+    setLastNameError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const reg = /[//]/;
 
     if (formValues.firstName === "") {
       setFirstNameError("First name is required");
@@ -46,7 +56,7 @@ const UpdateForm = () => {
     if (formValues.lastName === "") {
       setLastNameError("Last name is required");
     }
-    if (formValues.studentId === "") {
+    if (formValues.studentId === "" || reg.test(formValues.studentId) === false) {
       setStudentIdError("Student id is required");
     }
     if (formValues.department === "") {
