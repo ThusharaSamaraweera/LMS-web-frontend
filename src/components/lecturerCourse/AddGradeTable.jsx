@@ -1,14 +1,43 @@
-import React, { useState } from 'react';
-import { Table, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
+import React, { useState } from "react";
+import { Table, Input, InputNumber, Popconfirm, Form, Typography } from "antd";
+import lecturerServices from "../../servers/lecturer.service";
+
 const originData = [];
 
-for (let i = 0; i < 5; i++) {
+const getGradeByMarks = (mark) => {
+  if(mark > 75) return 'A'
+  else if(mark > 65) return 'B'
+  else return 'D'
+};
+
+const students = [
+  {
+    name: "amal1@stu.kln.ac.lk",
+    studentId: "SE/2018/001",
+    finalExamScore: 50,
+    finalGrade: "C"
+  },
+  {
+    name: "amal2@stu.kln.ac.lk",
+    studentId: "SE/2018/002",
+    finalExamScore: 60,
+    finalGrade: "B"
+  },
+  {
+    name: "amal3@stu.kln.ac.lk",
+    studentId: "SE/2018/003",
+    finalExamScore: 70,
+    finalGrade: "A"
+  }
+]
+
+for (let i = 0; i < students.length; i++) {
   originData.push({
     key: i.toString(),
-    name: `Edrward ${i}`,
-    studentId: `${i}`,
-    finalExamScore: 32,
-    finalGrade: `London Park no. ${i}`,
+    name: students[i].name,
+    studentId: students[i].studentId,
+    finalExamScore: students[i].finalExamScore,
+    finalGrade: getGradeByMarks(students[i].finalGrade),
   });
 }
 
@@ -22,7 +51,7 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
   return (
     <td {...restProps}>
       {editing ? (
@@ -36,6 +65,10 @@ const EditableCell = ({
               required: true,
               message: `Please Input ${title}!`,
             },
+            {
+              type: 'number',
+              message: 'Please enter number'
+            }
           ]}
         >
           {inputNode}
@@ -47,85 +80,99 @@ const EditableCell = ({
   );
 };
 
-const AddGradeTable = () => {
-
+const AddGradeTable = (props) => {
+  const {courseId} = props;
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
-  const [editingKey, setEditingKey] = useState('');
+  const [editingKey, setEditingKey] = useState("");
 
   const isEditing = (record) => record.key === editingKey;
 
   const edit = (record) => {
     form.setFieldsValue({
-      name: '',
-      age: '',
-      address: '',
+      studentId: "",
+      finalGrade: "",
       ...record,
     });
     setEditingKey(record.key);
   };
 
   const cancel = () => {
-    setEditingKey('');
+    setEditingKey("");
   };
 
-  const save = async (key) => {
+  const save = async (key, record) => {
     try {
       const row = await form.validateFields();
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
 
-      console.log(row)
+      const editedRow = {...record, ...row}
+
+      const editedGrade = {
+        student_email: editedRow.name,
+        course_id: courseId,
+        score: editedRow.finalExamScore,
+        grade: editedRow.finalGrade
+      }
+
+      await lecturerServices.addGradeForStudent(editedGrade)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
 
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
         setData(newData);
-        setEditingKey('');
+        setEditingKey("");
       } else {
         newData.push(row);
         setData(newData);
-        setEditingKey('');
+        setEditingKey("");
       }
     } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
+      console.log("Validate Failed:", errInfo);
     }
   };
 
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      width: '25%',
+      title: "Name",
+      dataIndex: "name",
+      width: "25%",
       editable: false,
     },
     {
-      title: 'Student id',
-      dataIndex: 'studentId',
-      width: '15%',
+      title: "Student Id",
+      dataIndex: "studentId",
+      width: "15%",
       editable: false,
     },
     {
-      title: 'Final exam score',
-      dataIndex: 'finalExamScore',
-      width: '20%',
+      title: "Final exam score",
+      dataIndex: "finalExamScore",
+      width: "20%",
       editable: true,
     },
     {
-      title: 'Final grade',
-      dataIndex: 'finalGrade',
-      width: '20%',
-      editable: true,
+      title: "Final grade",
+      dataIndex: "finalGrade",
+      width: "20%",
+      editable: false,
     },
     {
-      title: 'Operation',
-      dataIndex: 'operation',
+      title: "",
+      dataIndex: "operation",
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
             <Typography.Link
-              onClick={() => save(record.key)}
+              onClick={() => save(record.key, record)}
               style={{
                 marginRight: 8,
               }}
@@ -137,13 +184,17 @@ const AddGradeTable = () => {
             </Popconfirm>
           </span>
         ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+          <Typography.Link
+            disabled={editingKey !== ""}
+            onClick={() => edit(record)}
+          >
             Edit
           </Typography.Link>
         );
       },
     },
   ];
+
   const mergedColumns = columns.map((col) => {
     if (!col.editable) {
       return col;
@@ -153,7 +204,7 @@ const AddGradeTable = () => {
       ...col,
       onCell: (record) => ({
         record,
-        inputType: 'text',
+        inputType: "number",
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),

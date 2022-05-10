@@ -1,6 +1,7 @@
 import { HTTPS_METHODS, restClient } from "../utils/restClient";
 
 export default class lecturerServices {
+
   static async addNewCourse(newCourse) {
     return await restClient({
       method: HTTPS_METHODS.POST,
@@ -26,5 +27,17 @@ export default class lecturerServices {
       .catch((err) => {
         throw new Error("Fetching lecturer course failed");
       });
+  }
+
+  static async addGradeForStudent(newGrade){
+    return await restClient({
+      method: HTTPS_METHODS.POST,
+      url: "/add/marks_and_grades/",
+      body: newGrade
+    }).then((res) => {
+      return res
+    }).catch((err) => {
+      throw new Error("Editing grades failed")
+    })
   }
 }
