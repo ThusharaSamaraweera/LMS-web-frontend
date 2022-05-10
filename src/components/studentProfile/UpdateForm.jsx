@@ -48,7 +48,8 @@ const UpdateForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const reg = /[//]/;
+
+    const reg = /^[A-Z]{2,3}[/]201[0-9][/][0-9]{3,3}$/;
 
     if (formValues.firstName === "") {
       setFirstNameError("First name is required");
@@ -56,8 +57,11 @@ const UpdateForm = () => {
     if (formValues.lastName === "") {
       setLastNameError("Last name is required");
     }
-    if (formValues.studentId === "" || reg.test(formValues.studentId) === false) {
+    if (formValues.studentId === "") {
       setStudentIdError("Student id is required");
+    }
+    if(reg.test(formValues.studentId) === false){
+      setStudentIdError("Student id is invaild");
     }
     if (formValues.department === "") {
       setDepartmentError("Department is required");
