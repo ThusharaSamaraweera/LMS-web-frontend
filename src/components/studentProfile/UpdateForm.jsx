@@ -178,7 +178,7 @@ const UpdateForm = () => {
 
               <Grid xs={12} item>
                 <FormControl fullWidth>
-                  <InputLabel id="department-select-label">
+                  <InputLabel id="department-select-label" variant="standard">
                     Department
                   </InputLabel>
                   <Select
