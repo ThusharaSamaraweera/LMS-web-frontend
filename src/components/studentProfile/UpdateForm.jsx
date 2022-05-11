@@ -13,7 +13,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const department = ["SE", "PS", "PE"];
@@ -48,9 +48,6 @@ const UpdateForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    const reg = /^[A-Z]{2,3}[/]201[0-9][/][0-9]{3,3}$/;
-
     if (formValues.firstName === "") {
       setFirstNameError("First name is required");
     }
@@ -60,9 +57,7 @@ const UpdateForm = () => {
     if (formValues.studentId === "") {
       setStudentIdError("Student id is required");
     }
-    if(reg.test(formValues.studentId) === false){
-      setStudentIdError("Student id is invaild");
-    }
+
     if (formValues.department === "") {
       setDepartmentError("Department is required");
     }
@@ -88,9 +83,14 @@ const UpdateForm = () => {
 
   const handleOnStudentIDChange = (e) => {
     const { value } = e.target;
-    if (value) {
+
+    const reg = /^[A-Z]{2,3}[/]201[0-9][/][0-9]{3,3}$/;
+    if(reg.test(value) === false){
+      setStudentIdError("Student id is invaild");
+    }else{
       setStudentIdError("");
     }
+
     setFormValues({ ...formValues, studentId: value });
   };
 
@@ -241,7 +241,6 @@ const UpdateForm = () => {
                   Reset
                 </Button>
               </Grid>
-
             </Grid>
           </form>
         </CardContent>
