@@ -12,9 +12,10 @@ import {
   Box,
   FormHelperText,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { StudentService } from "../../servers/student.server";
 
 const department = ["SE", "PS", "PE"];
 
@@ -44,6 +45,10 @@ const UpdateForm = () => {
     setFirstNameError("");
     setLastNameError("");
   };
+
+  useEffect(() => {
+    StudentService.getProfile()
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
