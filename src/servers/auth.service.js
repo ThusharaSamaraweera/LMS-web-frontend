@@ -12,7 +12,7 @@ export default class authService {
     const body = JSON.stringify({ username, password });
 
     try {
-      const res = await axios.post(`${BASE_URL}/auth/login`, body, config);
+      const res = await axios.post(`${BASE_URL}/api/v1/auth/login`, body, config);
       return res.data;
     } catch (error) {
       throw new Error('Login failed')

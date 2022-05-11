@@ -20,23 +20,43 @@ import { StudentService } from "../../servers/student.server";
 const department = ["SE", "PS", "PE"];
 
 const UpdateForm = () => {
-
-  const userEmail = useSelector(state=>state.authReducer.authUser.username)
-
-  const initialValues = {
+  const userEmail = useSelector((state) => state.authReducer.authUser.username);
+  const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
-    email: userEmail,
     studentId: "",
+    email: "",
     department: "",
-  };
+  });
   const [formValues, setFormValues] = useState(initialValues);
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [studentIdError, setStudentIdError] = useState("");
   const [isDepartmentError, setDepartmentError] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
-  const [isDisabled, setDisabled] = useState(false);
+  const [isDisabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    // get student details from backend
+    async function getProfile() {
+      await StudentService.getProfile().then((res) => {
+        console.log(res);
+        setInitialValues({
+          firstName: res.first_name ? res.first_name : "",
+          lastName: res.last_name ? res.last_name : "",
+          studentId: res.student_id ? res.student_id : "",
+          email: userEmail,
+          department: res.department ? res.department : "",
+        });
+      });
+    }
+    setDisabled(false)
+    getProfile();
+  }, []);
+
+  useEffect(() => {
+    setFormValues(initialValues);
+  }, [initialValues]);
 
   const handleReset = (e) => {
     setFormValues(initialValues);
@@ -45,10 +65,6 @@ const UpdateForm = () => {
     setFirstNameError("");
     setLastNameError("");
   };
-
-  useEffect(() => {
-    StudentService.getProfile()
-  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,9 +106,9 @@ const UpdateForm = () => {
     const { value } = e.target;
 
     const reg = /^[A-Z]{2,3}[/]201[0-9][/][0-9]{3,3}$/;
-    if(reg.test(value) === false){
+    if (reg.test(value) === false) {
       setStudentIdError("Student id is invaild");
-    }else{
+    } else {
       setStudentIdError("");
     }
 
@@ -108,7 +124,11 @@ const UpdateForm = () => {
   };
 
   const renderDepartment = department.map((department) => {
-    return <MenuItem key={department} value={department}>{department}</MenuItem>;
+    return (
+      <MenuItem key={department} value={department}>
+        {department}
+      </MenuItem>
+    );
   });
 
   return (
@@ -170,7 +190,7 @@ const UpdateForm = () => {
                   name="email"
                   placeholder="Enter email"
                   value={formValues.email}
-                  disabled={isDisabled}
+                  disabled={true}
                   variant="standard"
                   fullWidth
                 />
@@ -207,6 +227,7 @@ const UpdateForm = () => {
                     variant="standard"
                     placeholder="Enter department"
                     error={Boolean(isDepartmentError)}
+                    disabled={isDisabled}
                   >
                     {renderDepartment}
                   </Select>
@@ -216,10 +237,13 @@ const UpdateForm = () => {
                 </FormControl>
               </Grid>
 
-              <Grid xs={12} sm={12} item
+              <Grid
+                xs={12}
+                sm={12}
+                item
                 sx={{
                   display: "flex",
-                  justifyContent: "center"
+                  justifyContent: "center",
                 }}
               >
                 <Button
@@ -228,7 +252,7 @@ const UpdateForm = () => {
                   color="primary"
                   disabled={isDisabled}
                   sx={{
-                    marginX: 2
+                    marginX: 2,
                   }}
                 >
                   Submit
@@ -240,7 +264,7 @@ const UpdateForm = () => {
                   disabled={isDisabled}
                   onClick={handleReset}
                   sx={{
-                    marginX: 2
+                    marginX: 2,
                   }}
                 >
                   Reset
