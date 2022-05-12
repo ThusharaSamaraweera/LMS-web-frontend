@@ -53,7 +53,7 @@ function createData(level, courses) {
         courseCode: course.course_id,
         courseName: course.course_name,
         academicYear: "",
-        coureGPA: getGPAFromScore(course.score),
+        coureGPA: course.grade,
       };
     }),
   };
@@ -189,7 +189,7 @@ const GradeTable = () => {
               Total credits
             </TableCell>
             <TableCell align="right" sx={{ fontWeight: 800, fontSize: 20 }}>
-              GPA
+              GPA of year
             </TableCell>
           </TableRow>
         </TableHead>

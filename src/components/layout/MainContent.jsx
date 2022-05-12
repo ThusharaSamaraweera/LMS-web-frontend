@@ -12,6 +12,7 @@ import Grades from '../courseGrades';
 import More from '../more/routes';
 import StudentProfile from '../studentProfile';
 import LecturerProfile from '../lecturerProfile';
+import AnnouncementManagement from '../announcement';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -68,8 +69,9 @@ const MainContent = (props) => {
         {
           currentUserRole === ROLES.LECTURER && (
             <>
-            <Route path='course/:course' element={<LecturerCourse />} />
-            <Route path='profile' element={<LecturerProfile/>}/>
+              <Route path='course/:course' element={<LecturerCourse />} />
+              <Route path='profile' element={<LecturerProfile/>}/>
+              <Route path='announcement' element={<AnnouncementManagement />}/>
             </>
           )
         }
