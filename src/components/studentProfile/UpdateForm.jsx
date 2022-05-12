@@ -16,6 +16,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { StudentService } from "../../servers/student.server";
+import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 
 const department = ["SE", "PS", "PE"];
 
@@ -32,15 +33,14 @@ const UpdateForm = () => {
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [studentIdError, setStudentIdError] = useState("");
-  const [isDepartmentError, setDepartmentError] = useState("");
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [departmentError, setDepartmentError] = useState("");
   const [isDisabled, setDisabled] = useState(true);
+  const [isConfirmatinDislogOpen, setConfirmationDialogOpen] = useState(false);
 
   useEffect(() => {
     // get student details from backend
     async function getProfile() {
       await StudentService.getProfile().then((res) => {
-        console.log(res);
         setInitialValues({
           firstName: res.first_name ? res.first_name : "",
           lastName: res.last_name ? res.last_name : "",
@@ -50,7 +50,7 @@ const UpdateForm = () => {
         });
       });
     }
-    setDisabled(false)
+    setDisabled(false);
     getProfile();
   }, []);
 
@@ -83,13 +83,28 @@ const UpdateForm = () => {
       setDepartmentError("Department is required");
     }
 
-    setIsSubmit(true);
+    if (firstNameError || lastNameError || studentIdError || departmentError) {
+      return;
+    }
+
+    setConfirmationDialogOpen(true);
+  };
+
+  const handleOnSave = () => {
+    setConfirmationDialogOpen(false);
+    console.log("save");
+  };
+
+  const handleOnCancel = () => {
+    setConfirmationDialogOpen(false);
   };
 
   const handleOnFirstNameChange = (e) => {
     const { value } = e.target;
     if (value) {
       setFirstNameError("");
+    } else {
+      setFirstNameError("First name is required");
     }
     setFormValues({ ...formValues, firstName: value });
   };
@@ -98,6 +113,8 @@ const UpdateForm = () => {
     const { value } = e.target;
     if (value) {
       setLastNameError("");
+    } else {
+      setLastNameError("Last name is required");
     }
     setFormValues({ ...formValues, lastName: value });
   };
@@ -119,6 +136,8 @@ const UpdateForm = () => {
     const { value } = e.target;
     if (value) {
       setDepartmentError("");
+    } else {
+      setDepartmentError("Department is required");
     }
     setFormValues({ ...formValues, department: value });
   };
@@ -132,149 +151,158 @@ const UpdateForm = () => {
   });
 
   return (
-    <Box>
-      <Typography
-        fontWeight="fontWeightBold"
-        align="center"
-        sx={{
-          fontSize: {
-            xs: "1rem",
-            sm: "2rem",
-          },
-        }}
-      >
-        Student - Profile
-      </Typography>
+    <>
+      {isConfirmatinDislogOpen && (
+        <ConfirmationDialog
+          title={"Want to save changes ?"}
+          handleOnAccept={handleOnSave}
+          handleOnCancel={handleOnCancel}
+        />
+      )}
+      <Box>
+        <Typography
+          fontWeight="fontWeightBold"
+          align="center"
+          sx={{
+            fontSize: {
+              xs: "1rem",
+              sm: "2rem",
+            },
+          }}
+        >
+          Student - Profile
+        </Typography>
 
-      <Card>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <Grid container sx={{ width: "auto" }} spacing={3}>
-              <Grid xs={12} sm={6} item>
-                <TextField
-                  error={Boolean(firstNameError)}
-                  id="standard-error-helper-text"
-                  helperText={firstNameError}
-                  label="First Name"
-                  name="firstName"
-                  placeholder="Enter First Name"
-                  value={formValues.firstName}
-                  onChange={handleOnFirstNameChange}
-                  variant="standard"
-                  fullWidth
-                  disabled={isDisabled}
-                />
-              </Grid>
-
-              <Grid xs={12} sm={6} item>
-                <TextField
-                  error={Boolean(lastNameError)}
-                  id="standard-error-helper-text"
-                  helperText={lastNameError}
-                  label="Last Name"
-                  name="lastName"
-                  placeholder="Enter Last Name"
-                  value={formValues.lastName}
-                  onChange={handleOnLastNameChange}
-                  disabled={isDisabled}
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid xs={12} item>
-                <TextField
-                  type="email"
-                  id="standard-read-only-input"
-                  label="Email"
-                  name="email"
-                  placeholder="Enter email"
-                  value={formValues.email}
-                  disabled={true}
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid xs={12} item>
-                <TextField
-                  error={Boolean(studentIdError)}
-                  id="standard-error-helper-text"
-                  helperText={studentIdError}
-                  label="Student ID"
-                  name="studentId"
-                  placeholder="Enter Student ID"
-                  value={formValues.studentId}
-                  onChange={handleOnStudentIDChange}
-                  disabled={isDisabled}
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-
-              <Grid xs={12} item>
-                <FormControl fullWidth>
-                  <InputLabel id="department-select-label">
-                    Department
-                  </InputLabel>
-                  <Select
-                    labelId="department-select-label"
-                    id="department-select"
-                    value={formValues.department}
-                    label="department"
-                    name="department"
-                    onChange={handleOnDepartmentChange}
+        <Card>
+          <CardContent>
+            <form onSubmit={handleSubmit}>
+              <Grid container sx={{ width: "auto" }} spacing={3}>
+                <Grid xs={12} sm={6} item>
+                  <TextField
+                    error={Boolean(firstNameError)}
+                    id="standard-error-helper-text"
+                    helperText={firstNameError}
+                    label="First Name"
+                    name="firstName"
+                    placeholder="Enter First Name"
+                    value={formValues.firstName}
+                    onChange={handleOnFirstNameChange}
                     variant="standard"
-                    placeholder="Enter department"
-                    error={Boolean(isDepartmentError)}
+                    fullWidth
                     disabled={isDisabled}
-                  >
-                    {renderDepartment}
-                  </Select>
-                  <FormHelperText id="department-error">
-                    {isDepartmentError && "Department is required"}
-                  </FormHelperText>
-                </FormControl>
-              </Grid>
+                  />
+                </Grid>
 
-              <Grid
-                xs={12}
-                sm={12}
-                item
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  disabled={isDisabled}
+                <Grid xs={12} sm={6} item>
+                  <TextField
+                    error={Boolean(lastNameError)}
+                    id="standard-error-helper-text"
+                    helperText={lastNameError}
+                    label="Last Name"
+                    name="lastName"
+                    placeholder="Enter Last Name"
+                    value={formValues.lastName}
+                    onChange={handleOnLastNameChange}
+                    disabled={isDisabled}
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
+
+                <Grid xs={12} item>
+                  <TextField
+                    type="email"
+                    id="standard-read-only-input"
+                    label="Email"
+                    name="email"
+                    placeholder="Enter email"
+                    value={formValues.email}
+                    disabled={true}
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
+
+                <Grid xs={12} item>
+                  <TextField
+                    error={Boolean(studentIdError)}
+                    id="standard-error-helper-text"
+                    helperText={studentIdError}
+                    label="Student ID"
+                    name="studentId"
+                    placeholder="Enter Student ID"
+                    value={formValues.studentId}
+                    onChange={handleOnStudentIDChange}
+                    disabled={isDisabled}
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
+
+                <Grid xs={12} item>
+                  <FormControl fullWidth>
+                    <InputLabel id="department-select-label" variant="standard">
+                      Department
+                    </InputLabel>
+                    <Select
+                      labelId="department-select-label"
+                      id="department-select"
+                      value={formValues.department}
+                      label="department"
+                      name="department"
+                      onChange={handleOnDepartmentChange}
+                      variant="standard"
+                      placeholder="Enter department"
+                      error={Boolean(departmentError)}
+                      disabled={isDisabled}
+                    >
+                      {renderDepartment}
+                    </Select>
+                    <FormHelperText id="department-error">
+                      {departmentError && "Department is required"}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+
+                <Grid
+                  xs={12}
+                  sm={12}
+                  item
                   sx={{
-                    marginX: 2,
+                    display: "flex",
+                    justifyContent: "center",
                   }}
                 >
-                  Submit
-                </Button>
-                <Button
-                  type="reset"
-                  variant="contained"
-                  color="primary"
-                  disabled={isDisabled}
-                  onClick={handleReset}
-                  sx={{
-                    marginX: 2,
-                  }}
-                >
-                  Reset
-                </Button>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={isDisabled}
+                    sx={{
+                      marginX: 2,
+                    }}
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    type="reset"
+                    variant="contained"
+                    color="primary"
+                    disabled={isDisabled}
+                    onClick={handleReset}
+                    sx={{
+                      marginX: 2,
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </CardContent>
-      </Card>
-    </Box>
+            </form>
+          </CardContent>
+        </Card>
+      </Box>
+    </>
   );
 };
 
