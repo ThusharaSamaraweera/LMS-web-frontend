@@ -25,6 +25,14 @@ const AnnouncementForm = () => {
         form.resetFields();
     };
 
+    const courceOptions = cource.map((cource) => {
+        return (
+            <Option value={cource} key={cource}>
+                {cource}
+            </Option>
+        );
+    });
+
 
     return (
         <Box
@@ -83,7 +91,7 @@ const AnnouncementForm = () => {
                             rules={[{ required: true, message: "Please select course!" }]}
                         >
                             <Select placeholder="Select cource" showSearch>
-                               
+                               {courceOptions}
                             </Select>
                         </Form.Item>
 
