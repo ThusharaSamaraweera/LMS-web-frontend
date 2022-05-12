@@ -2,6 +2,15 @@ import React from "react";
 import { Button, Col, Form, Input, Row, Select, DatePicker } from "antd";
 import { Box, Typography } from "@mui/material";
 
+const cource = [
+    "SENG11213",
+    "SENG12213",
+    "SENG12223",
+    "SENG11212",
+    "SENG12233",
+    "PMAT12212",
+    "SENG12242"
+];
 
 const AnnouncementForm = () => {
     const [form] = Form.useForm();
