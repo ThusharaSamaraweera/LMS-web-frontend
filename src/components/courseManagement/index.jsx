@@ -1,8 +1,13 @@
 import { Box, Container, Stack, Typography, Button } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import CourseCreationForm from "./CourseCreationForm";
 
 const CourseManagement = () => {
+  const [isCourseCreationFormVisible, setCourseCreationFormVisible] = useState(false)
+
+  const handleOnAddCourseBtnClick = () => {
+    setCourseCreationFormVisible(!isCourseCreationFormVisible)
+  }
 
   return (
     <Container>
@@ -15,18 +20,19 @@ const CourseManagement = () => {
             marginY: 2,
           }}
         >
-          <Button variant="outlined" size="large">
-            Add course
+          <Button variant="outlined" size="large" onClick={handleOnAddCourseBtnClick}>
+            {isCourseCreationFormVisible ? "Collapse form" : "Add course"}
           </Button>
         </Stack>
 
         <Box 
           sx={{
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            marginY: 2,
           }}
         >
-          <CourseCreationForm />
+          { isCourseCreationFormVisible && <CourseCreationForm />}
         </Box>
       </Stack>
     </Container>

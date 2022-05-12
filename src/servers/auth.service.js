@@ -30,6 +30,7 @@ export default class authService {
         body,
         config
       );
+
       return res.data;
     } catch (error) {
       throw new Error("Getting OTP failed");

@@ -76,6 +76,7 @@ const Sidebar = (props) => {
   const theme = useTheme();
   const navigate = useNavigate()
   const currentUserRole = useSelector(state => state.authReducer.authUser.role[0].roleName);
+  const courses = useSelector(state => state.lecturerReducer.courses);
 
   const handleDrawerClose = () => {
     toggleDrawer();
@@ -98,21 +99,6 @@ const Sidebar = (props) => {
       text: "Courses",
       type: "main",
       icon: <SchoolIcon />,
-    },
-  ];
-
-  const enrollCourses = [
-    {
-      level: 1,
-      courses: ["course1", "course2", "course3", "course4"],
-    },
-    {
-      level: 2,
-      courses: ["course5", "course6", "course7", "course8"],
-    },
-    {
-      level: 3,
-      courses: [],
     },
   ];
 
@@ -163,7 +149,7 @@ const Sidebar = (props) => {
             </Link>
 
             {item.text === "Courses" && isDrawerOpen && (
-              <CoursesMenu enrollCourses={enrollCourses} />
+              <CoursesMenu courses={courses} />
             )}
             <Outlet/>
           </React.Fragment>
@@ -199,32 +185,7 @@ const Sidebar = (props) => {
                 </Tooltip>
               </Link>
 
-              <Link to='/dashboard/more'>
-                <Tooltip title="More" placement="right-start">
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: isDrawerOpen ? "initial" : "center",
-                      pl: 2.5,
-                      color: 'gray'
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: isDrawerOpen ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <InfoIcon/>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary='More'
-                      sx={{ opacity: isDrawerOpen ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </Tooltip>
-              </Link>
+
             </>
           )
         }        
@@ -259,6 +220,33 @@ const Sidebar = (props) => {
             </Link>
           )
         }
+
+        <Link to='/dashboard/more'>
+          <Tooltip title="More" placement="right-start">
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: isDrawerOpen ? "initial" : "center",
+                pl: 2.5,
+                color: 'gray'
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: isDrawerOpen ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <InfoIcon/>
+              </ListItemIcon>
+              <ListItemText
+                primary='More'
+                sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </Tooltip>
+        </Link>
       </List>
     </StyledDrawer>
   );
