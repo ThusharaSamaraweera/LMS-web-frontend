@@ -11,6 +11,11 @@ const AnnouncementForm = () => {
         
     };
 
+    const handleOnResetClick = (e) => {
+        e.preventDefault();
+        form.resetFields();
+    };
+
 
     return (
         <Box
