@@ -14,13 +14,14 @@ const departments = [
   {
     title: "department of Chemistry",
     academyYears: [
-      "academic Year 2019-2020",
+      "2018-2019",
+      "2019-2020",
     ]
   },
   {
     title: "software Engineering Teaching Unit",
     academyYears: [
-      "academic Year 2019-2020",
+      "2019-2020",
     ]
   }
 ];
@@ -42,17 +43,22 @@ const Faculty = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
           sx={{
-            backgroundColor: '#ffdca8'
+            backgroundColor: '#ffdca8',
+            border: 1,
           }}
         >
           <Typography>{item.title}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            <Link to={`${item.academyYears[0]}`}>
-              {item.academyYears[0]}
-            </Link>
-          </Typography>
+            {item.academyYears.map((year) => {
+              return (
+                <Typography>
+                  <Link to={`${year}`}>
+                    {year}
+                  </Link>
+                </Typography>
+              )
+            })}
         </AccordionDetails>
       </Accordion>
     );
