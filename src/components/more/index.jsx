@@ -1,7 +1,8 @@
 import { Container, Grid, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import {Link} from 'react-router-dom'
-import CourseService from '../../servers/course.service'
+import { useDispatch } from 'react-redux'
+import { getAllCourse } from '../../store/actions/courseAction'
 
 const faculties = [
   "commerce and Management Studies",
@@ -25,8 +26,10 @@ const unitsAndCetres = [
 ]
 
 const More = () => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    CourseService.getAllCourse()
+    dispatch(getAllCourse())  
   }, [])
 
   const renderFaculties = faculties.map( faculty => {

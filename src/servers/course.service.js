@@ -6,7 +6,7 @@ export default class CourseService {
       method: HTTPS_METHODS.GET,
       url: "/api/v1/Courses/all"
     }).then((res) => {
-      console.log(res)
+      return res
     }).catch((err) => {
       console.log(err)
     })
