@@ -16,27 +16,28 @@ import React, { useState } from "react";
 import Appbar from "../home/Appbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Alert from '../utilsComponents/Alert'
+import Alert from "../utilsComponents/Alert";
 import { Link } from "react-router-dom";
+import authService from "../../servers/auth.service";
 
 const Signup = () => {
   const [universityEmail, setUniversityEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isEmailValid, setEmailValid] = useState(false);
-  const [isEmailDisabled, setEmailDisable] = useState(false)
-  const [universityEmailError, setUniversityEmailError] =  useState("")
-  const [otp, setOtp] = useState("1234")
-  const [inputOtp, setInputOtp] = useState("")
-  const [userType, setUserType] = useState("Student")
+  const [isEmailDisabled, setEmailDisable] = useState(false);
+  const [universityEmailError, setUniversityEmailError] = useState("");
+  const [inputOtp, setInputOtp] = useState("");
+  const [userType, setUserType] = useState("Student");
+  const [otp, setOtp] = useState()
 
   const handleOnUnversityEmailChanged = (email) => {
     setUniversityEmail(email);
   };
 
   const handleOnOtpChange = (otp) => {
-    setInputOtp(otp)
-  }
+    setInputOtp(parseInt(otp));
+  };
 
   const handleOnPasswordChanged = (password) => {
     setPassword(password);
@@ -50,37 +51,48 @@ const Signup = () => {
     e.preventDefault();
   };
 
-  const handleOnVerifyEmail = (e) => {
-    if(universityEmail === ""){
-      setUniversityEmailError("required")
-      return
+  const handleOnVerifyEmail = async (e) => {
+    if (universityEmail === "") {
+      setUniversityEmailError("required");
+      return;
     }
-    setEmailValid("pending")
-    setEmailDisable(true)
-    setUniversityEmailError("")
-  }
+    await authService.getOtp(universityEmail)
+      .then((res) => {
+        console.log(res)
+        setOtp(res.otp)
+        setEmailValid("pending");
+        setEmailDisable(true);
+        setUniversityEmailError("");
+      })
+      .catch((err) => {
+        console.log(err.message)
+        Alert({ message: err.message, type: "error" });
+      });
+  };
 
   const handleOnVerifyaOTP = () => {
-    if(inputOtp === otp){
-      setEmailValid(true)
-    }else{
+
+    if (inputOtp === parseInt(otp)) {
+      setEmailValid(true);
+    } else {
       Alert({
         message: "Invalid otp",
-        type: 'error'
-      })
+        type: "error",
+      });
     }
-  }
+  };
 
   const handleOnSelectUserType = (e) => {
-    setUserType(e.target.value)
-  }
+    setUserType(e.target.value);
+  };
 
   const handleOnCancelOtp = () => {
-    setUniversityEmail("")
-    setEmailDisable(false)
-    setEmailValid(false)
-    setOtp("")
-  }
+    setUniversityEmail("");
+    setEmailDisable(false);
+    setEmailValid(false);
+    setInputOtp("")
+    setOtp("")    
+  };
 
   return (
     <>
@@ -121,9 +133,8 @@ const Signup = () => {
             Signup
           </Typography>
 
-          {
-            isEmailValid === true &&
-            <Box              
+          {isEmailValid === true && (
+            <Box
               flexDirection="row"
               sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
             >
@@ -139,7 +150,7 @@ const Signup = () => {
                   },
                 }}
               >
-                  User type
+                User type
               </Typography>
 
               <Select
@@ -155,88 +166,99 @@ const Signup = () => {
                 <MenuItem value={"Lecturer"}>Lecturer</MenuItem>
               </Select>
             </Box>
-
-          }
+          )}
 
           <Box
             flexDirection="row"
             sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
           >
+            <Typography
+              component="label"
+              sx={{
+                paddingY: 1,
+                width: "12rem",
+                fontSize: {
+                  xs: "0.8rem",
+                  sm: "1rem",
+                },
+              }}
+            >
+              University email
+            </Typography>
 
-              <Typography
-                component="label"
-                sx={{
-                  paddingY: 1,
-                  width: "12rem",
-                  fontSize: {
-                    xs: "0.8rem",
-                    sm: "1rem",
-                  },
-                }}
-              >
-                University email
-              </Typography>
-
-              <TextField
-                id="university-email"
-                type="email"
-                value={universityEmail}
-                onChange={(e) => handleOnUnversityEmailChanged(e.target.value)}
-                fullWidth={true}
-                sx={{
-                  marginX: 0,
-                  fontSize: {
-                    xs: "0.8rem",
-                    sm: "1rem",
-                  }
-                }}
-                variant="standard"
-                disabled={isEmailDisabled}
-                helperText={universityEmailError}
-                error={Boolean(universityEmailError)}
-              ></TextField>
+            <TextField
+              id="university-email"
+              type="email"
+              value={universityEmail}
+              onChange={(e) => handleOnUnversityEmailChanged(e.target.value)}
+              fullWidth={true}
+              sx={{
+                marginX: 0,
+                fontSize: {
+                  xs: "0.8rem",
+                  sm: "1rem",
+                },
+              }}
+              variant="standard"
+              disabled={isEmailDisabled}
+              helperText={universityEmailError}
+              error={Boolean(universityEmailError)}
+            ></TextField>
           </Box>
 
-          {
-            isEmailValid === 'pending' &&
-            <Box
-              flexDirection="row"
-              sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
-            >
+          {isEmailValid === "pending" && (
+            <>
               <Typography
-                component="label"
-                sx={{
-                  paddingY: 1,
-                  width: "12rem",
-                  fontSize: {
-                    xs: "0.8rem",
-                    sm: "1rem",
-                  },
-                }}
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    fontSize: {
+                      xs: "0.7rem",
+                      sm: "0.9rem",
+                    },
+                    color: 'red'
+                  }}
+                  textAlign="center"
+                >
+                  We sent otp to {universityEmail}
+                </Typography>
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
               >
-                OTP
-              </Typography>
-              <TextField
-                id="otp"
-                type="number"
-                value={inputOtp}
-                onChange={(e) => handleOnOtpChange(e.target.value)}
-                fullWidth={true}
-                sx={{
-                  marginX: 0,
-                  fontSize: {
-                    xs: "0.8rem",
-                    sm: "1rem",
-                  }
-                }}
-                variant="standard"
-              ></TextField>
-            </Box>
+                <Typography
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  OTP
+                </Typography>
+                <TextField
+                  id="otp"
+                  type="number"
+                  value={inputOtp}
+                  onChange={(e) => handleOnOtpChange(e.target.value)}
+                  fullWidth={true}
+                  sx={{
+                    marginX: 0,
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                  variant="standard"
+                ></TextField>
+              </Box>
+            </>
+          )}
 
-          }
-
-          {
-            isEmailValid === false &&
+          {isEmailValid === false && (
             <>
               <Button
                 variant="contained"
@@ -248,18 +270,15 @@ const Signup = () => {
                     xs: "0.8rem",
                     sm: "1rem",
                   },
-
                 }}
                 onClick={(e) => handleOnVerifyEmail(e)}
               >
                 Send otp
               </Button>
-
             </>
-          }
-          
-          {
-            isEmailValid === "pending" &&
+          )}
+
+          {isEmailValid === "pending" && (
             <Box
               flexDirection="row"
               sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
@@ -274,7 +293,6 @@ const Signup = () => {
                     xs: "0.8rem",
                     sm: "1rem",
                   },
-
                 }}
                 onClick={(e) => handleOnVerifyaOTP(e)}
               >
@@ -290,17 +308,15 @@ const Signup = () => {
                     xs: "0.8rem",
                     sm: "1rem",
                   },
-
                 }}
                 onClick={handleOnCancelOtp}
               >
                 Cancel
               </Button>
             </Box>
-          }
+          )}
 
-          {
-            isEmailValid === true && 
+          {isEmailValid === true && (
             <>
               <Box
                 flexDirection="row"
@@ -359,7 +375,6 @@ const Signup = () => {
                       xs: "0.8rem",
                       sm: "1rem",
                     },
-
                   }}
                   onClick={(e) => handleOnSignClick(e)}
                 >
@@ -375,19 +390,15 @@ const Signup = () => {
                       xs: "0.8rem",
                       sm: "1rem",
                     },
-
                   }}
                   onClick={(e) => handleOnCancelOtp(e)}
                 >
                   Cancel
                 </Button>
               </Box>
-
             </>
-          }
-          <Link to='/login'>
-            Have a account ? 
-          </Link>
+          )}
+          <Link to="/login">Have a account ?</Link>
         </Stack>
       </Box>
     </>
