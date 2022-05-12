@@ -7,7 +7,7 @@ const AnnouncementManagement = () => {
   const [isAnnouncementFormVisible, setAnnouncemntFormVisible] = useState(false);
 
   const handleOnAddAnnouncementBtnClick = () => {
-    
+    setAnnouncemntFormVisible(!isAnnouncementFormVisible)
   }
   return (
     <Container>
