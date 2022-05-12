@@ -10,7 +10,6 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { CssBaseline } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -76,6 +75,10 @@ const Navbar = (props) => {
     navigate('profile')
   }
 
+  const handleOnNavigateAnnouncement = () => {
+    navigate("announcement")
+  }
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -115,25 +118,13 @@ const Navbar = (props) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+      <MenuItem onClick={handleOnNavigateAnnouncement}>
+        <IconButton size="small" color="inherit">
+          <Badge color="error">
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <p style={{marginBottom: '0em'}}>Messages</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -145,7 +136,7 @@ const Navbar = (props) => {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p style={{marginBottom: '0em'}}>Profile</p>
       </MenuItem>
     </Menu>
   );
@@ -188,20 +179,11 @@ const Navbar = (props) => {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
               color="inherit"
+              onClick={handleOnNavigateAnnouncement}
             >
-              <Badge badgeContent={4} color="error">
+              <Badge color="error">
                 <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
               </Badge>
             </IconButton>
             <IconButton
