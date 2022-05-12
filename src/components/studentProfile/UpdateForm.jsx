@@ -15,7 +15,7 @@ import {
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { StudentService } from "../../servers/student.server";
+import StudentService from "../../servers/student.service";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 
 const department = ["SE", "PS", "PE"];
@@ -92,6 +92,15 @@ const UpdateForm = () => {
 
   const handleOnSave = () => {
     setConfirmationDialogOpen(false);
+    const studentProfile = {
+      first_name: formValues.firstName,
+      last_name: formValues.lastName,
+      student_email: formValues.email,
+      student_id: formValues.studentId,
+      department: formValues.department,
+      profile_pic: ""
+    }
+    StudentService.updateStudent(studentProfile)
     console.log("save");
   };
 
