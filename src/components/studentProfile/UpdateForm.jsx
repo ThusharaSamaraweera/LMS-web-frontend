@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import StudentService from "../../servers/student.service";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
+import Alert from "../utilsComponents/Alert";
 
 const department = ["SE", "PS", "PE"];
 
@@ -37,21 +38,22 @@ const UpdateForm = () => {
   const [isDisabled, setDisabled] = useState(true);
   const [isConfirmatinDislogOpen, setConfirmationDialogOpen] = useState(false);
 
-  useEffect(() => {
+  const handleOnGetProfile = async () => {
     // get student details from backend
-    async function getProfile() {
-      await StudentService.getProfile().then((res) => {
-        setInitialValues({
-          firstName: res.first_name ? res.first_name : "",
-          lastName: res.last_name ? res.last_name : "",
-          studentId: res.student_id ? res.student_id : "",
-          email: userEmail,
-          department: res.department ? res.department : "",
-        });
+    await StudentService.getProfile().then((res) => {
+      setInitialValues({
+        firstName: res.first_name ? res.first_name : "",
+        lastName: res.last_name ? res.last_name : "",
+        studentId: res.student_id ? res.student_id : "",
+        email: userEmail,
+        department: res.department ? res.department : "",
       });
-    }
+    });
+  };
+
+  useEffect(() => {
     setDisabled(false);
-    getProfile();
+    handleOnGetProfile();
   }, []);
 
   useEffect(() => {
@@ -66,7 +68,7 @@ const UpdateForm = () => {
     setLastNameError("");
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (formValues.firstName === "") {
@@ -90,7 +92,7 @@ const UpdateForm = () => {
     setConfirmationDialogOpen(true);
   };
 
-  const handleOnSave = () => {
+  const handleOnSave = async () => {
     setConfirmationDialogOpen(false);
     const studentProfile = {
       first_name: formValues.firstName,
@@ -98,10 +100,22 @@ const UpdateForm = () => {
       student_email: formValues.email,
       student_id: formValues.studentId,
       department: formValues.department,
-      profile_pic: ""
-    }
-    StudentService.updateStudent(studentProfile)
-    console.log("save");
+      profile_pic: "",
+    };
+    await StudentService.updateStudent(studentProfile)
+      .then((res) => {
+        Alert({
+          message: "Update profile succefully",
+          type: "success",
+        });
+      })
+      .catch((err) => {
+        Alert({
+          message: err.message,
+          type: "error",
+        });
+      });
+    handleOnGetProfile();
   };
 
   const handleOnCancel = () => {

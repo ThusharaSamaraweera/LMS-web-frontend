@@ -20,9 +20,9 @@ export default class StudentService {
       url: "/api/v1/student/update-details",
       body: profile
     }).then((res) => {
-      console.log(res)
+      
     }).catch((err) => {
-      console.log(err)
+      throw new Error("Profile updating failed")
     })
   }
 }
