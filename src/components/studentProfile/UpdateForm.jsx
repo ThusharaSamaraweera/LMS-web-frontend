@@ -12,32 +12,58 @@ import {
   Box,
   FormHelperText,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { StudentService } from "../../servers/student.server";
 
 const department = ["SE", "PS", "PE"];
 
 const UpdateForm = () => {
-  const userEmail = useSelector(state => state.authReducer.authUser.username)
-
-  const initialValues = {
+  const userEmail = useSelector((state) => state.authReducer.authUser.username);
+  const [initialValues, setInitialValues] = useState({
     firstName: "",
     lastName: "",
-    email: userEmail,
     studentId: "",
+    email: "",
     department: "",
-  };
+  });
   const [formValues, setFormValues] = useState(initialValues);
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [studentIdError, setStudentIdError] = useState("");
   const [isDepartmentError, setDepartmentError] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
-  const [isDisabled, setDisabled] = useState(false);
+  const [isDisabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    // get student details from backend
+    async function getProfile() {
+      await StudentService.getProfile().then((res) => {
+        console.log(res);
+        setInitialValues({
+          firstName: res.first_name ? res.first_name : "",
+          lastName: res.last_name ? res.last_name : "",
+          studentId: res.student_id ? res.student_id : "",
+          email: userEmail,
+          department: res.department ? res.department : "",
+        });
+      });
+    }
+    setDisabled(false)
+    getProfile();
+  }, []);
+
+  useEffect(() => {
+    setFormValues(initialValues);
+  }, [initialValues]);
 
   const handleReset = (e) => {
     setFormValues(initialValues);
+    setDepartmentError("");
+    setStudentIdError("");
+    setFirstNameError("");
+    setLastNameError("");
   };
 
   const handleSubmit = async (e) => {
@@ -52,6 +78,7 @@ const UpdateForm = () => {
     if (formValues.studentId === "") {
       setStudentIdError("Student id is required");
     }
+
     if (formValues.department === "") {
       setDepartmentError("Department is required");
     }
@@ -77,9 +104,14 @@ const UpdateForm = () => {
 
   const handleOnStudentIDChange = (e) => {
     const { value } = e.target;
-    if (value) {
+
+    const reg = /^[A-Z]{2,3}[/]201[0-9][/][0-9]{3,3}$/;
+    if (reg.test(value) === false) {
+      setStudentIdError("Student id is invaild");
+    } else {
       setStudentIdError("");
     }
+
     setFormValues({ ...formValues, studentId: value });
   };
 
@@ -92,7 +124,11 @@ const UpdateForm = () => {
   };
 
   const renderDepartment = department.map((department) => {
-    return <MenuItem key={department} value={department}>{department}</MenuItem>;
+    return (
+      <MenuItem key={department} value={department}>
+        {department}
+      </MenuItem>
+    );
   });
 
   return (
@@ -154,7 +190,7 @@ const UpdateForm = () => {
                   name="email"
                   placeholder="Enter email"
                   value={formValues.email}
-                  disabled={isDisabled}
+                  disabled={true}
                   variant="standard"
                   fullWidth
                 />
@@ -191,6 +227,7 @@ const UpdateForm = () => {
                     variant="standard"
                     placeholder="Enter department"
                     error={Boolean(isDepartmentError)}
+                    disabled={isDisabled}
                   >
                     {renderDepartment}
                   </Select>
@@ -200,10 +237,13 @@ const UpdateForm = () => {
                 </FormControl>
               </Grid>
 
-              <Grid xs={12} sm={12} item
+              <Grid
+                xs={12}
+                sm={12}
+                item
                 sx={{
                   display: "flex",
-                  justifyContent: "center"
+                  justifyContent: "center",
                 }}
               >
                 <Button
@@ -212,7 +252,7 @@ const UpdateForm = () => {
                   color="primary"
                   disabled={isDisabled}
                   sx={{
-                    marginX: 2
+                    marginX: 2,
                   }}
                 >
                   Submit
@@ -224,13 +264,12 @@ const UpdateForm = () => {
                   disabled={isDisabled}
                   onClick={handleReset}
                   sx={{
-                    marginX: 2
+                    marginX: 2,
                   }}
                 >
                   Reset
                 </Button>
               </Grid>
-
             </Grid>
           </form>
         </CardContent>
