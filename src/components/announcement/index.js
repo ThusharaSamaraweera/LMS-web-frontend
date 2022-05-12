@@ -1,11 +1,12 @@
 import React from 'react'
+import AnnouncementForm from './AnnouncementForm'
 
 const AnnouncementManagement = () => {
   return (
     <div>
-      announcement
+     <AnnouncementForm/>
     </div>
-  )
+  );
 }
 
 export default AnnouncementManagement
