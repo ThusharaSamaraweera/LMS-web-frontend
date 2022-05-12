@@ -10,19 +10,32 @@ export default class StudentService {
         return res.data;
       })
       .catch((err) => {
-        throw new Error("Failed to get student profile")
+        throw new Error("Failed to get student profile");
       });
   }
 
-  static async updateStudent(profile){
+  static async updateStudent(profile) {
     return await restClient({
       method: HTTPS_METHODS.POST,
       url: "/api/v1/student/update-details",
-      body: profile
-    }).then((res) => {
-      
-    }).catch((err) => {
-      throw new Error("Profile updating failed")
+      body: profile,
     })
+      .then((res) => {})
+      .catch((err) => {
+        throw new Error("Profile updating failed");
+      });
+  }
+
+  static async getEnrollCourses() {
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: "/api/v1/Courses/enrolledCourses",
+    })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }

@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 const Faculty = () => {
   const { title } = useParams();
   const courses = useSelector((state) => state.courseReducer.courses);
-  console.log(courses);
 
   const getDegreesForDepartment = (department) => {
     return courses.filter(
@@ -34,7 +33,6 @@ const Faculty = () => {
     },
   ];
 
-  console.log(departments)
   const renderItem = departments.map((item) => {
     return (
       <Accordion
