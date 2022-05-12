@@ -8,29 +8,33 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-const departments = [
-  {
-    title: "SE",
-    academyYears: [
-      "2018-2019",
-      "2019-2020",
-    ]
-  },
-  {
-    title: "Software Engineering Teaching Unit",
-    academyYears: [
-      "2019-2020",
-    ]
-  }
-];
-
-
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useSelector } from "react-redux";
 
 const Faculty = () => {
   const { title } = useParams();
+  const courses = useSelector((state) => state.courseReducer.courses);
+  console.log(courses);
 
+  const getDegreesForDepartment = (department) => {
+    return courses.filter(
+      (course) =>
+        course.department_name.toLowerCase() === department.toLowerCase() &&
+        course.faculty_name.toLowerCase() === title.toLowerCase()
+    );
+  };
+  const departments = [
+    {
+      title: "SE",
+      degrees: getDegreesForDepartment("SE"),
+    },
+    {
+      title: "Software Engineering Teaching Unit",
+      degrees: getDegreesForDepartment("Software Engineering Teaching Unit"),
+    },
+  ];
+
+  console.log(departments)
   const renderItem = departments.map((item) => {
     return (
       <Accordion
@@ -45,22 +49,20 @@ const Faculty = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
           sx={{
-            backgroundColor: '#ffdca8',
+            backgroundColor: "#ffdca8",
             border: 1,
           }}
         >
-          <Typography>{item.title}</Typography>
+          <Typography key={item.title}>{item.title}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-            {item.academyYears.map((year) => {
-              return (
-                <Typography>
-                  <Link to={`${year}`}>
-                    {year}
-                  </Link>
-                </Typography>
-              )
-            })}
+          {item.degrees.map((degree) => {
+            return (
+              <Typography key={degree.course_name}>
+                <Link to={`${degree.course_name}`}>{degree.course_name}</Link>
+              </Typography>
+            );
+          })}
         </AccordionDetails>
       </Accordion>
     );
@@ -74,7 +76,9 @@ const Faculty = () => {
         sx={{
           marginY: 2,
         }}
-      >{renderItem}</Box>
+      >
+        {renderItem}
+      </Box>
     </Container>
   );
 };
