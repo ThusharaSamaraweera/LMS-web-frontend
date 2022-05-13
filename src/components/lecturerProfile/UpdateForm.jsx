@@ -16,6 +16,7 @@ import {
   import { useState} from "react";
   import { useSelector } from "react-redux";
   import LecturerService from "../../servers/lecturer.service";
+  import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
   
   
   const department = ["SE", "PS", "PE"];
@@ -35,7 +36,7 @@ import {
     const [firstNameError, setFirstNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
     const [departmentError, setDepartmentError] = useState("");
-    const [isSubmit, setIsSubmit] = useState(false);
+    const [isConfirmatinDislogOpen, setConfirmationDialogOpen] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
     
 
@@ -83,9 +84,17 @@ import {
       if (firstNameError || lastNameError || departmentError) {
         return;
       }
-  
+      setConfirmationDialogOpen(true);
       
     };
+
+    const handleOnSave = async () =>{
+
+    }
+
+    const handleOnCancel = async () =>{
+
+    }
 
     
   
@@ -126,6 +135,13 @@ import {
   
     return (
     <>
+      {isConfirmatinDislogOpen && (
+        <ConfirmationDialog
+          title={"Want to save changes ?"}
+          handleOnAccept={handleOnSave}
+          handleOnCancel={handleOnCancel}
+        />
+      )}
       <Box>
         <Typography
           fontWeight="fontWeightBold"
