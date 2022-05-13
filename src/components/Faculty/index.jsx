@@ -12,19 +12,21 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const departments = [
   {
-    title: "department of Chemistry",
+    title: "SE",
     academyYears: [
       "2018-2019",
       "2019-2020",
     ]
   },
   {
-    title: "software Engineering Teaching Unit",
+    title: "Software Engineering Teaching Unit",
     academyYears: [
       "2019-2020",
     ]
   }
 ];
+
+
 
 const Faculty = () => {
   const { title } = useParams();
