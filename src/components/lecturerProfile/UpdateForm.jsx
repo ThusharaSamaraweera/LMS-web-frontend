@@ -22,12 +22,13 @@ import {
   
     const userEmail = useSelector(state=>state.authReducer.authUser.username)
   
-    const initialValues = {
+    const [initialValues,setInitialValues] = useState({
       firstName: "",
       lastName: "",
       email: userEmail,
       department: "",
-    };
+    });
+
     const [formValues, setFormValues] = useState(initialValues);
     const [firstNameError, setFirstNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
@@ -63,6 +64,8 @@ import {
       const { value } = e.target;
       if (value) {
         setFirstNameError("");
+      }else {
+        setFirstNameError("Firstname is required");
       }
       setFormValues({ ...formValues, firstName: value });
     };
@@ -71,6 +74,8 @@ import {
       const { value } = e.target;
       if (value) {
         setLastNameError("");
+      }else {
+        setLastNameError("Lastname is required");
       }
       setFormValues({ ...formValues, lastName: value });
     };
@@ -80,6 +85,8 @@ import {
       const { value } = e.target;
       if (value) {
         setDepartmentError("");
+      }else {
+        setDepartmentError("Department is required");
       }
       setFormValues({ ...formValues, department: value });
     };
