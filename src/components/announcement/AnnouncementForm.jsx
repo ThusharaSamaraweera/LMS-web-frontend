@@ -1,8 +1,9 @@
 import React from "react";
 import { Button, Col, Form, Input, Row, Select, DatePicker } from "antd";
 import { Box, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 
-const cource = [
+const course = [
     "SENG11213",
     "SENG12213",
     "SENG12223",
@@ -16,6 +17,7 @@ const AnnouncementForm = () => {
     const [form] = Form.useForm();
     const { Option } = Select;
 
+
     const HandleOnSubmit = async (values) => {
 
     };
@@ -25,10 +27,10 @@ const AnnouncementForm = () => {
         form.resetFields();
     };
 
-    const courceOptions = cource.map((cource) => {
+    const courseOptions = course.map((course) => {
         return (
-            <Option value={cource} key={cource}>
-                {cource}
+            <Option value={course} key={course}>
+                {course}
             </Option>
         );
     });
@@ -94,7 +96,7 @@ const AnnouncementForm = () => {
                             rules={[{ required: true, message: "Please select course!" }]}
                         >
                             <Select placeholder="Select cource" showSearch>
-                                {courceOptions}
+                                {courseOptions}
                             </Select>
                         </Form.Item>
 
@@ -102,14 +104,6 @@ const AnnouncementForm = () => {
                     </Col>
 
                     <Col xs={{ span: 24 }} lg={{ span: 11, offset: 1 }}>
-
-                        <Form.Item
-                            name="date"
-                            label="Date"
-                            rules={[{ required: true, message: "Please select date!" }]}
-                        >
-                            <DatePicker />
-                        </Form.Item>
 
                         <Form.Item
                             name="title"
@@ -127,7 +121,7 @@ const AnnouncementForm = () => {
                             className="body-label"
                             rules={[{ required: true, message: "Please enter message!" }]}
                         >
-                            <Input.TextArea allowClear showCount maxLength={10000} />
+                            <Input.TextArea allowClear showCount maxLength={10000} rows={10}/>
                         </Form.Item>
 
 
@@ -145,6 +139,7 @@ const AnnouncementForm = () => {
                                 Reset
                             </Button>
                         </Form.Item>
+   
                     </Col>
                 </Row>
 
