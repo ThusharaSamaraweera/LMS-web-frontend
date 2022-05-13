@@ -17,6 +17,7 @@ import {
   import { useSelector } from "react-redux";
   import LecturerService from "../../servers/lecturer.service";
   import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
+  import Alert from "../utilsComponents/Alert";
   
   
   const department = ["SE", "PS", "PE"];
@@ -36,7 +37,7 @@ import {
     const [firstNameError, setFirstNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
     const [departmentError, setDepartmentError] = useState("");
-    const [isConfirmatinDislogOpen, setConfirmationDialogOpen] = useState(false);
+    const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
     
 
@@ -89,11 +90,33 @@ import {
     };
 
     const handleOnSave = async () =>{
+      setConfirmationDialogOpen(false);
+    const lecturerProfile = {
+      first_name: formValues.firstName,
+      last_name: formValues.lastName,
+      lecturer_email: formValues.email,
+      department: formValues.department,
+      profile_pic: "",
+    };
+    await LecturerService.updateLecturer(lecturerProfile)
+      .then((res) => {
+        Alert({
+          message: "Update profile succefully",
+          type: "success",
+        });
+        handleOnGetProfile();
+      })
+      .catch((err) => {
+        Alert({
+          message: err.message,
+          type: "error",
+        });
+      });
 
     }
 
     const handleOnCancel = async () =>{
-
+      setConfirmationDialogOpen(false);
     }
 
     
@@ -135,7 +158,7 @@ import {
   
     return (
     <>
-      {isConfirmatinDislogOpen && (
+      {isConfirmationDialogOpen && (
         <ConfirmationDialog
           title={"Want to save changes ?"}
           handleOnAccept={handleOnSave}
