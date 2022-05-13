@@ -17,7 +17,7 @@ const AnnouncementForm = () => {
     const { Option } = Select;
 
     const HandleOnSubmit = async (values) => {
-        
+
     };
 
     const handleOnResetClick = (e) => {
@@ -81,7 +81,10 @@ const AnnouncementForm = () => {
                             hasFeedback
                             rules={[{ required: true, message: "Please enter academic year!" }]}
                         >
-                            <Input placeholder="Enter Academic Year" />
+                            <Select placeholder="Select Academic Year">
+                                <Option value="1">2018/2019</Option>
+                                <Option value="2">2019/2020</Option>
+                            </Select>
                         </Form.Item>
 
                         <Form.Item
@@ -91,7 +94,7 @@ const AnnouncementForm = () => {
                             rules={[{ required: true, message: "Please select course!" }]}
                         >
                             <Select placeholder="Select cource" showSearch>
-                               {courceOptions}
+                                {courceOptions}
                             </Select>
                         </Form.Item>
 
@@ -100,11 +103,11 @@ const AnnouncementForm = () => {
 
                     <Col xs={{ span: 24 }} lg={{ span: 11, offset: 1 }}>
 
-                        <Form.Item 
-                            name="date" 
-                            label="Date" 
+                        <Form.Item
+                            name="date"
+                            label="Date"
                             rules={[{ required: true, message: "Please select date!" }]}
-                            >
+                        >
                             <DatePicker />
                         </Form.Item>
 
