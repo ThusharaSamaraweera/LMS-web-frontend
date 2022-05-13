@@ -40,4 +40,18 @@ export default class lecturerServices {
       throw new Error("Editing grades failed")
     })
   }
+
+  static async getProfile() {
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: "/api/v1/lecturer/profile",
+    })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        throw new Error("Failed to get lecturer profile")
+      });
+  }
+
 }
