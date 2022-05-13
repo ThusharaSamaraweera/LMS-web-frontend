@@ -32,7 +32,7 @@ export default class StudentService {
       url: "/api/v1/Courses/enrolledCourses",
     })
       .then((res) => {
-        return res.data;
+        return res;
       })
       .catch((err) => {
         console.log(err);

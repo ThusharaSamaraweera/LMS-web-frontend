@@ -28,10 +28,6 @@ const unitsAndCetres = [
 const More = () => {
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(getAllCourse())  
-  }, [])
-
   const renderFaculties = faculties.map( faculty => {
     return <Link to={`faculty/${faculty}`} key={faculty}>
       <Typography>{faculty}</Typography>

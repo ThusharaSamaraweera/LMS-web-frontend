@@ -4,6 +4,7 @@ import Dashboard from '../components/layout/Dashboard'
 import { useDispatch } from 'react-redux'
 import { getAllLecturerCourses } from '../store/actions/lecturerAction'
 import { getStudentEnrollCourses } from '../store/actions/studentAction'
+import { getAllCourse } from '../store/actions/courseAction'
 
 const UserApp = () => {
   const dispatch =  useDispatch()  
@@ -11,6 +12,7 @@ const UserApp = () => {
   useEffect(() => {
     dispatch(getAllLecturerCourses());
     dispatch(getStudentEnrollCourses())
+    dispatch(getAllCourse())  
   }, [])
   
   return (
