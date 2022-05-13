@@ -54,4 +54,16 @@ export default class lecturerServices {
       });
   }
 
+  static async updateLecturer(profile){
+    return await restClient({
+      method: HTTPS_METHODS.POST,
+      url: "/api/v1/lecturer/update-profile",
+      body: profile
+    }).then((res) => {
+      
+    }).catch((err) => {
+      throw new Error("Profile updating failed")
+    })
+  }
+
 }
