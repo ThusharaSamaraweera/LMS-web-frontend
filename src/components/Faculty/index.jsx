@@ -42,19 +42,21 @@ const Faculty = () => {
         }}
         key={item.title}
       >
-        <AccordionSummary
-          // expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          sx={{
-            backgroundColor: "#ffdca8",
-            border: 1,
-          }}
-        >
-          <Typography key={item.title}>
-            <Link to={`${item.title}`}>{item.title}</Link>          
-          </Typography>
-        </AccordionSummary>
+        <Link to={`${item.title}`}>
+          <AccordionSummary
+            // expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            sx={{
+              backgroundColor: "#ffdca8",
+              border: 1,
+            }}
+          >
+            <Typography key={item.title}>
+              {item.title}
+            </Typography>
+          </AccordionSummary>
+        </Link>          
         {/* <AccordionDetails>
           {item.degrees.map((degree) => {
             return (

@@ -8,7 +8,18 @@ export default class CourseService {
     }).then((res) => {
       return res
     }).catch((err) => {
-      console.log(err)
+      throw new Error("Fetch all course failed")
+    })
+  }
+
+  static async getAllDepartment(){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: "/api/v1/public/faculty"
+    }).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      throw new Error("fetch all department failed")
     })
   }
 }

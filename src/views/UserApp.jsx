@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { getAllLecturerCourses } from '../store/actions/lecturerAction'
 import { getStudentEnrollCourses } from '../store/actions/studentAction'
 import { getAllCourse } from '../store/actions/courseAction'
+import CourseService from '../servers/course.service'
 
 const UserApp = () => {
   const dispatch =  useDispatch()  
@@ -13,6 +14,7 @@ const UserApp = () => {
     dispatch(getAllLecturerCourses());
     dispatch(getStudentEnrollCourses())
     dispatch(getAllCourse())  
+    CourseService.getAllDepartment()
   }, [])
   
   return (
