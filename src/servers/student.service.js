@@ -1,6 +1,6 @@
 import { HTTPS_METHODS, restClient } from "../utils/restClient";
 
-export class StudentService {
+export default class StudentService {
   static async getProfile() {
     return await restClient({
       method: HTTPS_METHODS.GET,
@@ -12,5 +12,17 @@ export class StudentService {
       .catch((err) => {
         throw new Error("Failed to get student profile")
       });
+  }
+
+  static async updateStudent(profile){
+    return await restClient({
+      method: HTTPS_METHODS.POST,
+      url: "/api/v1/student/update-details",
+      body: profile
+    }).then((res) => {
+      
+    }).catch((err) => {
+      throw new Error("Profile updating failed")
+    })
   }
 }
