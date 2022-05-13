@@ -43,7 +43,7 @@ const Faculty = () => {
         key={item.title}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          // expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
           sx={{
@@ -51,17 +51,19 @@ const Faculty = () => {
             border: 1,
           }}
         >
-          <Typography key={item.title}>{item.title}</Typography>
+          <Typography key={item.title}>
+            <Link to={`${item.title}`}>{item.title}</Link>          
+          </Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        {/* <AccordionDetails>
           {item.degrees.map((degree) => {
             return (
               <Typography key={degree.course_name}>
-                <Link to={`${degree.course_name}`}>{degree.course_name}</Link>
+                <Link to={`${degree.title}`}>{degree.course_name}</Link>
               </Typography>
             );
           })}
-        </AccordionDetails>
+        </AccordionDetails> */}
       </Accordion>
     );
   });

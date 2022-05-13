@@ -108,6 +108,7 @@ const UpdateForm = () => {
           message: "Update profile succefully",
           type: "success",
         });
+        handleOnGetProfile();
       })
       .catch((err) => {
         Alert({
@@ -115,7 +116,6 @@ const UpdateForm = () => {
           type: "error",
         });
       });
-    handleOnGetProfile();
   };
 
   const handleOnCancel = () => {
