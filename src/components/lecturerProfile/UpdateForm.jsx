@@ -12,9 +12,11 @@ import {
     Box,
     FormHelperText,
   } from "@mui/material";
-  import React from "react";
+  import React ,{useEffect}from "react";
   import { useState} from "react";
   import { useSelector } from "react-redux";
+  import LecturerService from "../../servers/lecturer.service";
+  
   
   const department = ["SE", "PS", "PE"];
   
@@ -32,9 +34,31 @@ import {
     const [formValues, setFormValues] = useState(initialValues);
     const [firstNameError, setFirstNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
-    const [isDepartmentError, setDepartmentError] = useState("");
+    const [departmentError, setDepartmentError] = useState("");
     const [isSubmit, setIsSubmit] = useState(false);
     const [isDisabled, setDisabled] = useState(false);
+    
+
+    const handleOnGetProfile = async () => {
+      // get lecturer details from backend
+      await LecturerService.getProfile().then((res) => {
+        setInitialValues({
+          firstName: res.first_name ? res.first_name : "",
+          lastName: res.last_name ? res.last_name : "",
+          email: userEmail,
+          department: res.department ? res.department : "",
+        });
+      });
+    };
+
+    useEffect(() => {
+      setDisabled(false);
+      handleOnGetProfile();
+    }, []);
+  
+    useEffect(() => {
+      setFormValues(initialValues);
+    }, [initialValues]);
   
     const handleReset = (e) => {
       setFormValues(initialValues);
@@ -56,9 +80,14 @@ import {
       if (formValues.department === "") {
         setDepartmentError("Department is required");
       }
+      if (firstNameError || lastNameError || departmentError) {
+        return;
+      }
   
-      setIsSubmit(true);
+      
     };
+
+    
   
     const handleOnFirstNameChange = (e) => {
       const { value } = e.target;
@@ -96,6 +125,7 @@ import {
     });
   
     return (
+    <>
       <Box>
         <Typography
           fontWeight="fontWeightBold"
@@ -172,12 +202,12 @@ import {
                       name="department"
                       onChange={handleOnDepartmentChange}
                       variant="standard"
-                      error={Boolean(isDepartmentError)}
+                      error={Boolean(departmentError)}
                     >
                       {renderDepartment}
                     </Select>
                     <FormHelperText id="department-error">
-                      {isDepartmentError && "Department is required"}
+                      {departmentError && "Department is required"}
                     </FormHelperText>
                   </FormControl>
                 </Grid>
@@ -218,6 +248,7 @@ import {
           </CardContent>
         </Card>
       </Box>
+    </>
     );
   };
   
