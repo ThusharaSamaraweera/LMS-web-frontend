@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 
 const Faculty = () => {
   const { title } = useParams();
-  const courses = useSelector((state) => state.courseReducer.courses);
   const departments = useSelector((state) => state.courseReducer.department)
 
   const departmentsForFaculty = departments.filter((department) => department.faculty.toLowerCase() === title.toLowerCase())

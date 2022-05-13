@@ -13,7 +13,7 @@ const routes = () => {
       <Routes>
         <Route index element={<More/>}/>
         <Route path='faculty/:title' element={<Faculty/>}/>
-        <Route path='faculty/:title/:year' element={<Courses/>}/>
+        <Route path='faculty/:title/:department' element={<Courses/>}/>
       </Routes>
     </Container>
   )
