@@ -26,4 +26,15 @@ export default class CourseService {
         throw new Error("fetch all department failed");
       });
   }
+
+  static async getCoursesInDepartment(department){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: `/api/v1/Courses/department_courses/${department}`
+    }).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      throw new Error("Fetch course in department failed")
+    })
+  }
 }

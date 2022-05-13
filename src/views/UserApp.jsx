@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { getAllLecturerCourses } from '../store/actions/lecturerAction'
 import { getStudentEnrollCourses } from '../store/actions/studentAction'
 import { getAllCourse, getAllDepartment } from '../store/actions/courseAction'
+import CourseService from '../servers/course.service'
 
 const UserApp = () => {
   const dispatch =  useDispatch()  

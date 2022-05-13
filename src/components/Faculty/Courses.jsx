@@ -1,5 +1,6 @@
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
-import { Collapse } from 'antd';
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Collapse } from "antd";
+import { useParams } from "react-router-dom";
 
 const { Panel } = Collapse;
 
@@ -15,32 +16,32 @@ const allCourses = [
   "SENG 11223 - Programming Concepts (2019/2020)",
 ];
 
-const renderCourses = allCourses.map((course) => {
-  return (
-    <Grid
-      container
-      sx={{
-        marginY: 1,
-      }}
-      key={course}
-    >
-      <Grid item xs={12} sm={9}>
-        <Typography>{course}</Typography>
-      </Grid>
-      <Grid item xs={12} sm={3}>
-        <Button
-          variant="outlined"
-          size="small"
-        >
-          Enroll me
-        </Button>
-      </Grid>
-    </Grid>
-  );
-});
 
+const Courses = () => {
+  const { department } = useParams();
+  
+  const renderCourses = allCourses.map((course) => {
+    
+    return (
+      <Grid
+        container
+        sx={{
+          marginY: 1,
+        }}
+        key={course}
+      >
+        <Grid item xs={12} sm={9}>
+          <Typography>{course}</Typography>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <Button variant="outlined" size="small">
+            Enroll me
+          </Button>
+        </Grid>
+      </Grid>
+    );
+  });
 
-const Courses = () => (
   <Collapse>
     <Panel header="Level 1" key="1">
       <Collapse>
@@ -61,6 +62,6 @@ const Courses = () => (
       <p>{text}</p>
     </Panel>
   </Collapse>
-);
+};
 
-export default Courses
+export default Courses;
