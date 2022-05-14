@@ -9,10 +9,9 @@ const Footer = () => {
         height: 50,
         bottom: 0,
         width: '100%',
-        zIndex: 100
+        zIndex: 100,
       }}
     >
-
     </Box>
   )
 }

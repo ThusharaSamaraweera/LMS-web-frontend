@@ -1,18 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Typography from "@mui/material/Typography";
 import CourseCard from "./CourseCard";
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { ROLES } from "../../constants/roles";
+import { Empty } from "antd";
 
 const CourseOverview = () => {
   const currentUserRole = useSelector(
     (state) => state.authReducer.authUser.role[0].roleName
   );
+
+  // courses those are being taught by  lecturer logged in
   const lecturerCourse = useSelector((state) => state.lecturerReducer.courses);
+
+  // courses those had been enrolled by the student logged in
   const studentCourse = useSelector(
     (state) => state.studentReducer.enrollCourses
   );
+
+  // all course in university
   const allCourses = useSelector((state) => state.courseReducer.courses);
 
   let courses = [];
@@ -43,7 +50,11 @@ const CourseOverview = () => {
       <Typography variant="h5" gutterBottom component="div">
         Course overview
       </Typography>
-      {renderLecturerCourses}
+      {courses.length > 0 ? (
+        renderLecturerCourses
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No courses" />
+      )}
     </Container>
   );
 };
