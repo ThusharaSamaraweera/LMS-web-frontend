@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
+import LecturerService from "../../services/lecturer.service";
+import Alert from "../utilsComponents/Alert";
 
 const AnnouncementForm = () => {
   const [form] = Form.useForm();
@@ -19,7 +21,13 @@ const AnnouncementForm = () => {
   const userEmail = useSelector((state) => state.authReducer.authUser.username);
 
   const HandleOnSubmit = async (values) => {
-    console.log(values)
+    try {
+      await LecturerService.addNewAnnouncement(values)
+      Alert({ message: "New announcement added successfully", type: "success"})
+      
+    } catch (error) {
+      Alert({ message: error.message, type: "error"})
+    } 
   };
 
   const handleOnResetClick = (e) => {
