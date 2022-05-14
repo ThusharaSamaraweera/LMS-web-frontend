@@ -90,7 +90,7 @@ const AnnouncementForm = () => {
 
           <Col xs={{ span: 24 }} lg={{ span: 11, offset: 1 }}>
             <Form.Item
-              name="course"
+              name="category"
               label="Course"
               hasFeedback
               rules={[{ required: true, message: "Please select course!" }]}
