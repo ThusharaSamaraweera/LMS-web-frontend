@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import CourseCard from "./CourseCard";
 import { Box, Container } from "@mui/material";
@@ -14,30 +14,27 @@ const CourseOverview = () => {
     (state) => state.studentReducer.enrollCourses
   );
   const allCourses = useSelector((state) => state.courseReducer.courses);
-  // console.log(studentCourse, allCourses);
+
   let courses = [];
-  // studentCourse.forEach((course) => {
-  //   courses.push(
-  //     allCourses.find(
-  //       (item) =>
-  //         item.course_id.toString().toLowerCase() ===
-  //         course.enrolled_course_id.toString().toLowerCase()
-  //     )
-  //   );
-  // });
-  // console.log(courses);
 
-  courses = studentCourse.filter((course, index) => {
-    return allCourses.includes
-  })
+  if (currentUserRole === ROLES.STUDENT) {
+    const course_ids = studentCourse.map((course) =>
+      course.enrolled_course_id.toLowerCase()
+    );
 
-  // if(currentUserRole === ROLES.STUDENT){
+    const getDetailsOfCourse = () => {
+      allCourses.forEach((detailCourse) => {
+        if (course_ids.includes(detailCourse.course_id.toLowerCase())) {
+          courses.push(detailCourse);
+        }
+      });
+    };
+    getDetailsOfCourse();
+  } else if (currentUserRole === ROLES.LECTURER) {
+    courses = courses.concat(lecturerCourse);
+  }
 
-  // }else if(currentUserRole === ROLES.LECTURER) {
-  //   courses = lecturerCourse
-  // }
-
-  const renderLecturerCourses = courses?.map((course, index) => {
+  const renderLecturerCourses = courses.map((course, index) => {
     return <CourseCard course={course} key={index} />;
   });
 

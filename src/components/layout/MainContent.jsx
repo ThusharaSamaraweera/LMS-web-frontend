@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import CourseOverview from '../courseOverview'
 import { Route, Routes, Outlet } from 'react-router-dom';
 import CourseManagement from '../courseManagement';
-import studentCourse from '../studentCourse';
 import { useSelector } from 'react-redux';
 import { ROLES } from '../../constants/roles';
 import LecturerCourse from '../lecturerCourse';
