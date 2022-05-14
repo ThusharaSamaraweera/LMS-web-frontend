@@ -15,7 +15,7 @@ import {
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { StudentService } from "../../servers/student.server";
+import { StudentService } from "../../services/student.service";
 
 const department = ["SE", "PS", "PE"];
 

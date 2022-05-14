@@ -11,7 +11,7 @@ const AnnouncementManagement = () => {
   }
   return (
     <Container>
-      <Typography variant="h5" >Make Announcement</Typography>
+      <Typography variant="h5" >Announcement</Typography>
       <Stack>      
         <Stack
           spacing={2}
