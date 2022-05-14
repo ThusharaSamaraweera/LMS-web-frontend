@@ -13,3 +13,8 @@
 .description-label .ant-form-item-label label{
     margin-left: 10px;
 }
+
+/* style disabled input field */
+.ant-input[disabled]{
+  color: black;
+}
