@@ -49,8 +49,12 @@ const Courses = () => {
             marginY: 1,
           }}
           key={course.course_id}
-        >
-          <Grid item xs={12} sm={9}>
+        > 
+         <Grid item xs={12} sm={3}>
+            <Typography>{course.course_id}</Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
             <Typography>{course.course_name}</Typography>
           </Grid>
           <Grid item xs={12} sm={3}>
