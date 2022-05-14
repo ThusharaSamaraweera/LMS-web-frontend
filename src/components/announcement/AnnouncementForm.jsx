@@ -24,7 +24,7 @@ const AnnouncementForm = () => {
 
   const handleOnResetClick = (e) => {
     e.preventDefault();
-    form.resetFields();
+    form.resetFields(["body","title","category","academic_year"]);
   };
 
   const courseOptions = courses.map((course) => {
