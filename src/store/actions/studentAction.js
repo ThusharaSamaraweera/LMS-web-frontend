@@ -1,5 +1,5 @@
 import * as actions from "../actionTypes/studentActionTypes";
-import StudentService from "../../servers/student.service";
+import StudentService from "../../services/student.service";
 
 export const getStudentEnrollCourses = () => async (dispatch) => {
   try {

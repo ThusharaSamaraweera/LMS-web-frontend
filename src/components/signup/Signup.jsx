@@ -18,7 +18,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Alert from "../utilsComponents/Alert";
 import { Link } from "react-router-dom";
-import authService from "../../servers/auth.service";
+import authService from "../../services/auth.service";
 
 const Signup = () => {
   const [universityEmail, setUniversityEmail] = useState("");

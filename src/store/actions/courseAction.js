@@ -1,5 +1,5 @@
 import * as actions from "../actionTypes/courseActionTypes";
-import CourseService from "../../servers/course.service";
+import CourseService from "../../services/course.service";
 
 export const getAllCourse = () => async (dispatch) => {
   try {

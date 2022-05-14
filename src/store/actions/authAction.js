@@ -1,5 +1,5 @@
 import * as ACTIONS from "../actionTypes/authActionTypes";
-import authService from "../../servers/auth.service";
+import authService from "../../services/auth.service";
 
 export const login =
   ({ username, password }) =>
