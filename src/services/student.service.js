@@ -49,4 +49,16 @@ export default class StudentService {
       throw new Error(`Fetching ${courseId} couse details failed`)
     })
   }
+
+  static async unenrollFromCourse(course){
+    return await restClient({
+      method: HTTPS_METHODS.DELETE,
+      url : "api/v1/student/unroll-from-subjects/",
+      body: course
+    }).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 }
