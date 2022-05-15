@@ -38,4 +38,15 @@ export default class StudentService {
         console.log(err);
       });
   }
+
+  static async getCourseDetails(courseId){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: `/api/v1/Courses/${courseId}`
+    }).then((res) => {
+      return res.data
+    }).catch((err) => {
+      throw new Error(`Fetching ${courseId} couse details failed`)
+    })
+  }
 }

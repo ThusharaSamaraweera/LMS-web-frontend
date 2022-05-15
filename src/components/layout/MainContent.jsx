@@ -59,7 +59,7 @@ const MainContent = (props) => {
         {
           currentUserRole === ROLES.STUDENT && (
             <>
-              <Route path="course/:course" element={<StudentCourse />} />
+              <Route path="course/:courseId" element={<StudentCourse />} />
               <Route path="grades" element={<Grades />} />
               <Route path='profile' element={<StudentProfile/>}/>
             </>
