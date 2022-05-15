@@ -39,26 +39,48 @@ export default class StudentService {
       });
   }
 
-  static async getCourseDetails(courseId){
+  static async getCourseDetails(courseId) {
     return await restClient({
       method: HTTPS_METHODS.GET,
-      url: `/api/v1/Courses/${courseId}`
-    }).then((res) => {
-      return res.data
-    }).catch((err) => {
-      throw new Error(`Fetching ${courseId} couse details failed`)
+      url: `/api/v1/Courses/${courseId}`,
     })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        throw new Error(`Fetching ${courseId} couse details failed`);
+      });
   }
 
-  static async unenrollFromCourse(course){
+  static async unenrollFromCourse(course) {
     return await restClient({
       method: HTTPS_METHODS.DELETE,
-      url : "api/v1/student/unroll-from-subjects/",
-      body: course
-    }).then((res) => {
-      console.log(res)
-    }).catch((err) => {
-      console.log(err)
+      url: "api/v1/student/unroll-from-subjects/",
+      body: course,
     })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        throw new Error(
+          `${course.enrolled_course_id} course enrollment failed`
+        );
+      });
+  }
+
+  static async enrollToCourse(course) {
+    return await restClient({
+      method: HTTPS_METHODS.POST,
+      url: "api/v1/student/enroll-subjects",
+      body: course,
+    })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        throw new Error(
+          `${course.enrolled_course_id} course enrollment failed`
+        );
+      });
   }
 }

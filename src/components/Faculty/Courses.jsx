@@ -1,10 +1,12 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { Collapse } from "antd";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Alert from "../utilsComponents/Alert";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import { useState } from "react";
+import StudentService from "../../services/student.service";
+import { getStudentEnrollCourses } from "../../store/actions/studentAction";
 
 const { Panel } = Collapse;
 
@@ -12,6 +14,9 @@ const Courses = () => {
   const { department } = useParams();
   const allCourses = useSelector((state) => state.courseReducer.courses);
   const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+  const userEmail = useSelector((state) => state.authReducer.authUser.username);
+  const [enrollingCourseId, setEnrollingCourseId] = useState("");
+  const dispatch = useDispatch()
 
   const categorizeCourses = (level, semester) => {
     return allCourses.filter(
@@ -25,9 +30,20 @@ const Courses = () => {
   const handleOnAccept = () => {
     console.log("accept");
     setConfirmationDialogOpen(false);
-    setTimeout(() => {
-      Alert({ message: "Enrolled", type: "success" });
-    }, 800);
+
+    const course = {
+      enrolled_course_id: enrollingCourseId,
+      student_email: userEmail,
+    };
+
+    StudentService.enrollToCourse(course)
+      .then((res) => {
+        Alert({ message: "Enrolled", type: "success" });
+        dispatch(getStudentEnrollCourses())
+      })
+      .catch((err) => {
+        Alert({ message: err.message, type: "error" });
+      });
   };
 
   const handleOnCancel = () => {
@@ -35,7 +51,8 @@ const Courses = () => {
     setConfirmationDialogOpen(false);
   };
 
-  const handleOnClickEnroll = () => {
+  const handleOnClickEnroll = (courseId) => {
+    setEnrollingCourseId(courseId);
     setConfirmationDialogOpen(true);
   };
 
@@ -49,8 +66,8 @@ const Courses = () => {
             marginY: 1,
           }}
           key={course.course_id}
-        > 
-         <Grid item xs={12} sm={3}>
+        >
+          <Grid item xs={12} sm={3}>
             <Typography>{course.course_id}</Typography>
           </Grid>
 
@@ -61,7 +78,7 @@ const Courses = () => {
             <Button
               variant="outlined"
               size="small"
-              onClick={handleOnClickEnroll}
+              onClick={() => handleOnClickEnroll(course.course_id)}
             >
               Enroll me
             </Button>
