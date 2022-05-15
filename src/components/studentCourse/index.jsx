@@ -2,6 +2,7 @@ import { Box, Container, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import StudentService from '../../services/student.service'
+import CourseNoteCard from '../CourseNoteCard';
 
 const StudentCourse = () => {
   const {courseId} = useParams();
@@ -37,6 +38,9 @@ const StudentCourse = () => {
 
       <Box>
         <Typography>{courseDescription}</Typography>
+      </Box>
+      <Box>
+        <CourseNoteCard/>
       </Box>
     </Container>
   )
