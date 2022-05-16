@@ -1,11 +1,10 @@
 import {
   Box,
   Button,
-  FormControl,
+  FormHelperText,
   IconButton,
   Input,
   InputAdornment,
-  InputLabel,
   MenuItem,
   Select,
   Stack,
@@ -19,6 +18,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Alert from "../utilsComponents/Alert";
 import { Link } from "react-router-dom";
 import authService from "../../services/auth.service";
+import { ROLES } from "../../constants/roles";
 
 const Signup = () => {
   const [universityEmail, setUniversityEmail] = useState("");
@@ -29,7 +29,14 @@ const Signup = () => {
   const [universityEmailError, setUniversityEmailError] = useState("");
   const [inputOtp, setInputOtp] = useState("");
   const [userType, setUserType] = useState("Student");
-  const [otp, setOtp] = useState()
+  const [otp, setOtp] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [studentIdError, setStudentIdError] = useState("");
 
   const handleOnUnversityEmailChanged = (email) => {
     setUniversityEmail(email);
@@ -39,8 +46,13 @@ const Signup = () => {
     setInputOtp(parseInt(otp));
   };
 
-  const handleOnPasswordChanged = (password) => {
-    setPassword(password);
+  const handleOnPasswordChanged = (inputPassword) => {
+    if (inputPassword) {
+      setPasswordError("");
+    } else {
+      setPasswordError("Password required");
+    }
+    setPassword(inputPassword);
   };
 
   const handleOnPasswordVisible = () => {
@@ -49,6 +61,19 @@ const Signup = () => {
 
   const handleOnSignClick = (e) => {
     e.preventDefault();
+
+    if (!firstName) {
+      setFirstNameError("First name is required");
+    }
+    if (!lastName) {
+      setLastNameError("Last name is required");
+    }
+    if (!studentId) {
+      setStudentIdError("Student is Id required");
+    }
+    if (!password) {
+      setPasswordError("Password is required");
+    }
   };
 
   const handleOnVerifyEmail = async (e) => {
@@ -56,22 +81,22 @@ const Signup = () => {
       setUniversityEmailError("required");
       return;
     }
-    await authService.getOtp(universityEmail)
+    await authService
+      .getOtp(universityEmail)
       .then((res) => {
-        console.log(res)
-        setOtp(res.otp)
+        console.log(res);
+        setOtp(res.otp);
         setEmailValid("pending");
         setEmailDisable(true);
         setUniversityEmailError("");
       })
       .catch((err) => {
-        console.log(err.message)
+        console.log(err.message);
         Alert({ message: err.message, type: "error" });
       });
   };
 
   const handleOnVerifyaOTP = () => {
-
     if (inputOtp === parseInt(otp)) {
       setEmailValid(true);
     } else {
@@ -90,8 +115,26 @@ const Signup = () => {
     setUniversityEmail("");
     setEmailDisable(false);
     setEmailValid(false);
-    setInputOtp("")
-    setOtp("")    
+    setInputOtp("");
+    setOtp("");
+  };
+
+  const handleOnFirstNameChange = (inputFirstName) => {
+    if (inputFirstName) {
+      setFirstNameError("");
+    } else {
+      setFirstNameError("First name required");
+    }
+    setFirstName(inputFirstName);
+  };
+
+  const handleOnLastNameChange = (inputLastName) => {
+    if (inputLastName) {
+      setLastNameError("");
+    } else {
+      setLastNameError("Last name required");
+    }
+    setLastName(inputLastName);
   };
 
   return (
@@ -134,38 +177,151 @@ const Signup = () => {
           </Typography>
 
           {isEmailValid === true && (
-            <Box
-              flexDirection="row"
-              sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
-            >
-              <Typography
-                variant="body1"
-                component="label"
-                sx={{
-                  paddingY: 1,
-                  width: "12rem",
-                  fontSize: {
-                    xs: "0.8rem",
-                    sm: "1rem",
-                  },
-                }}
+            <>
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
               >
-                User type
-              </Typography>
+                <Typography
+                  variant="body1"
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  User type
+                </Typography>
 
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={userType}
-                label="Age"
-                onChange={handleOnSelectUserType}
-                fullWidth
-                variant="standard"
+                <Select
+                  labelId="user-type-label"
+                  id="user-type"
+                  value={userType}
+                  label="Age"
+                  onChange={handleOnSelectUserType}
+                  fullWidth
+                  variant="standard"
+                >
+                  <MenuItem value={ROLES.STUDENT}>Student</MenuItem>
+                  <MenuItem value={ROLES.LECTURER}>Lecturer</MenuItem>
+                </Select>
+              </Box>
+
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
               >
-                <MenuItem value={"Student"}>Student</MenuItem>
-                <MenuItem value={"Lecturer"}>Lecturer</MenuItem>
-              </Select>
-            </Box>
+                <Typography
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  Student ID
+                </Typography>
+
+                <TextField
+                  id="studentId"
+                  type="text"
+                  value={studentId}
+                  onChange={(e) => handleOnFirstNameChange(e.target.value)}
+                  fullWidth={true}
+                  sx={{
+                    marginX: 0,
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                  variant="standard"
+                  helperText={studentIdError}
+                  error={Boolean(studentIdError)}
+                ></TextField>
+              </Box>
+
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+              >
+                <Typography
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  First name
+                </Typography>
+
+                <TextField
+                  id="firstName"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => handleOnFirstNameChange(e.target.value)}
+                  fullWidth={true}
+                  sx={{
+                    marginX: 0,
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                  variant="standard"
+                  helperText={firstNameError}
+                  error={Boolean(firstNameError)}
+                ></TextField>
+              </Box>
+
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+              >
+                <Typography
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  Last name
+                </Typography>
+
+                <TextField
+                  id="lastName"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => handleOnLastNameChange(e.target.value)}
+                  fullWidth={true}
+                  sx={{
+                    marginX: 0,
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                  variant="standard"
+                  helperText={lastNameError}
+                  error={Boolean(lastNameError)}
+                ></TextField>
+              </Box>
+            </>
           )}
 
           <Box
@@ -209,19 +365,19 @@ const Signup = () => {
           {isEmailValid === "pending" && (
             <>
               <Typography
-                  component="label"
-                  sx={{
-                    paddingY: 1,
-                    fontSize: {
-                      xs: "0.7rem",
-                      sm: "0.9rem",
-                    },
-                    color: 'red'
-                  }}
-                  textAlign="center"
-                >
-                  We sent otp to {universityEmail}
-                </Typography>
+                component="label"
+                sx={{
+                  paddingY: 1,
+                  fontSize: {
+                    xs: "0.7rem",
+                    sm: "0.9rem",
+                  },
+                  color: "red",
+                }}
+                textAlign="center"
+              >
+                We sent otp to {universityEmail}
+              </Typography>
               <Box
                 flexDirection="row"
                 sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
@@ -242,7 +398,7 @@ const Signup = () => {
                 <TextField
                   id="otp"
                   type="number"
-                  value={inputOtp}
+                  value={inputOtp.toString()}
                   onChange={(e) => handleOnOtpChange(e.target.value)}
                   fullWidth={true}
                   sx={{
@@ -320,7 +476,12 @@ const Signup = () => {
             <>
               <Box
                 flexDirection="row"
-                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginY: 1,
+                  marginX: 0,
+                }}
               >
                 <Typography
                   variant="body1"
@@ -336,6 +497,7 @@ const Signup = () => {
                 >
                   Password
                 </Typography>
+
                 <Input
                   id="standard-adornment-password"
                   type={isPasswordVisible ? "text" : "password"}
@@ -358,8 +520,17 @@ const Signup = () => {
                       sm: "1rem",
                     },
                   }}
+                  error={Boolean(passwordError)}
                 />
               </Box>
+              <FormHelperText
+                sx={{
+                  marginLeft: "11.3em",
+                  color: "red",
+                }}
+              >
+                {passwordError}
+              </FormHelperText>
 
               <Box
                 flexDirection="row"
@@ -392,6 +563,7 @@ const Signup = () => {
                     },
                   }}
                   onClick={(e) => handleOnCancelOtp(e)}
+                  size="small"
                 >
                   Cancel
                 </Button>
