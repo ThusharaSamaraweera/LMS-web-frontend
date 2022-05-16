@@ -16,7 +16,7 @@ const CourseOverview = () => {
 
   // courses those had been enrolled by the student logged in
   const studentCourse = useSelector(
-    (state) => state.studentReducer.enrollCourses
+    (state) => state.studentReducer.enrollCourseIds
   );
 
   // all course in university
@@ -37,6 +37,7 @@ const CourseOverview = () => {
       });
     };
     getDetailsOfCourse();
+    console.log(courses)
   } else if (currentUserRole === ROLES.LECTURER) {
     courses = courses.concat(lecturerCourse);
   }

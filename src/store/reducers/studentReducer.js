@@ -1,15 +1,16 @@
 import * as actions from "../actionTypes/studentActionTypes";
 
 const studentInitState = {
-  enrollCourses: [],
+  enrollCourseIds: [],
+  enrollcourses: []
 };
 
 export default function studentReducer(state = studentInitState, action) {
   switch (action.type) {
-    case actions.GET_STUDENT_ENROLL_COURSES:
+    case actions.GET_STUDENT_ENROLL_COURSE_IDS:
       return {
         ...state,
-        enrollCourses: action.payload,
+        enrollCourseIds: action.payload,
       };
     default:
       return state;

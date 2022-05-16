@@ -6,7 +6,7 @@ import Alert from "../utilsComponents/Alert";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import { useState } from "react";
 import StudentService from "../../services/student.service";
-import { getStudentEnrollCourses } from "../../store/actions/studentAction";
+import { getStudentEnrollCourseIds } from "../../store/actions/studentAction";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 const { Panel } = Collapse;
@@ -19,7 +19,7 @@ const Courses = () => {
   const userEmail = useSelector((state) => state.authReducer.authUser.username);
   const [enrollingCourseId, setEnrollingCourseId] = useState("");
   const enrollledCourses = useSelector(
-    (state) => state.studentReducer.enrollCourses
+    (state) => state.studentReducer.enrollCourseIds
   );
   const enrolledCourseIds = enrollledCourses.map(
     (course) => course.enrolled_course_id
@@ -47,7 +47,7 @@ const Courses = () => {
     StudentService.enrollToCourse(course)
       .then((res) => {
         Alert({ message: "Enrolled", type: "success" });
-        dispatch(getStudentEnrollCourses());
+        dispatch(getStudentEnrollCourseIds());
       })
       .catch((err) => {
         Alert({ message: err.message, type: "error" });
