@@ -13,3 +13,12 @@
 .description-label .ant-form-item-label label{
     margin-left: 10px;
 }
+
+.img-div{
+  display: flex !important;
+  justify-content: center;
+}
+
+.home-carousel-image {
+  object-fit: cover
+}

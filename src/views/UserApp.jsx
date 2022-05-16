@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { getAllLecturerCourses } from '../store/actions/lecturerAction'
 import { getStudentEnrollCourses } from '../store/actions/studentAction'
 import { getAllCourse, getAllDepartment } from '../store/actions/courseAction'
-import CourseService from '../services/course.service'
+import Home from '../components/home'
 
 const UserApp = () => {
   const dispatch =  useDispatch()  
@@ -22,6 +22,7 @@ const UserApp = () => {
       <Routes>
         <Route path='/dashboard/*' element={<Dashboard/>} />
         <Route path='*' element={<Navigate to='/dashboard' replace/>} />
+        <Route exact path="/" element={<Home/>} />
       </Routes>
     </div>
   )
