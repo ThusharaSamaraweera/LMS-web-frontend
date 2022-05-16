@@ -16,9 +16,10 @@ import Appbar from "../home/Appbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Alert from "../utilsComponents/Alert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
 import { ROLES } from "../../constants/roles";
+import Footer from "../home/Footer";
 
 const Signup = () => {
   const [universityEmail, setUniversityEmail] = useState("");
@@ -37,6 +38,7 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState("");
   const [studentId, setStudentId] = useState("");
   const [studentIdError, setStudentIdError] = useState("");
+  const navigate = useNavigate()
 
   const handleOnUnversityEmailChanged = (email) => {
     setUniversityEmail(email);
@@ -59,7 +61,7 @@ const Signup = () => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  const handleOnSignClick = (e) => {
+  const handleOnSignClick = async (e) => {
     e.preventDefault();
 
     if (!firstName) {
@@ -74,6 +76,31 @@ const Signup = () => {
     if (!password) {
       setPasswordError("Password is required");
     }
+
+    const user = {
+      email: universityEmail,
+      role: userType,
+      firstName: firstName,
+      lastName: lastName,
+      id: studentId,
+      password: password,
+    };
+
+    await authService
+      .signup(user)
+      .then((res) => {
+        Alert({
+          message: "Signup successfully",
+          type: "success",
+        });
+        navigate("/login")
+      })
+      .catch((err) => {
+        Alert({
+          message: err.message,
+          type: "error",
+        });
+      });
   };
 
   const handleOnVerifyEmail = async (e) => {
@@ -137,6 +164,15 @@ const Signup = () => {
     setLastName(inputLastName);
   };
 
+  const handleOnStudentIdChange = (inputId) => {
+    if (inputId) {
+      setStudentIdError("");
+    } else {
+      setStudentIdError("Student id is required");
+    }
+    setStudentId(inputId);
+  };
+
   return (
     <>
       <Appbar />
@@ -145,8 +181,10 @@ const Signup = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginTop: 2,
-          marginX: 3,
+          marginY: 2,
+          marginTop: 12,
+          marginBottom: 3,
+          minHeight: "95vh",
         }}
       >
         <Stack
@@ -211,42 +249,44 @@ const Signup = () => {
                 </Select>
               </Box>
 
-              <Box
-                flexDirection="row"
-                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
-              >
-                <Typography
-                  component="label"
-                  sx={{
-                    paddingY: 1,
-                    width: "12rem",
-                    fontSize: {
-                      xs: "0.8rem",
-                      sm: "1rem",
-                    },
-                  }}
+              {userType === ROLES.STUDENT && (
+                <Box
+                  flexDirection="row"
+                  sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
                 >
-                  Student ID
-                </Typography>
+                  <Typography
+                    component="label"
+                    sx={{
+                      paddingY: 1,
+                      width: "12rem",
+                      fontSize: {
+                        xs: "0.8rem",
+                        sm: "1rem",
+                      },
+                    }}
+                  >
+                    Student ID
+                  </Typography>
 
-                <TextField
-                  id="studentId"
-                  type="text"
-                  value={studentId}
-                  onChange={(e) => handleOnFirstNameChange(e.target.value)}
-                  fullWidth={true}
-                  sx={{
-                    marginX: 0,
-                    fontSize: {
-                      xs: "0.8rem",
-                      sm: "1rem",
-                    },
-                  }}
-                  variant="standard"
-                  helperText={studentIdError}
-                  error={Boolean(studentIdError)}
-                ></TextField>
-              </Box>
+                  <TextField
+                    id="studentId"
+                    type="text"
+                    value={studentId}
+                    onChange={(e) => handleOnStudentIdChange(e.target.value)}
+                    fullWidth={true}
+                    sx={{
+                      marginX: 0,
+                      fontSize: {
+                        xs: "0.8rem",
+                        sm: "1rem",
+                      },
+                    }}
+                    variant="standard"
+                    helperText={studentIdError}
+                    error={Boolean(studentIdError)}
+                  ></TextField>
+                </Box>
+              )}
 
               <Box
                 flexDirection="row"
@@ -547,6 +587,7 @@ const Signup = () => {
                       sm: "1rem",
                     },
                   }}
+                  size="small"
                   onClick={(e) => handleOnSignClick(e)}
                 >
                   Signup
@@ -573,6 +614,7 @@ const Signup = () => {
           <Link to="/login">Have a account ?</Link>
         </Stack>
       </Box>
+      <Footer />
     </>
   );
 };

@@ -18,6 +18,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/authAction";
 import Alert from "../utilsComponents/Alert";
+import Footer from "../home/Footer";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -63,7 +64,8 @@ const Login = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          height: "80vh",
+          minHeight: "95vh",
+          marginTop: 3,
         }}
       >
         <Stack
@@ -148,6 +150,7 @@ const Login = () => {
           <Link to={"/signup"}>Do you haven't account?</Link>
         </Stack>
       </Box>
+      <Footer/>
     </>
   );
 };
