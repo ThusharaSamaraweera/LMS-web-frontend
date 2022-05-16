@@ -7,17 +7,24 @@ import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import { useState } from "react";
 import StudentService from "../../services/student.service";
 import { getStudentEnrollCourses } from "../../store/actions/studentAction";
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 const { Panel } = Collapse;
 
 const Courses = () => {
   const { department } = useParams();
+  const dispatch = useDispatch();
   const allCourses = useSelector((state) => state.courseReducer.courses);
   const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const userEmail = useSelector((state) => state.authReducer.authUser.username);
   const [enrollingCourseId, setEnrollingCourseId] = useState("");
-  const dispatch = useDispatch()
+  const enrollledCourses = useSelector(
+    (state) => state.studentReducer.enrollCourses
+  );
+  const enrolledCourseIds = enrollledCourses.map(
+    (course) => course.enrolled_course_id
+  );
+  console.log(enrolledCourseIds);
 
   const categorizeCourses = (level, semester) => {
     return allCourses.filter(
@@ -37,10 +44,11 @@ const Courses = () => {
       student_email: userEmail,
     };
 
+    // enroll to course
     StudentService.enrollToCourse(course)
       .then((res) => {
         Alert({ message: "Enrolled", type: "success" });
-        dispatch(getStudentEnrollCourses())
+        dispatch(getStudentEnrollCourses());
       })
       .catch((err) => {
         Alert({ message: err.message, type: "error" });
@@ -59,7 +67,12 @@ const Courses = () => {
 
   const renderCourses = (level, semester) => {
     const categorizedCourses = categorizeCourses(level, semester);
+    let enrolled = null;
+
     return categorizedCourses.map((course) => {
+      // check whether the student has been enrolled or not in this course
+      enrolled = enrolledCourseIds.includes(course.course_id);
+
       return (
         <Grid
           container
@@ -76,14 +89,18 @@ const Courses = () => {
             <Typography>{course.course_name}</Typography>
           </Grid>
           <Grid item xs={12} sm={3}>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={() => handleOnClickEnroll(course.course_id)}
-              startIcon={<ArrowCircleRightIcon/>}
-            >
-              Enroll me
-            </Button>
+            {enrolled ? (
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => handleOnClickEnroll(course.course_id)}
+                startIcon={<ArrowCircleRightIcon />}
+              >
+                Enroll me
+              </Button>
+            ) : (
+              <Typography color={"brown"}>ENROLLED</Typography>
+            )}
           </Grid>
         </Grid>
       );
@@ -94,7 +111,7 @@ const Courses = () => {
     <>
       {isConfirmationDialogOpen && (
         <ConfirmationDialog
-          title={"Do you want to enroll?"}
+          title={`Do you want to enroll to ${enrollingCourseId}?`}
           handleOnAccept={handleOnAccept}
           handleOnCancel={handleOnCancel}
         />
