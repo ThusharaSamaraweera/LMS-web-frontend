@@ -1,6 +1,7 @@
 import { HTTPS_METHODS, restClient } from "../utils/restClient";
 
 export default class StudentService {
+
   static async getProfile() {
     return await restClient({
       method: HTTPS_METHODS.GET,

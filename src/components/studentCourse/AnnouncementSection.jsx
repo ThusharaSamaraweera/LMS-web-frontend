@@ -15,9 +15,7 @@ const AnnouncementSection = () => {
     >
       <Typography>Announcements</Typography>
       <Stack>
-        <box>
-          
-        </box>
+        {/* annoucements goes here */ }
       </Stack>
     </Box>
   )

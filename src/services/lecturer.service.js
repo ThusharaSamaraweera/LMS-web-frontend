@@ -41,6 +41,18 @@ export default class lecturerServices {
     })
   }
 
+  static async addNewAnnouncement(newAnnouncement){
+    return await restClient({
+      method: HTTPS_METHODS.POST,
+      url: "/lec/create_announcement/",
+      body: newAnnouncement
+    }).then((res) => {
+      return res
+    }).catch((err) => {
+      throw new Error("Adding new announcement failed")
+    })
+  }
+
   static async getProfile() {
     return await restClient({
       method: HTTPS_METHODS.GET,
@@ -65,5 +77,4 @@ export default class lecturerServices {
       throw new Error("Profile updating failed")
     })
   }
-
 }
