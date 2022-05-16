@@ -34,6 +34,7 @@ const ConfirmationDialog = ({ title, body, handleOnAccept, handleOnCancel }) => 
       keepMounted
       onClose={onCancel}
       aria-describedby="alert-dialog-slide-description"
+      
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>

@@ -17,4 +17,12 @@
 /* style disabled input field */
 .ant-input[disabled]{
   color: black;
+
+.img-div{
+  display: flex !important;
+  justify-content: center;
+}
+
+.home-carousel-image {
+  object-fit: cover
 }
