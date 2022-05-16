@@ -7,6 +7,7 @@ import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import { useState } from "react";
 import StudentService from "../../services/student.service";
 import { getStudentEnrollCourses } from "../../store/actions/studentAction";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 const { Panel } = Collapse;
 
@@ -79,6 +80,7 @@ const Courses = () => {
               variant="outlined"
               size="small"
               onClick={() => handleOnClickEnroll(course.course_id)}
+              startIcon={<ArrowCircleRightIcon/>}
             >
               Enroll me
             </Button>

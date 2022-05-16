@@ -33,6 +33,9 @@ const CourseNoteCard = () => {
         sx={{
           padding: 0.8,
           marginY: 1,
+          "&:hover": {
+            boxShadow: '10px 10px #d6d6d6'
+          },
         }}
       >
         <Grid container spacing={2}>

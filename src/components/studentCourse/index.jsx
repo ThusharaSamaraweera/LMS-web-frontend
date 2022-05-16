@@ -7,23 +7,24 @@ import Alert from "../utilsComponents/Alert";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudentEnrollCourses } from "../../store/actions/studentAction";
+import AnnouncementSection from "./AnnouncementSection";
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const StudentCourse = () => {
   const userEmail = useSelector((state) => state.authReducer.authUser.username);
   const { courseId } = useParams();
-  const [courseName, setCourseName] = useState("");
-  const [lecturer, setLecturerName] = useState("");
-  const [courseDescription, setCourseDescription] = useState("");
-  const [isUnenrollConfirmationDialogOpen, setUnerollConfirmationDialogOpen] =
-    useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [isUnenrollConfirmationDialogOpen, setUnerollConfirmationDialogOpen] =
+    useState("");
+  const [isAnnoucementSectionOpen, setAnnouncementOpen] = useState(false);
+  const [courseDetails, setCourseDetails] = useState({})
+
   const fetchCourseDetail = async () => {
     await StudentService.getCourseDetails(courseId).then((res) => {
-      setCourseName(res.course_name);
-      setLecturerName(res.lecturer);
-      setCourseDescription(res.course_description);
+      setCourseDetails(res)
     });
   };
 
@@ -64,6 +65,10 @@ const StudentCourse = () => {
     setUnerollConfirmationDialogOpen(false);
   };
 
+  const handleOnToggleAnnoucementBtn = () => {
+    setAnnouncementOpen(!isAnnoucementSectionOpen);
+  };
+
   return (
     <Container>
       {isUnenrollConfirmationDialogOpen && (
@@ -79,23 +84,54 @@ const StudentCourse = () => {
           marginY: 2,
         }}
       >
-        <Grid item xs={12} sm={10}>
+        <Grid item xs={12} sm={8}>
           <Box>
-            <Typography>Course code : {courseId}</Typography>
-            <Typography>Course name : {courseName}</Typography>
-            <Typography>Lecturer : {lecturer}</Typography>
+            <Typography>Course code : {courseDetails.course_id}</Typography>
+            <Typography>Course name : {courseDetails.course_name}</Typography>
+            <Typography>Lecturer : {courseDetails.lecturer}</Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={2}>
-          <Button variant="outlined" onClick={handleOnClickUnenroll}>
+        <Grid
+          item
+          xs={12}
+          sm={4}
+          sx={{
+            textAlign: "end",
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Button
+            variant="outlined"
+            onClick={handleOnClickUnenroll}
+            sx={{
+              margin: 1,
+            }}
+            size="small"
+            startIcon={<ExitToAppIcon/>}
+          >
             Unenroll
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleOnToggleAnnoucementBtn}
+            sx={{
+              margin: 1,
+            }}
+            size="small"
+            startIcon={<AnnouncementIcon/>}
+          >
+            {isAnnoucementSectionOpen ? "Close Announcement" : "Announcement"}
           </Button>
         </Grid>
       </Grid>
 
-      <Box>
-        <Typography>{courseDescription}</Typography>
-      </Box>
+      {isAnnoucementSectionOpen && (
+        <AnnouncementSection/>
+      )}
+
+      <Typography>{courseDetails.course_description}</Typography>
+
       <Stack>
         <CourseNoteCard />
         <CourseNoteCard />
