@@ -11,11 +11,11 @@ const AnnouncementCard = () => {
   const courses = useSelector((state) => state.courseReducer.courses);
 
   var academicYear = "";
-  courses.map(course=>{
-      if(course.course_id=== courseId){
-        academicYear = course.academic_year
-      }
+  courses.map(course => {
+    if (course.course_id === courseId) {
+      academicYear = course.academic_year
     }
+  }
   );
 
   const course = {
@@ -38,7 +38,13 @@ const AnnouncementCard = () => {
 
   return (
     <Collapse accordion>
-     
+      {
+        notificationValues.map((values) =>
+          <Panel header={values.title} key={values.id}>
+            {values.body}
+          </Panel>
+        )
+      }
     </Collapse>
 
   );
