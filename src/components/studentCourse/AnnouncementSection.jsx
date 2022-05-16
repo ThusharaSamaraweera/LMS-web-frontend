@@ -1,6 +1,6 @@
 import { Box,Typography } from '@mui/material'
 import React from 'react'
-import AnnouncementCard from './AnnoucementCard'
+import AnnouncementCard from './AnnouncementCard'
 const AnnouncementSection = () => {
 
   
