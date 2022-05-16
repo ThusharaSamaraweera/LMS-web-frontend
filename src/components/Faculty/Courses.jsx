@@ -24,7 +24,6 @@ const Courses = () => {
   const enrolledCourseIds = enrollledCourses.map(
     (course) => course.enrolled_course_id
   );
-  console.log(enrolledCourseIds);
 
   const categorizeCourses = (level, semester) => {
     return allCourses.filter(
@@ -90,6 +89,8 @@ const Courses = () => {
           </Grid>
           <Grid item xs={12} sm={3}>
             {enrolled ? (
+              <Typography color={"brown"}>ENROLLED</Typography>
+            ) : (
               <Button
                 variant="outlined"
                 size="small"
@@ -98,8 +99,6 @@ const Courses = () => {
               >
                 Enroll me
               </Button>
-            ) : (
-              <Typography color={"brown"}>ENROLLED</Typography>
             )}
           </Grid>
         </Grid>
@@ -124,7 +123,7 @@ const Courses = () => {
                 <Stack>{renderCourses(1, 1)}</Stack>
               </Box>
             </Panel>
-            <Panel header="Semester 1" key="2">
+            <Panel header="Semester 2" key="2">
               <Box>
                 <Stack>{renderCourses(1, 2)}</Stack>
               </Box>
@@ -139,7 +138,7 @@ const Courses = () => {
                 <Stack>{renderCourses(2, 1)}</Stack>
               </Box>
             </Panel>
-            <Panel header="Semester 1" key="2">
+            <Panel header="Semester 2" key="2">
               <Box>
                 <Stack>{renderCourses(2, 2)}</Stack>
               </Box>
@@ -154,7 +153,7 @@ const Courses = () => {
                 <Stack>{renderCourses(3, 1)}</Stack>
               </Box>
             </Panel>
-            <Panel header="Semester 1" key="2">
+            <Panel header="Semester 2" key="2">
               <Box>
                 <Stack>{renderCourses(3, 2)}</Stack>
               </Box>
@@ -169,7 +168,7 @@ const Courses = () => {
                 <Stack>{renderCourses(4, 1)}</Stack>
               </Box>
             </Panel>
-            <Panel header="Semester 1" key="2">
+            <Panel header="Semester 2" key="2">
               <Box>
                 <Stack>{renderCourses(4, 2)}</Stack>
               </Box>
