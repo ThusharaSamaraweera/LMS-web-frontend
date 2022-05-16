@@ -7,7 +7,7 @@ import Footer from "./Footer";
 
 const Dashboard = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
@@ -17,9 +17,9 @@ const Dashboard = () => {
     setLoading(false);
   };
 
-  // setTimeout(() => {
-  //   handleOnLoading()
-  // }, 2000);
+  setTimeout(() => {
+    handleOnLoading()
+  }, 800);
 
   if (isLoading) {
     return (
@@ -38,13 +38,6 @@ const Dashboard = () => {
       <CssBaseline />
       <Sidebar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />
       <MainContent isDrawerOpe={isDrawerOpen} />
-      <Box
-        sx={{
-          height: 90
-        }}
-      >
-
-      </Box>
       <Footer/>
     </Box>
   );

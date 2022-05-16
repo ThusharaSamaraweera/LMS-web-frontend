@@ -52,4 +52,29 @@ export default class lecturerServices {
       throw new Error("Adding new announcement failed")
     })
   }
+
+  static async getProfile() {
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: "/api/v1/lecturer/profile",
+    })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        throw new Error("Failed to get lecturer profile")
+      });
+  }
+
+  static async updateLecturer(profile){
+    return await restClient({
+      method: HTTPS_METHODS.POST,
+      url: "/api/v1/lecturer/update-profile",
+      body: profile
+    }).then((res) => {
+      
+    }).catch((err) => {
+      throw new Error("Profile updating failed")
+    })
+  }
 }
