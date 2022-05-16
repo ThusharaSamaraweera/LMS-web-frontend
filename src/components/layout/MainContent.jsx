@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import CourseOverview from '../courseOverview'
 import { Route, Routes, Outlet } from 'react-router-dom';
 import CourseManagement from '../courseManagement';
-import studentCourse from '../studentCourse';
 import { useSelector } from 'react-redux';
 import { ROLES } from '../../constants/roles';
 import LecturerCourse from '../lecturerCourse';
@@ -13,6 +12,7 @@ import More from '../more/routes';
 import StudentProfile from '../studentProfile';
 import LecturerProfile from '../lecturerProfile';
 import AnnouncementManagement from '../announcement';
+import StudentCourse from '../studentCourse';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -34,6 +34,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: `50px`,
+    minHeight: '95vh',
     ...(open && {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
@@ -59,7 +60,7 @@ const MainContent = (props) => {
         {
           currentUserRole === ROLES.STUDENT && (
             <>
-              <Route path="course/:course" element={<studentCourse />} />
+              <Route path="course/:courseId" element={<StudentCourse />} />
               <Route path="grades" element={<Grades />} />
               <Route path='profile' element={<StudentProfile/>}/>
             </>
@@ -79,6 +80,7 @@ const MainContent = (props) => {
         <Route path='more/*' element={<More/>}/>
       </Routes>
       <Outlet />
+      
     </Main>
   )
 }

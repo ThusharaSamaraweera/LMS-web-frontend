@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Input, InputNumber, Popconfirm, Form, Typography } from "antd";
-import lecturerServices from "../../servers/lecturer.service";
+import lecturerServices from "../../services/lecturer.service";
 
 const originData = [];
 

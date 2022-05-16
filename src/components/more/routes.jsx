@@ -3,7 +3,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import More from '.'
 import Faculty from '../Faculty'
-import Degree from '../Faculty/Degree'
+import Courses from '../Faculty/Courses'
 
 
 const routes = () => {
@@ -13,7 +13,7 @@ const routes = () => {
       <Routes>
         <Route index element={<More/>}/>
         <Route path='faculty/:title' element={<Faculty/>}/>
-        <Route path='faculty/:title/:year' element={<Degree/>}/>
+        <Route path='faculty/:title/:department' element={<Courses/>}/>
       </Routes>
     </Container>
   )

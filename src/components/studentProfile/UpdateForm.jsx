@@ -15,7 +15,7 @@ import {
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import StudentService from "../../servers/student.service";
+import StudentService from "../../services/student.service";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import Alert from "../utilsComponents/Alert";
 

@@ -1,5 +1,5 @@
 import * as ACTIONS from "../actionTypes/lecturerActionTypes";
-import lecturerServices from "../../servers/lecturer.service";
+import lecturerServices from "../../services/lecturer.service";
 
 export const getAllLecturerCourses = () => async (dispatch) => {
   try {

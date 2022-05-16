@@ -1,7 +1,8 @@
 import { Container, Grid, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import {Link} from 'react-router-dom'
-import CourseService from '../../servers/course.service'
+import { useDispatch } from 'react-redux'
+import { getAllCourse } from '../../store/actions/courseAction'
 
 const faculties = [
   "commerce and Management Studies",
@@ -25,9 +26,7 @@ const unitsAndCetres = [
 ]
 
 const More = () => {
-  useEffect(() => {
-    CourseService.getAllCourse()
-  }, [])
+  const dispatch = useDispatch()
 
   const renderFaculties = faculties.map( faculty => {
     return <Link to={`faculty/${faculty}`} key={faculty}>

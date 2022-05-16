@@ -8,60 +8,71 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-const departments = [
-  {
-    title: "SE",
-    academyYears: [
-      "2018-2019",
-      "2019-2020",
-    ]
-  },
-  {
-    title: "Software Engineering Teaching Unit",
-    academyYears: [
-      "2019-2020",
-    ]
-  }
-];
-
-
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useSelector } from "react-redux";
 
 const Faculty = () => {
   const { title } = useParams();
+  const departments = useSelector((state) => state.courseReducer.department)
 
-  const renderItem = departments.map((item) => {
+  const departmentsForFaculty = departments.filter((department) => department.faculty.toLowerCase() === title.toLowerCase())
+  
+  // const getDegreesForDepartment = (department) => {
+  //   return courses.filter(
+  //     (course) =>
+  //       course.department_name.toLowerCase() === department.toLowerCase() &&
+  //       course.faculty_name.toLowerCase() === title.toLowerCase()
+  //   );
+  // };
+  // const departments = [
+  //   {
+  //     title: "SE",
+  //     degrees: getDegreesForDepartment("SE"),
+  //   },
+  //   {
+  //     title: "Software Engineering Teaching Unit",
+  //     degrees: getDegreesForDepartment("Software Engineering Teaching Unit"),
+  //   },
+  // ];
+
+  const renderItem = departmentsForFaculty.map((item) => {
     return (
       <Accordion
         sx={{
           border: 1,
           marginY: 1,
         }}
-        key={item.title}
+        key={item.department}
       >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          sx={{
-            backgroundColor: '#ffdca8',
-            border: 1,
-          }}
-        >
-          <Typography>{item.title}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-            {item.academyYears.map((year) => {
-              return (
-                <Typography>
-                  <Link to={`${year}`}>
-                    {year}
-                  </Link>
-                </Typography>
-              )
-            })}
-        </AccordionDetails>
+        <Link to={`${item.department}`}>
+          <AccordionSummary
+            // expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            sx={{
+              backgroundColor: "#ffdca8",
+              border: 1,
+            }}
+          >
+            <Typography
+              key={item.department}
+              sx={{
+                color: "black",
+              }}
+            >
+              {item.department}
+            </Typography>
+          </AccordionSummary>
+        </Link>
+        {/* <AccordionDetails>
+          {item.degrees.map((degree) => {
+            return (
+              <Typography key={degree.course_name}>
+                <Link to={`${degree.title}`}>{degree.course_name}</Link>
+              </Typography>
+            );
+          })}
+        </AccordionDetails> */}
       </Accordion>
     );
   });
@@ -74,7 +85,9 @@ const Faculty = () => {
         sx={{
           marginY: 2,
         }}
-      >{renderItem}</Box>
+      >
+        {renderItem}
+      </Box>
     </Container>
   );
 };

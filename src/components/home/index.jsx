@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 import React from "react";
 import Appbar from "./Appbar";
 import CarouselImages from "./CarouselImages";
@@ -19,36 +19,42 @@ const Home = () => {
   return (
     <>
       <Appbar />
-      <CarouselImages />
       <Box
-        component={"div"}
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          marginY: 2,
-          height: 40,
+          minHeight: '100vh'
         }}
       >
-        <Button
-          color="secondary"
-          onClick={() => handleOnClickLogin()}
-          variant={"outlined"}
+        <CarouselImages />
+        <Box
+          component={"div"}
           sx={{
-            marginX: 1,
+            display: "flex",
+            justifyContent: "center",
+            marginY: 5,
+            height: 40,
           }}
         >
-          Login
-        </Button>
-        <Button
-          color="secondary"
-          onClick={() => handleOnClickSignup()}
-          variant={"outlined"}
-          sx={{
-            marginX: 1,
-          }}
-        >
-          Signup
-        </Button>
+          <Button
+            color="secondary"
+            onClick={() => handleOnClickLogin()}
+            variant={"outlined"}
+            sx={{
+              marginX: 1,
+            }}
+          >
+            Login
+          </Button>
+          <Button
+            color="secondary"
+            onClick={() => handleOnClickSignup()}
+            variant={"outlined"}
+            sx={{
+              marginX: 1,
+            }}
+          >
+            Signup
+          </Button>
+        </Box>
       </Box>
       <Footer />
     </>
