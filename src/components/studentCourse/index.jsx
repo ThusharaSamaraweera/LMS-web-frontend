@@ -16,7 +16,7 @@ const StudentCourse = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  console.log(courseId)
   const [isUnenrollConfirmationDialogOpen, setUnerollConfirmationDialogOpen] =
     useState("");
   const [isAnnoucementSectionOpen, setAnnouncementOpen] = useState(false);
@@ -30,7 +30,7 @@ const StudentCourse = () => {
 
   useEffect(() => {
     fetchCourseDetail();
-  }, []);
+  }, [courseId]);
 
   const handleOnClickUnenroll = () => {
     setUnerollConfirmationDialogOpen(true);

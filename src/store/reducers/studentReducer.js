@@ -2,7 +2,7 @@ import * as actions from "../actionTypes/studentActionTypes";
 
 const studentInitState = {
   enrollCourseIds: [],
-  enrollcourses: []
+  enrollcourses: [],
 };
 
 export default function studentReducer(state = studentInitState, action) {
@@ -11,6 +11,11 @@ export default function studentReducer(state = studentInitState, action) {
       return {
         ...state,
         enrollCourseIds: action.payload,
+      };
+    case actions.SET_STUDENT_ENROLL_COURSE:
+      return {
+        ...state,
+        enrollcourses: action.payload,
       };
     default:
       return state;

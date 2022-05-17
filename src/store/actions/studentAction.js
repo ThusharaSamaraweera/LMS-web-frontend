@@ -12,3 +12,15 @@ export const getStudentEnrollCourseIds = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+
+export const setStudentEnrollCourses = (courses) => async (dispatch) => {
+  try {
+    dispatch({
+      type: actions.SET_STUDENT_ENROLL_COURSE,
+      payload: courses
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
