@@ -2,15 +2,16 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddGradeTable from "./AddGradeTable";
-import StudentService from '../../services/student.service'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import AnnouncementIcon from '@mui/icons-material/Announcement';
+import StudentService from "../../services/student.service";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import AnnouncementIcon from "@mui/icons-material/Announcement";
 import AnnouncementSection from "./AnnouncementSection";
+import CourseContent from "./CourseContent";
 
 const LecturerCourse = () => {
   const { courseId } = useParams();
   const [isGradeTableVisible, setGradeTableVisible] = useState(false);
-  const [courseDetails, setCourseDetails] = useState({})
+  const [courseDetails, setCourseDetails] = useState({});
   const [isAnnoucementSectionOpen, setAnnouncementOpen] = useState(false);
 
   const handleOnAddGradeBtnClick = () => {
@@ -19,7 +20,7 @@ const LecturerCourse = () => {
 
   const fetchCourseDetail = async () => {
     await StudentService.getCourseDetails(courseId).then((res) => {
-      setCourseDetails(res)
+      setCourseDetails(res);
     });
   };
 
@@ -27,18 +28,12 @@ const LecturerCourse = () => {
     setAnnouncementOpen(!isAnnoucementSectionOpen);
   };
 
-
   useEffect(() => {
     fetchCourseDetail();
   }, [courseId]);
 
   return (
     <Container>
-      <Box sx={{ display: "flex", justifyContent: "end", marginY: 2 }}>
-        <Button variant="outlined" onClick={handleOnAddGradeBtnClick}>
-          { isGradeTableVisible ?  "Collapse table" : "Add grades"}
-        </Button>
-      </Box>
       <Grid
         container
         sx={{
@@ -59,8 +54,8 @@ const LecturerCourse = () => {
           sm={4}
           sx={{
             textAlign: "end",
-            display: 'flex',
-            flexDirection: 'column'
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <Button
@@ -70,29 +65,43 @@ const LecturerCourse = () => {
               margin: 1,
             }}
             size="small"
-            startIcon={<ExitToAppIcon/>}
+            startIcon={<ExitToAppIcon />}
           >
             Delete
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={handleOnToggleAnnoucementBtn}
-            sx={{
-              margin: 1,
-            }}
-            size="small"
-            startIcon={<AnnouncementIcon/>}
-          >
-            {isAnnoucementSectionOpen ? "Close Announcement" : "Announcement"}
           </Button>
         </Grid>
       </Grid>
 
-      {isAnnoucementSectionOpen && (
-        <AnnouncementSection courseId={courseId}/>
-      )}
-      <Box>{isGradeTableVisible && <AddGradeTable courseId={courseId} />}</Box>
+      <Box sx={{ display: "flex", justifyContent: "end", marginY: 2 }}>
+        <Button
+          variant="outlined"
+          onClick={handleOnAddGradeBtnClick}
+          size="small"
+          sx={{
+            margin: 1,
+          }}
+        >
+          {isGradeTableVisible ? "Collapse table" : "Add grades"}
+        </Button>
 
+        <Button
+          variant="outlined"
+          onClick={handleOnToggleAnnoucementBtn}
+          sx={{
+            margin: 1,
+          }}
+          size="small"
+          startIcon={<AnnouncementIcon />}
+        >
+          {isAnnoucementSectionOpen ? "Close Announcement" : "Announcement"}
+        </Button>
+      </Box>
+
+      {isAnnoucementSectionOpen && <AnnouncementSection courseId={courseId} />}
+
+      {isGradeTableVisible && <AddGradeTable courseId={courseId} />}
+
+      <CourseContent />
     </Container>
   );
 };

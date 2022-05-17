@@ -3,30 +3,53 @@ import React, { useState } from "react";
 import FilePresentIcon from "@mui/icons-material/FilePresent";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ConfirmationDialog from "./utilsComponents/ConfirmationDialog";
+import DeleteIcon from '@mui/icons-material/Delete';
+import ProtectedComponent from "./utilsComponents/ProtectedComponent";
+import {ROLES} from '../constants/roles'
 
 const CourseNoteCard = () => {
-  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+  const [isDownloadConfirmationDialogOpen, setDownloadConfirmationDialogOpen] = useState(false);
+  const [isDeleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =  useState(false)
 
   const handleOnDownloadBtn = () => {
-    setConfirmationDialogOpen(true);
+    setDownloadConfirmationDialogOpen(true);
     console.log("downloading");
   };
 
-  const handleOnAccept = () => {
-    setConfirmationDialogOpen(false);
+  const handleOnDownloadAccept = () => {
+    setDownloadConfirmationDialogOpen(false);
   };
 
-  const handleOnCancel = () => {
-    setConfirmationDialogOpen(false);
+  const handleOnDownloadCancel = () => {
+    setDownloadConfirmationDialogOpen(false);
+  };
+
+  const handleOnDelete = () => {
+    setDeleteConfirmationDialogOpen(true)
+  }
+
+  const handleOnDeleteAccept = () => {
+    setDeleteConfirmationDialogOpen(false);
+  };
+
+  const handleOnDeleteCancel = () => {
+    setDeleteConfirmationDialogOpen(false);
   };
 
   return (
     <>
-      {isConfirmationDialogOpen && (
+      {isDownloadConfirmationDialogOpen && (
         <ConfirmationDialog
           title="Want to download ?"
-          handleOnAccept={handleOnAccept}
-          handleOnCancel={handleOnCancel}
+          handleOnAccept={handleOnDownloadAccept}
+          handleOnCancel={handleOnDownloadCancel}
+        />
+      )}
+      {isDeleteConfirmationDialogOpen && (
+        <ConfirmationDialog
+          title="Want to delete ?"
+          handleOnAccept={handleOnDeleteAccept}
+          handleOnCancel={handleOnDeleteCancel}
         />
       )}
       <Card
@@ -34,12 +57,12 @@ const CourseNoteCard = () => {
           padding: 0.8,
           marginY: 1,
           "&:hover": {
-            boxShadow: '10px 10px #d6d6d6'
+            boxShadow: '10px 10px #ffc252'
           },
         }}
       >
         <Grid container spacing={2}>
-          <Grid item xs={11}>
+          <Grid item xs={10}>
             <Box
               sx={{
                 display: "flex",
@@ -79,6 +102,23 @@ const CourseNoteCard = () => {
               sx={{ cursor: "pointer" }}
             />
           </Grid>
+
+          <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
+            <Grid
+              item
+              xs={1}
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <DeleteIcon
+                onClick={handleOnDelete}
+                sx={{ cursor: "pointer" }}
+              />
+            </Grid>
+          </ProtectedComponent>
         </Grid>
       </Card>
     </>

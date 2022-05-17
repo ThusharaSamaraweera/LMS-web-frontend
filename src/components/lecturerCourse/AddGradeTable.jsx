@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Table, Input, InputNumber, Popconfirm, Form, Typography } from "antd";
 import lecturerServices from "../../services/lecturer.service";
+import { Box } from "@mui/material";
 
 const originData = [];
 
@@ -211,23 +212,26 @@ const AddGradeTable = (props) => {
       }),
     };
   });
+
   return (
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>
+    <Box>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={data}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
+    </Box>
   );
 };
 
