@@ -1,8 +1,24 @@
 import React from 'react'
+import { Collapse } from "antd";
 
-const AnnouncementCard = () => {
+const { Panel } = Collapse;
+
+
+const AnnouncementCard = (props) => {
+  const {announcements} = props;
+
+  const renderAnnouncements = announcements.map((announcement, index) => {
+    return (
+      <Panel header={announcement.title} key={announcement.id}>
+        {announcement.body}
+      </Panel>
+    )
+  })
+
   return (
-    <div>AnnouncementCard</div>
+    <Collapse ghost>
+      {renderAnnouncements}
+    </Collapse>
   )
 }
 

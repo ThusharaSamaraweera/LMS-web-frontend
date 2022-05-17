@@ -1,24 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import { Box,Typography } from '@mui/material'
+import React, { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import AnnouncementCard from './AnnouncementCard'
-import StudentService from '../../services/student.service'
+import { Collapse } from "antd";
+import AnnouncementCard from "./AnnouncementCard";
+import StudentService from "../../services/student.service";
 
 const AnnouncementSection = (props) => {
-  const {courseId} = props;
-  const [announcements, setAnnouncement] = useState([])
+  const { courseId } = props;
+  const [announcements, setAnnouncement] = useState([]);
   // get all courses in university
   const courses = useSelector((state) => state.courseReducer.courses);
+  const [loading, setLoading] = useState(false);
 
   var academicYear = "";
-
-  // fetch all annoucements corresponding course
-  const fetchNotificationDetails = async () => {
-    await StudentService.getNotfications(course).then((res) => {
-      console.log(res)
-      setAnnouncement(res);
-    });
-  };
 
   courses.map((course) => {
     if (course.course_id === courseId) {
@@ -29,13 +23,17 @@ const AnnouncementSection = (props) => {
   const course = {
     category: courseId,
     academicYear: academicYear,
-  }
+  };
 
-  const renderAnnouncements = () => {
+    // fetch all annoucements corresponding course
+    const fetchNotificationDetails = async () => {
+      setLoading(true);
+      await StudentService.getNotfications(course).then((res) => {
+        setAnnouncement(res);
+      });
+      setLoading(false);
+    };
 
-  }
-
-  
   useEffect(() => {
     fetchNotificationDetails();
   }, [courseId]);
@@ -48,19 +46,39 @@ const AnnouncementSection = (props) => {
         padding: 2,
       }}
     >
-      <Typography sx={{
-        padding: 2,
-        fontWeight:"bold",
-        fontSize: '1.5rem'
-      }}>
+      <Typography
+        sx={{
+          padding: 2,
+          fontWeight: "bold",
+          fontSize: "1.5rem",
+        }}
+      >
         Announcements
       </Typography>
-        {/* annoucements goes here */ }
-        <AnnouncementCard/>
-        <AnnouncementCard/>
-        <AnnouncementCard/>
-    </Box>
-  )
-}
 
-export default AnnouncementSection
+      {/* annoucements goes here */}
+  
+      {
+        !loading  && (
+          announcements.length === 0 ? (
+          <Typography
+            sx={{
+              paddingX: 2,
+              paddingY: 1,
+              color: "red",
+              fontSize: "15px",
+            }}
+          >
+            No annoucements yet
+          </Typography>
+        ) : (
+          <Collapse ghost>
+            <AnnouncementCard announcements={announcements} />
+          </Collapse>
+        ))
+      }
+    </Box>
+  );
+};
+
+export default AnnouncementSection;
