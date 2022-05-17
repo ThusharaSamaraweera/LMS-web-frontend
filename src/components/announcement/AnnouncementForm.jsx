@@ -119,8 +119,7 @@ const AnnouncementForm = () => {
                 ]}
               >
                 <Select placeholder="Select Academic Year">
-                  <Option value="2018/2019">2018/2019</Option>
-                  <Option value="2019/2020">2019/2020</Option>
+                  <Option value="2018-2019">2018-2019</Option>
                 </Select>
               </Form.Item>
             </Col>
