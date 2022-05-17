@@ -49,7 +49,7 @@ export default class StudentService {
         return res.data;
       })
       .catch((err) => {
-        throw new Error(`Fetching ${courseId} couse details failed`);
+        throw new Error(`Fetching ${courseId} course details request failed`);
       });
   }
 
