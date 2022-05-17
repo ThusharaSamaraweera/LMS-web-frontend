@@ -214,7 +214,13 @@ const AddGradeTable = (props) => {
   });
 
   return (
-    <Box>
+    <Box
+      sx={{
+        marginY: 5,
+        border: 2,
+        padding: 2,
+      }}
+    >
       <Form form={form} component={false}>
         <Table
           components={{

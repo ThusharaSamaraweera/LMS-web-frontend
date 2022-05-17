@@ -7,12 +7,16 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import AnnouncementSection from "./AnnouncementSection";
 import CourseContent from "./CourseContent";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import AddNotesSection from "./AddNotesSection";
 
 const LecturerCourse = () => {
   const { courseId } = useParams();
   const [isGradeTableVisible, setGradeTableVisible] = useState(false);
   const [courseDetails, setCourseDetails] = useState({});
   const [isAnnoucementSectionOpen, setAnnouncementOpen] = useState(false);
+  const [isAddNoteSectionOpen, setAddNoteSection] = useState(false)
 
   const handleOnAddGradeBtnClick = () => {
     setGradeTableVisible(!isGradeTableVisible);
@@ -27,6 +31,10 @@ const LecturerCourse = () => {
   const handleOnToggleAnnoucementBtn = () => {
     setAnnouncementOpen(!isAnnoucementSectionOpen);
   };
+
+  const handleOnToggleAddNotes = () => {
+    setAddNoteSection(!isAddNoteSectionOpen)
+  }
 
   useEffect(() => {
     fetchCourseDetail();
@@ -80,6 +88,7 @@ const LecturerCourse = () => {
           sx={{
             margin: 1,
           }}
+          startIcon={<AddCircleIcon/>}
         >
           {isGradeTableVisible ? "Collapse table" : "Add grades"}
         </Button>
@@ -93,13 +102,27 @@ const LecturerCourse = () => {
           size="small"
           startIcon={<AnnouncementIcon />}
         >
-          {isAnnoucementSectionOpen ? "Close Announcement" : "Announcement"}
+          {isAnnoucementSectionOpen ? "Close Announcement" : "Add Announcement"}
+        </Button>
+
+        <Button
+          variant="outlined"
+          onClick={handleOnToggleAddNotes}
+          sx={{
+            margin: 1,
+          }}
+          size="small"
+          startIcon={<NoteAddIcon />}
+        >
+          {isAddNoteSectionOpen ? "Close adding note" : "Add notes"}
         </Button>
       </Box>
 
+      {isGradeTableVisible && <AddGradeTable courseId={courseId} />}
+
       {isAnnoucementSectionOpen && <AnnouncementSection courseId={courseId} />}
 
-      {isGradeTableVisible && <AddGradeTable courseId={courseId} />}
+      {isAddNoteSectionOpen && <AddNotesSection /> }
 
       <CourseContent />
     </Container>
