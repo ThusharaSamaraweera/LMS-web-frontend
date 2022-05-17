@@ -89,7 +89,7 @@ const LecturerCourse = () => {
       </Grid>
 
       {isAnnoucementSectionOpen && (
-        <AnnouncementSection/>
+        <AnnouncementSection courseId={courseId}/>
       )}
       <Box>{isGradeTableVisible && <AddGradeTable courseId={courseId} />}</Box>
 
