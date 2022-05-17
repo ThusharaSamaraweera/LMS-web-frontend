@@ -11,12 +11,12 @@ const CourseOverview = () => {
     (state) => state.authReducer.authUser.role[0].roleName
   );
 
-  // courses those are being taught by  lecturer logged in
+  // courses those are being taught by lecturer logged in
   const lecturerCourse = useSelector((state) => state.lecturerReducer.courses);
 
   // courses those had been enrolled by the student logged in
   const studentCourse = useSelector(
-    (state) => state.studentReducer.enrollCourses
+    (state) => state.studentReducer.enrollCourseIds
   );
 
   // all course in university
@@ -37,6 +37,7 @@ const CourseOverview = () => {
       });
     };
     getDetailsOfCourse();
+
   } else if (currentUserRole === ROLES.LECTURER) {
     courses = courses.concat(lecturerCourse);
   }

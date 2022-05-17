@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useInRouterContext } from "react-router-dom";
 import { BASE_URL, HTTPS_METHODS, restClient } from "../utils/restClient";
 
 const config = {
@@ -34,6 +35,20 @@ export default class authService {
       return res.data;
     } catch (error) {
       throw new Error("Getting OTP failed");
+    }
+  }
+
+  static async signup(body) {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/api/v1/auth/signup`,
+        body,
+        config
+      );
+      console.log(res)
+      return res.data;
+    } catch (error) {
+      throw new Error("Signup failed");
     }
   }
 }

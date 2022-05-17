@@ -16,24 +16,6 @@ const Faculty = () => {
   const departments = useSelector((state) => state.courseReducer.department)
 
   const departmentsForFaculty = departments.filter((department) => department.faculty.toLowerCase() === title.toLowerCase())
-  
-  // const getDegreesForDepartment = (department) => {
-  //   return courses.filter(
-  //     (course) =>
-  //       course.department_name.toLowerCase() === department.toLowerCase() &&
-  //       course.faculty_name.toLowerCase() === title.toLowerCase()
-  //   );
-  // };
-  // const departments = [
-  //   {
-  //     title: "SE",
-  //     degrees: getDegreesForDepartment("SE"),
-  //   },
-  //   {
-  //     title: "Software Engineering Teaching Unit",
-  //     degrees: getDegreesForDepartment("Software Engineering Teaching Unit"),
-  //   },
-  // ];
 
   const renderItem = departmentsForFaculty.map((item) => {
     return (

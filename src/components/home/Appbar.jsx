@@ -16,7 +16,21 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/authAction";
 
-const pages = ["About", "Academic", "Library"];
+const pages = [
+  {
+    title: "Home",
+    path: "/"
+  }, 
+  {
+    title: "About",
+    path: "#"
+  }, 
+  {
+    title: "Library",
+    path: "#"
+  }
+];
+
 const settings = [
   {
     title: "Profile",
@@ -58,7 +72,7 @@ const Appbar = () => {
   }
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white" }}>
+    <AppBar position="fixed" sx={{ backgroundColor: "white", zIndex: 900 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
@@ -97,8 +111,8 @@ const Appbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -118,7 +132,7 @@ const Appbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.title}
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
@@ -131,8 +145,10 @@ const Appbar = () => {
                   fontWeight: 600,
                   fontSize: 18,
                 }}
+                LinkComponent={'a'}
+                href={page.path}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>

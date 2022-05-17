@@ -1,11 +1,10 @@
 import {
   Box,
   Button,
-  FormControl,
+  FormHelperText,
   IconButton,
   Input,
   InputAdornment,
-  InputLabel,
   MenuItem,
   Select,
   Stack,
@@ -17,8 +16,10 @@ import Appbar from "../home/Appbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Alert from "../utilsComponents/Alert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
+import { ROLES } from "../../constants/roles";
+import Footer from "../home/Footer";
 
 const Signup = () => {
   const [universityEmail, setUniversityEmail] = useState("");
@@ -29,7 +30,15 @@ const Signup = () => {
   const [universityEmailError, setUniversityEmailError] = useState("");
   const [inputOtp, setInputOtp] = useState("");
   const [userType, setUserType] = useState("Student");
-  const [otp, setOtp] = useState()
+  const [otp, setOtp] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [studentIdError, setStudentIdError] = useState("");
+  const navigate = useNavigate()
 
   const handleOnUnversityEmailChanged = (email) => {
     setUniversityEmail(email);
@@ -39,16 +48,59 @@ const Signup = () => {
     setInputOtp(parseInt(otp));
   };
 
-  const handleOnPasswordChanged = (password) => {
-    setPassword(password);
+  const handleOnPasswordChanged = (inputPassword) => {
+    if (inputPassword) {
+      setPasswordError("");
+    } else {
+      setPasswordError("Password required");
+    }
+    setPassword(inputPassword);
   };
 
   const handleOnPasswordVisible = () => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  const handleOnSignClick = (e) => {
+  const handleOnSignClick = async (e) => {
     e.preventDefault();
+
+    if (!firstName) {
+      setFirstNameError("First name is required");
+    }
+    if (!lastName) {
+      setLastNameError("Last name is required");
+    }
+    if (!studentId) {
+      setStudentIdError("Student is Id required");
+    }
+    if (!password) {
+      setPasswordError("Password is required");
+    }
+
+    const user = {
+      email: universityEmail,
+      role: userType,
+      firstName: firstName,
+      lastName: lastName,
+      id: studentId,
+      password: password,
+    };
+
+    await authService
+      .signup(user)
+      .then((res) => {
+        Alert({
+          message: "Signup successfully",
+          type: "success",
+        });
+        navigate("/login")
+      })
+      .catch((err) => {
+        Alert({
+          message: err.message,
+          type: "error",
+        });
+      });
   };
 
   const handleOnVerifyEmail = async (e) => {
@@ -56,22 +108,22 @@ const Signup = () => {
       setUniversityEmailError("required");
       return;
     }
-    await authService.getOtp(universityEmail)
+    await authService
+      .getOtp(universityEmail)
       .then((res) => {
-        console.log(res)
-        setOtp(res.otp)
+        console.log(res);
+        setOtp(res.otp);
         setEmailValid("pending");
         setEmailDisable(true);
         setUniversityEmailError("");
       })
       .catch((err) => {
-        console.log(err.message)
+        console.log(err.message);
         Alert({ message: err.message, type: "error" });
       });
   };
 
   const handleOnVerifyaOTP = () => {
-
     if (inputOtp === parseInt(otp)) {
       setEmailValid(true);
     } else {
@@ -90,8 +142,35 @@ const Signup = () => {
     setUniversityEmail("");
     setEmailDisable(false);
     setEmailValid(false);
-    setInputOtp("")
-    setOtp("")    
+    setInputOtp("");
+    setOtp("");
+  };
+
+  const handleOnFirstNameChange = (inputFirstName) => {
+    if (inputFirstName) {
+      setFirstNameError("");
+    } else {
+      setFirstNameError("First name required");
+    }
+    setFirstName(inputFirstName);
+  };
+
+  const handleOnLastNameChange = (inputLastName) => {
+    if (inputLastName) {
+      setLastNameError("");
+    } else {
+      setLastNameError("Last name required");
+    }
+    setLastName(inputLastName);
+  };
+
+  const handleOnStudentIdChange = (inputId) => {
+    if (inputId) {
+      setStudentIdError("");
+    } else {
+      setStudentIdError("Student id is required");
+    }
+    setStudentId(inputId);
   };
 
   return (
@@ -102,8 +181,10 @@ const Signup = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginTop: 2,
-          marginX: 3,
+          marginY: 2,
+          marginTop: 12,
+          marginBottom: 3,
+          minHeight: "95vh",
         }}
       >
         <Stack
@@ -134,38 +215,153 @@ const Signup = () => {
           </Typography>
 
           {isEmailValid === true && (
-            <Box
-              flexDirection="row"
-              sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
-            >
-              <Typography
-                variant="body1"
-                component="label"
-                sx={{
-                  paddingY: 1,
-                  width: "12rem",
-                  fontSize: {
-                    xs: "0.8rem",
-                    sm: "1rem",
-                  },
-                }}
+            <>
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
               >
-                User type
-              </Typography>
+                <Typography
+                  variant="body1"
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  User type
+                </Typography>
 
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={userType}
-                label="Age"
-                onChange={handleOnSelectUserType}
-                fullWidth
-                variant="standard"
+                <Select
+                  labelId="user-type-label"
+                  id="user-type"
+                  value={userType}
+                  label="Age"
+                  onChange={handleOnSelectUserType}
+                  fullWidth
+                  variant="standard"
+                >
+                  <MenuItem value={ROLES.STUDENT}>Student</MenuItem>
+                  <MenuItem value={ROLES.LECTURER}>Lecturer</MenuItem>
+                </Select>
+              </Box>
+
+              {userType === ROLES.STUDENT && (
+                <Box
+                  flexDirection="row"
+                  sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+                >
+                  <Typography
+                    component="label"
+                    sx={{
+                      paddingY: 1,
+                      width: "12rem",
+                      fontSize: {
+                        xs: "0.8rem",
+                        sm: "1rem",
+                      },
+                    }}
+                  >
+                    Student ID
+                  </Typography>
+
+                  <TextField
+                    id="studentId"
+                    type="text"
+                    value={studentId}
+                    onChange={(e) => handleOnStudentIdChange(e.target.value)}
+                    fullWidth={true}
+                    sx={{
+                      marginX: 0,
+                      fontSize: {
+                        xs: "0.8rem",
+                        sm: "1rem",
+                      },
+                    }}
+                    variant="standard"
+                    helperText={studentIdError}
+                    error={Boolean(studentIdError)}
+                  ></TextField>
+                </Box>
+              )}
+
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
               >
-                <MenuItem value={"Student"}>Student</MenuItem>
-                <MenuItem value={"Lecturer"}>Lecturer</MenuItem>
-              </Select>
-            </Box>
+                <Typography
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  First name
+                </Typography>
+
+                <TextField
+                  id="firstName"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => handleOnFirstNameChange(e.target.value)}
+                  fullWidth={true}
+                  sx={{
+                    marginX: 0,
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                  variant="standard"
+                  helperText={firstNameError}
+                  error={Boolean(firstNameError)}
+                ></TextField>
+              </Box>
+
+              <Box
+                flexDirection="row"
+                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+              >
+                <Typography
+                  component="label"
+                  sx={{
+                    paddingY: 1,
+                    width: "12rem",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  Last name
+                </Typography>
+
+                <TextField
+                  id="lastName"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => handleOnLastNameChange(e.target.value)}
+                  fullWidth={true}
+                  sx={{
+                    marginX: 0,
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                  }}
+                  variant="standard"
+                  helperText={lastNameError}
+                  error={Boolean(lastNameError)}
+                ></TextField>
+              </Box>
+            </>
           )}
 
           <Box
@@ -209,19 +405,19 @@ const Signup = () => {
           {isEmailValid === "pending" && (
             <>
               <Typography
-                  component="label"
-                  sx={{
-                    paddingY: 1,
-                    fontSize: {
-                      xs: "0.7rem",
-                      sm: "0.9rem",
-                    },
-                    color: 'red'
-                  }}
-                  textAlign="center"
-                >
-                  We sent otp to {universityEmail}
-                </Typography>
+                component="label"
+                sx={{
+                  paddingY: 1,
+                  fontSize: {
+                    xs: "0.7rem",
+                    sm: "0.9rem",
+                  },
+                  color: "red",
+                }}
+                textAlign="center"
+              >
+                We sent otp to {universityEmail}
+              </Typography>
               <Box
                 flexDirection="row"
                 sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
@@ -242,7 +438,7 @@ const Signup = () => {
                 <TextField
                   id="otp"
                   type="number"
-                  value={inputOtp}
+                  value={inputOtp.toString()}
                   onChange={(e) => handleOnOtpChange(e.target.value)}
                   fullWidth={true}
                   sx={{
@@ -320,7 +516,12 @@ const Signup = () => {
             <>
               <Box
                 flexDirection="row"
-                sx={{ display: "flex", justifyContent: "center", marginY: 1 }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginY: 1,
+                  marginX: 0,
+                }}
               >
                 <Typography
                   variant="body1"
@@ -336,6 +537,7 @@ const Signup = () => {
                 >
                   Password
                 </Typography>
+
                 <Input
                   id="standard-adornment-password"
                   type={isPasswordVisible ? "text" : "password"}
@@ -358,8 +560,17 @@ const Signup = () => {
                       sm: "1rem",
                     },
                   }}
+                  error={Boolean(passwordError)}
                 />
               </Box>
+              <FormHelperText
+                sx={{
+                  marginLeft: "11.3em",
+                  color: "red",
+                }}
+              >
+                {passwordError}
+              </FormHelperText>
 
               <Box
                 flexDirection="row"
@@ -376,6 +587,7 @@ const Signup = () => {
                       sm: "1rem",
                     },
                   }}
+                  size="small"
                   onClick={(e) => handleOnSignClick(e)}
                 >
                   Signup
@@ -392,6 +604,7 @@ const Signup = () => {
                     },
                   }}
                   onClick={(e) => handleOnCancelOtp(e)}
+                  size="small"
                 >
                   Cancel
                 </Button>
@@ -401,6 +614,7 @@ const Signup = () => {
           <Link to="/login">Have a account ?</Link>
         </Stack>
       </Box>
+      <Footer />
     </>
   );
 };

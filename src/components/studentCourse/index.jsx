@@ -6,7 +6,7 @@ import CourseNoteCard from "../CourseNoteCard";
 import Alert from "../utilsComponents/Alert";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import { useSelector, useDispatch } from "react-redux";
-import { getStudentEnrollCourses } from "../../store/actions/studentAction";
+import { getStudentEnrollCourseIds } from "../../store/actions/studentAction";
 import AnnouncementSection from "./AnnouncementSection";
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -16,7 +16,7 @@ const StudentCourse = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  console.log(courseId)
   const [isUnenrollConfirmationDialogOpen, setUnerollConfirmationDialogOpen] =
     useState("");
   const [isAnnoucementSectionOpen, setAnnouncementOpen] = useState(false);
@@ -30,7 +30,7 @@ const StudentCourse = () => {
 
   useEffect(() => {
     fetchCourseDetail();
-  }, []);
+  }, [courseId]);
 
   const handleOnClickUnenroll = () => {
     setUnerollConfirmationDialogOpen(true);
@@ -57,7 +57,7 @@ const StudentCourse = () => {
           type: "error",
         });
       });
-    dispatch(getStudentEnrollCourses());
+    dispatch(getStudentEnrollCourseIds());
     navigate(-1);
   };
 

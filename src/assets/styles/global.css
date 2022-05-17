@@ -28,3 +28,9 @@
 .home-carousel-image {
   object-fit: cover
 }
+
+/* style disabled input field on student profile */
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  -webkit-text-fill-color: black !important;
+  cursor: not-allowed;
+}

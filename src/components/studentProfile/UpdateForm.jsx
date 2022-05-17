@@ -35,10 +35,11 @@ const UpdateForm = () => {
   const [lastNameError, setLastNameError] = useState("");
   const [studentIdError, setStudentIdError] = useState("");
   const [departmentError, setDepartmentError] = useState("");
-  const [isDisabled, setDisabled] = useState(true);
+  const [isDisabled, setDisabled] = useState(false);
   const [isConfirmatinDislogOpen, setConfirmationDialogOpen] = useState(false);
 
   const handleOnGetProfile = async () => {
+    setDisabled(true)
     // get student details from backend
     await StudentService.getProfile().then((res) => {
       setInitialValues({
@@ -49,10 +50,10 @@ const UpdateForm = () => {
         department: res.department ? res.department : "",
       });
     });
+    setDisabled(false)
   };
 
   useEffect(() => {
-    setDisabled(false);
     handleOnGetProfile();
   }, []);
 

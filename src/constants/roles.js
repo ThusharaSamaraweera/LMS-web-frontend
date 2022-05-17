@@ -1,4 +1,4 @@
 export const ROLES = {
-  ["STUDENT"] : "Student",
-  ["LECTURER"] : "Lecturer"
+  STUDENT : "Student",
+  LECTURER : "Lecturer"
 }
