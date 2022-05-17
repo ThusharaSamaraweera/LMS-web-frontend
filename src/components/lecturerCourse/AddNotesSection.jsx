@@ -1,7 +1,8 @@
-import React from 'react'
-import { Box, Typography } from '@mui/material'
-import { Form, Input, Upload, message } from 'antd'
-import { InboxOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
+import { Form, Input, Upload, message } from "antd";
+import { InboxOutlined } from "@ant-design/icons";
+import lecturerServices from "../../services/lecturer.service";
 
 const layout = {
   labelCol: { span: 4 },
@@ -10,26 +11,37 @@ const layout = {
 const { Dragger } = Upload;
 
 const props = {
-  name: 'file',
+  name: "file",
   multiple: false,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
   onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files);
+    console.log("Dropped files", e.dataTransfer.files);
   },
 };
 
 const AddNotesSection = () => {
+  const [file, setFile] = useState([]);
+
+  const handleOnFileChange = ({ fileList }) => {
+    console.log(fileList[0].originFileObj);
+    setFile(fileList);
+  };
+
+  const handleOnUpload = async () => {
+    let formData = new FormData()
+    formData.append("subjectName", "se");
+    formData.append("description", "descrip")
+    formData.append("academinc_year", "2018")
+    formData.append("file", file[0].originFileObj)
+    // for(var pair of formData.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }
+    await lecturerServices.uploadFile(formData)
+  }
+
+  const handleUpload = () => {
+
+  }
+
   return (
     <Box
       sx={{
@@ -56,15 +68,33 @@ const AddNotesSection = () => {
           <Input.TextArea allowClear showCount maxLength={100} rows={5} />
         </Form.Item>
 
-        <Dragger {...props} maxCount={1}>
+        <Dragger
+          {...props}
+          maxCount={1}
+          // beforeUpload={() => false}
+          onChange={handleOnFileChange}
+        >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
-          <p className="ant-upload-text">Click or drag a file to this area to upload</p>
+          <p className="ant-upload-text">
+            Click or drag a file to this area to upload
+          </p>
         </Dragger>
+
+        <Button
+          sx={{
+            marginY: 1,
+          }}
+          fullWidth
+          variant="contained"
+          onClick={handleOnUpload}
+        >
+          upload
+        </Button>
       </Form>
     </Box>
-  )
-}
+  );
+};
 
-export default AddNotesSection
+export default AddNotesSection;

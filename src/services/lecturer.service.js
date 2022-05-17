@@ -1,7 +1,7 @@
-import { HTTPS_METHODS, restClient } from "../utils/restClient";
+import axios from "axios";
+import { BASE_URL, HTTPS_METHODS, restClient } from "../utils/restClient";
 
 export default class lecturerServices {
-
   static async addNewCourse(newCourse) {
     return await restClient({
       method: HTTPS_METHODS.POST,
@@ -22,35 +22,39 @@ export default class lecturerServices {
       url: "/lecturer/courses",
     })
       .then((res) => {
-        return res
+        return res;
       })
       .catch((err) => {
         throw new Error("Fetching lecturer course failed");
       });
   }
 
-  static async addGradeForStudent(newGrade){
+  static async addGradeForStudent(newGrade) {
     return await restClient({
       method: HTTPS_METHODS.POST,
       url: "/add/marks_and_grades/",
-      body: newGrade
-    }).then((res) => {
-      return res
-    }).catch((err) => {
-      throw new Error("Editing grades failed")
+      body: newGrade,
     })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        throw new Error("Editing grades failed");
+      });
   }
 
-  static async addNewAnnouncement(newAnnouncement){
+  static async addNewAnnouncement(newAnnouncement) {
     return await restClient({
       method: HTTPS_METHODS.POST,
       url: "/lec/create_announcement/",
-      body: newAnnouncement
-    }).then((res) => {
-      return res
-    }).catch((err) => {
-      throw new Error("Adding new announcement failed")
+      body: newAnnouncement,
     })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        throw new Error("Adding new announcement failed");
+      });
   }
 
   static async getProfile() {
@@ -62,19 +66,38 @@ export default class lecturerServices {
         return res.data;
       })
       .catch((err) => {
-        throw new Error("Failed to get lecturer profile")
+        throw new Error("Failed to get lecturer profile");
       });
   }
 
-  static async updateLecturer(profile){
+  static async updateLecturer(profile) {
     return await restClient({
       method: HTTPS_METHODS.POST,
       url: "/api/v1/lecturer/update-profile",
-      body: profile
-    }).then((res) => {
-      
-    }).catch((err) => {
-      throw new Error("Profile updating failed")
+      body: profile,
     })
+      .then((res) => {})
+      .catch((err) => {
+        throw new Error("Profile updating failed");
+      });
+  }
+
+  static async uploadFile(formData) {
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        "auth-token": `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      }
+    }
+
+    return await axios
+      .post(`${BASE_URL}/lec_notes/uploadFile`, formData, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }

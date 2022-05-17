@@ -1,15 +1,18 @@
-import { Box, Card, Typography, Grid } from "@mui/material";
+import { Box, Card, Grid } from "@mui/material";
 import React, { useState } from "react";
 import FilePresentIcon from "@mui/icons-material/FilePresent";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ConfirmationDialog from "./utilsComponents/ConfirmationDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ProtectedComponent from "./utilsComponents/ProtectedComponent";
+import { Typography, Switch } from 'antd';
 import {ROLES} from '../constants/roles'
+const { Paragraph, Text } = Typography
 
 const CourseNoteCard = () => {
   const [isDownloadConfirmationDialogOpen, setDownloadConfirmationDialogOpen] = useState(false);
   const [isDeleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =  useState(false)
+  const [isEllipsis, toggleEllipsis] = useState(true)
 
   const handleOnDownloadBtn = () => {
     setDownloadConfirmationDialogOpen(true);
@@ -35,6 +38,10 @@ const CourseNoteCard = () => {
   const handleOnDeleteCancel = () => {
     setDeleteConfirmationDialogOpen(false);
   };
+
+  const handleOnClickMore = () => {
+    toggleEllipsis(!isEllipsis)
+  }
 
   return (
     <>
@@ -79,14 +86,7 @@ const CourseNoteCard = () => {
               </Typography>
               <Typography>upload date</Typography>
             </Box>
-            <Box
-              sx={{
-                color: "brown",
-              }}
-            >
-              your vacation is start on 2020/09/7. also 2020/09/14 you have come
-              to the university
-            </Box>
+
           </Grid>
           <Grid
             item
@@ -120,6 +120,24 @@ const CourseNoteCard = () => {
             </Grid>
           </ProtectedComponent>
         </Grid>
+
+        <Box
+          sx={{
+            
+          }}
+        >
+          <Paragraph ellipsis={isEllipsis ? { rows: 2 } : false} className='note-paragraph'>
+            Ant Design, a design language for background applications, is refined by Ant UED Team. Ant
+            Design, a design language for background applications, is refined by Ant UED Team. Ant
+            Design, a design language for background applications, is refined by Ant UED Team. Ant
+            Design, a design language for background applications, is refined by Ant UED Team. Ant
+            Design, a design language for background applications, is refined by Ant UED Team. Ant
+            Design, a design language for background applications, is refined by Ant UED Team.
+          </Paragraph>
+          <Paragraph onClick={handleOnClickMore} className='paragraph-more'>
+            {isEllipsis ? "Expand" : "Collapse"}
+          </Paragraph>
+        </Box>
       </Card>
     </>
   );

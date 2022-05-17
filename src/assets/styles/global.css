@@ -34,3 +34,14 @@
   -webkit-text-fill-color: black !important;
   cursor: not-allowed;
 }
+
+.paragraph-more {
+  color: blue;
+  cursor: pointer;
+  font-size: smaller;
+}
+
+.note-paragraph {
+  color: brown;
+  font-size: small;
+}
