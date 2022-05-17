@@ -101,4 +101,15 @@ export default class StudentService {
         );
       });
   }
+
+  static async getGradesForStudent(){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: "/api/student_marks_grades/"
+    }).then((res) => {
+      return res.data
+    }).catch((err) => {
+      throw new Error("Fetching grades request failed")
+    })
+  }
 }
