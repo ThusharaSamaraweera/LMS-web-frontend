@@ -3,7 +3,7 @@ import React from 'react'
 import AnnouncementCard from './AnnouncementCard'
 const AnnouncementSection = () => {
 
-  
+
 
   return (
     <Box
@@ -15,7 +15,8 @@ const AnnouncementSection = () => {
     >
       <Typography sx={{
         padding: 2,
-        fontWeight:"bold"
+        fontWeight:"bold",
+        fontSize: '1.5rem'
       }}>
       Announcements
       </Typography>
