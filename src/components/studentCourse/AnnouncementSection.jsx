@@ -1,9 +1,9 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Box,Typography } from '@mui/material'
 import React from 'react'
-
+import AnnouncementCard from './AnnouncementCard'
 const AnnouncementSection = () => {
 
-  
+
 
   return (
     <Box
@@ -13,10 +13,15 @@ const AnnouncementSection = () => {
         padding: 2,
       }}
     >
-      <Typography>Announcements</Typography>
-      <Stack>
+      <Typography sx={{
+        padding: 2,
+        fontWeight:"bold",
+        fontSize: '1.5rem'
+      }}>
+      Announcements
+      </Typography>
         {/* annoucements goes here */ }
-      </Stack>
+        <AnnouncementCard/>
     </Box>
   )
 }

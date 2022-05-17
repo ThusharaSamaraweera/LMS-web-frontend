@@ -84,4 +84,21 @@ export default class StudentService {
         );
       });
   }
+
+  static async getNotfications(course) {
+    return await restClient({
+      method: HTTPS_METHODS.POST,
+      url: "/api/v1/course/announcement",
+      body: course,
+    })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        throw new Error(
+          "error",
+          console.log("error-get-notifications")
+        );
+      });
+  }
 }
