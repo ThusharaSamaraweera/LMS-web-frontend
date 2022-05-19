@@ -4,12 +4,10 @@ import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { CssBaseline } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -75,10 +73,6 @@ const Navbar = (props) => {
     navigate('profile')
   }
 
-  const handleOnNavigateAnnouncement = () => {
-    navigate("announcement")
-  }
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -118,14 +112,6 @@ const Navbar = (props) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleOnNavigateAnnouncement}>
-        <IconButton size="small" color="inherit">
-          <Badge color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p style={{marginBottom: '0em'}}>Messages</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -177,15 +163,6 @@ const Navbar = (props) => {
           ></Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              color="inherit"
-              onClick={handleOnNavigateAnnouncement}
-            >
-              <Badge color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               size="large"
               edge="end"

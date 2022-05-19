@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Collapse } from "antd";
 import AnnouncementCard from "./AnnouncementCard";
 import StudentService from "../../services/student.service";
+import AnnouncementForm from "./AnnouncementForm";
 
 const AnnouncementSection = (props) => {
   const { courseId } = props;
@@ -11,30 +12,38 @@ const AnnouncementSection = (props) => {
   // get all courses in university
   const courses = useSelector((state) => state.courseReducer.courses);
   const [loading, setLoading] = useState(false);
-  
+  const [isAnnouncementFormVisible, setAnnouncemntFormVisible] =
+    useState(false);
+  const [academicYear, setAcademinYear] = useState("");
+
   useEffect(() => {
-    let academicYear = "";
+    let tempAcademicYear = "";
     courses.map((course) => {
       if (course.course_id === courseId) {
-        academicYear = course.academic_year;
+        tempAcademicYear = course.academic_year;
       }
     });
-
+    setAcademinYear(tempAcademicYear);
     const course = {
       category: courseId,
-      academicYear: academicYear,
-    }
-
-    // fetch all annoucements corresponding course
-    const fetchNotificationDetails = async () => {
-      setLoading(true);
-      await StudentService.getNotfications(course).then((res) => {
-        setAnnouncement(res);
-      });
-      setLoading(false);
+      academicYear: tempAcademicYear,
     };
-    fetchNotificationDetails()
-  }, [])
+
+    fetchAnnouncements(course);
+  }, []);
+
+  // fetch all annoucements corresponding course
+  const fetchAnnouncements = async (course) => {
+    setLoading(true);
+    await StudentService.getNotfications(course).then((res) => {
+      setAnnouncement(res);
+    });
+    setLoading(false);
+  };
+
+  const handleOnAddAnnouncementBtnClick = () => {
+    setAnnouncemntFormVisible(!isAnnouncementFormVisible);
+  };
 
   return (
     <Box
@@ -44,21 +53,57 @@ const AnnouncementSection = (props) => {
         padding: 2,
       }}
     >
-      <Typography
-        sx={{
-          padding: 2,
-          fontWeight: "bold",
-          fontSize: "1.5rem",
-        }}
-      >
-        Announcements
-      </Typography>
+      <Grid container>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            padding: 2,
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: "20px",
+            }}
+          >
+            Announcements
+          </Typography>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            padding: "16px",
+            textAlign: "end",
+          }}
+        >
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={handleOnAddAnnouncementBtnClick}
+          >
+            {isAnnouncementFormVisible ? "Collapse form" : "Add Announcement"}
+          </Button>
+        </Grid>
+      </Grid>
+
+      {isAnnouncementFormVisible && (
+        <AnnouncementForm
+          courseId={courseId}
+          academicYear={academicYear}
+          fetchAnnouncements={fetchAnnouncements}
+        />
+      )}
 
       {/* annoucements goes here */}
-  
-      {
-        !loading  && (
-          announcements.length === 0 ? (
+
+      {!loading &&
+        (announcements.length === 0 ? (
           <Typography
             sx={{
               paddingX: 2,
@@ -70,11 +115,21 @@ const AnnouncementSection = (props) => {
             No annoucements yet
           </Typography>
         ) : (
-          <Collapse ghost>
-            <AnnouncementCard announcements={announcements} />
-          </Collapse>
-        ))
-      }
+          <>
+            <Typography
+              sx={{
+                paddingX: 2,
+                paddingTop: 2,
+                fontSize: "15px",
+              }}
+            >
+              Past annoucements
+            </Typography>
+            <Collapse ghost>
+              <AnnouncementCard announcements={announcements} />
+            </Collapse>
+          </>
+        ))}
     </Box>
   );
 };

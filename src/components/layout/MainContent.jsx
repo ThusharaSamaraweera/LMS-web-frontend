@@ -71,7 +71,6 @@ const MainContent = (props) => {
             <>
               <Route path='course/:courseId' element={<Course />} />
               <Route path='profile' element={<LecturerProfile/>}/>
-              <Route path='announcement' element={<AnnouncementManagement />}/>
             </>
           )
         }
