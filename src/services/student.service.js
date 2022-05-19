@@ -92,7 +92,6 @@ export default class StudentService {
       body: course,
     })
       .then((res) => {
-        console.log(res)
         return res.data;
       })
       .catch((err) => {

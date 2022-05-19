@@ -11,19 +11,19 @@ const AnnouncementSection = (props) => {
   // get all courses in university
   const courses = useSelector((state) => state.courseReducer.courses);
   const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    let academicYear = "";
+    courses.map((course) => {
+      if (course.course_id === courseId) {
+        academicYear = course.academic_year;
+      }
+    });
 
-  var academicYear = "";
-
-  courses.map((course) => {
-    if (course.course_id === courseId) {
-      academicYear = course.academic_year;
+    const course = {
+      category: courseId,
+      academicYear: academicYear,
     }
-  });
-
-  const course = {
-    category: courseId,
-    academicYear: academicYear,
-  };
 
     // fetch all annoucements corresponding course
     const fetchNotificationDetails = async () => {
@@ -33,10 +33,8 @@ const AnnouncementSection = (props) => {
       });
       setLoading(false);
     };
-
-  useEffect(() => {
-    fetchNotificationDetails();
-  }, [courseId]);
+    fetchNotificationDetails()
+  }, [])
 
   return (
     <Box

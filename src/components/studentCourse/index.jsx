@@ -7,7 +7,7 @@ import Alert from "../utilsComponents/Alert";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudentEnrollCourseIds } from "../../store/actions/studentAction";
-import AnnouncementSection from "./AnnouncementSection";
+import AnnouncementSection from "../announcement/AnnouncementSection";
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
@@ -127,7 +127,7 @@ const StudentCourse = () => {
       </Grid>
 
       {isAnnoucementSectionOpen && (
-        <AnnouncementSection/>
+        <AnnouncementSection courseId={courseId}/>
       )}
 
       <Typography>{courseDetails.course_description}</Typography>
