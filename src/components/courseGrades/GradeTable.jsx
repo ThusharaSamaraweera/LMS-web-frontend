@@ -11,6 +11,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { getGPAByMarks, getGradeByMarks } from "../../utils/grade";
+import { useSelector } from "react-redux";
 
 // const grades = [
 //   {
@@ -21,40 +23,22 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //   },
 // ];
 
-function createData(level, courses) {
-  const totCredits = getTotalCredits(courses);
-  const calGpa = getAvgGPA(courses);
-  const gpa = calGpa ? calGpa : 0;
 
-  return {
-    level,
-    totCredits,
-    gpa,
-    courses: courses.map((course) => {
-      return {
-        courseCode: course.course_id,
-        courseName: course.course_name,
-        academicYear: "",
-        coureGPA: course.grade,
-      };
-    }),
-  };
-}
 
 // get GPA by passing score
-const getGPAFromScore = (mark) => {
-  if (mark >= 75) return 4.0;
-  else if (mark >= 50) return 2.0;
-  else if (mark > 0) return 1.0;
-  else return 0.0;
-};
+// const getGPAFromScore = (mark) => {
+//   if (mark >= 75) return 4.0;
+//   else if (mark >= 50) return 2.0;
+//   else if (mark > 0) return 1.0;
+//   else return 0.0;
+// };
 
 const getAvgGPA = (courses) => {
   if (!courses) {
     return 0;
   }
   const gpas = courses.map(
-    (course) => getGPAFromScore(course.score) * parseInt(course.course_id[4])
+    (course) => getGPAByMarks(course.score) * parseInt(course.course_id[4])
   );
   const avgGPA =
     gpas.reduce((preVal, curVal) => preVal + curVal, 0) /
@@ -105,20 +89,22 @@ function Row(props) {
                     <TableCell sx={{ fontWeight: 600, fontSize: 15 }}>
                       Course code
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 600, fontSize: 15 }}>
+                    <TableCell sx={{ fontWeight: 600, fontSize: 15 }}
+                      align='center'
+                    >
                       Course name
                     </TableCell>
                     <TableCell
                       align="right"
                       sx={{ fontWeight: 600, fontSize: 15 }}
                     >
-                      Academic year
+
                     </TableCell>
                     <TableCell
-                      align="right"
+                      align="center"
                       sx={{ fontWeight: 600, fontSize: 15 }}
                     >
-                      GPA
+                      Grade
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -128,9 +114,9 @@ function Row(props) {
                       <TableCell component="th" scope="row">
                         {course.courseCode}
                       </TableCell>
-                      <TableCell>{course.courseName}</TableCell>
-                      <TableCell align="right">{course.academicYear}</TableCell>
-                      <TableCell align="right">{course.coureGPA}</TableCell>
+                      <TableCell  align="center">{course.courseName}</TableCell>
+                      <TableCell align="center">{course.academicYear}</TableCell>
+                      <TableCell align="center">{course.coureGPA}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -145,6 +131,31 @@ function Row(props) {
 
 const GradeTable = (props) => {
   const { grades } = props;
+  const courses = useSelector((state) => state.courseReducer.courses)
+
+  const getCourseNameById = (id) => {
+    return courses.find(course => course.course_id.toLowerCase() === id.toLowerCase())?.course_name
+  }
+
+  const createData = (level, courses) => {
+    const totCredits = getTotalCredits(courses);
+    const calGpa = getAvgGPA(courses);
+    const gpa = calGpa ? calGpa : 0;
+  
+    return {
+      level,
+      totCredits,
+      gpa,
+      courses: courses.map((course) => {
+        return {
+          courseCode: course.course_id,
+          courseName: getCourseNameById(course.course_id),
+          academicYear:"",
+          coureGPA: getGradeByMarks(course.score),
+        };
+      }),
+    };
+  }
 
   // categorize courses by level
   const level1Courses = grades.filter((course) => course.course_id[4] === "1");

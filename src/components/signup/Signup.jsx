@@ -25,7 +25,7 @@ const Signup = () => {
   const [universityEmail, setUniversityEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [isEmailValid, setEmailValid] = useState(false);
+  const [isEmailValid, setEmailValid] = useState(true);
   const [isEmailDisabled, setEmailDisable] = useState(false);
   const [universityEmailError, setUniversityEmailError] = useState("");
   const [inputOtp, setInputOtp] = useState("");
@@ -38,6 +38,7 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState("");
   const [studentId, setStudentId] = useState("");
   const [studentIdError, setStudentIdError] = useState("");
+
   const navigate = useNavigate()
 
   const handleOnUnversityEmailChanged = (email) => {
@@ -61,22 +62,37 @@ const Signup = () => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  const handleOnSignClick = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    let isFormValid = true;
 
     if (!firstName) {
       setFirstNameError("First name is required");
+      isFormValid = false
     }
     if (!lastName) {
       setLastNameError("Last name is required");
+      isFormValid = false
     }
     if (!studentId) {
       setStudentIdError("Student is Id required");
+      isFormValid = false
     }
     if (!password) {
       setPasswordError("Password is required");
+      isFormValid = false
     }
 
+    return isFormValid;
+  }
+
+  const handleOnSignClick = async (e) => {
+    e.preventDefault();
+
+    const isFormValid = validateForm()
+    if(!isFormValid){  
+      return;
+    }
+    
     const user = {
       email: universityEmail,
       role: userType,

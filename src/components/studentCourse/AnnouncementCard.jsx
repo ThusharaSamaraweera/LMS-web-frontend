@@ -37,7 +37,7 @@ const AnnouncementCard = () => {
 
   return (
     <Collapse ghost>
-      {notificationValues.length === 0 && (
+      {notificationValues?.length === 0 && (
         <Typography
           sx={{
             padding: 2,

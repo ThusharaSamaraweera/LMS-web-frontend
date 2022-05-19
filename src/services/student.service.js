@@ -92,13 +92,11 @@ export default class StudentService {
       body: course,
     })
       .then((res) => {
+        console.log(res)
         return res.data;
       })
       .catch((err) => {
-        throw new Error(
-          "error",
-          console.log("error-get-notifications")
-        );
+        throw new Error("Fetching notification request failed");
       });
   }
 

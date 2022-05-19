@@ -2,14 +2,9 @@ import React, { useState } from "react";
 import { Table, Input, InputNumber, Popconfirm, Form, Typography } from "antd";
 import lecturerServices from "../../services/lecturer.service";
 import { Box } from "@mui/material";
+import { getGradeByMarks } from "../../utils/grade";
 
 const originData = [];
-
-const getGradeByMarks = (mark) => {
-  if(mark > 75) return 'A'
-  else if(mark > 65) return 'B'
-  else return 'D'
-};
 
 const students = [
   {
@@ -38,7 +33,7 @@ for (let i = 0; i < students.length; i++) {
     name: students[i].name,
     studentId: students[i].studentId,
     finalExamScore: students[i].finalExamScore,
-    finalGrade: getGradeByMarks(students[i].finalGrade),
+    finalGrade: getGradeByMarks(students[i].finalExamScore),
   });
 }
 
