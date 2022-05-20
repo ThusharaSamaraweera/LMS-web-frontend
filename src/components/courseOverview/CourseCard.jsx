@@ -16,6 +16,9 @@ const CourseCard = (props) => {
       padding: 0.8,
       cursor: 'pointer',
       marginY: 1,
+      "&:hover": {
+            boxShadow: '10px 10px #ffc252'
+      },
     }}
       onClick={() => handleOnNavigate()}
     >

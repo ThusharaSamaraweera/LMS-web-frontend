@@ -1,0 +1,20 @@
+.course-creation-add-btn {
+  background-color: brown;
+  border-color: brown;
+}
+
+.course-creation-add-btn:hover {
+  background-color: white;
+  color: brown;
+  border-color: brown;
+}
+
+.course-creation-reset-btn {
+  border-color: brown;
+  color: brown;
+}
+
+.course-creation-reset-btn:hover {
+  border-color: brown;
+  color: brown;
+}

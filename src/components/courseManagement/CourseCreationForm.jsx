@@ -172,7 +172,7 @@ const CourseCreationForm = () => {
 
 
             <Form.Item wrapperCol={{ offset:11, span: 13 }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" className="course-creation-add-btn">
                 ADD
               </Button>
 
@@ -181,6 +181,7 @@ const CourseCreationForm = () => {
                 htmlType="submit"
                 style={{ marginLeft: "10px" }}
                 onClick={(e) => handleOnResetClick(e)}
+                className='course-creation-reset-btn'
               >
                 Reset
               </Button>

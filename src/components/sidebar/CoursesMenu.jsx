@@ -50,7 +50,7 @@ const CoursesMenu = (props) => {
 
     return courses.map((course, index) => {
       return (
-        <Box key={course.course_id} sx={{marginLeft: 2}}>
+        <Box key={index} sx={{marginLeft: 2}}>
           <Link to={`course/${course.course_id}`} >
             <Menu.Item style={{ color: "gray" }}>
               {course.course_name}

@@ -5,6 +5,8 @@ import { Collapse } from "antd";
 import AnnouncementCard from "./AnnouncementCard";
 import StudentService from "../../services/student.service";
 import AnnouncementForm from "./AnnouncementForm";
+import ProtectComponent from '../utilsComponents/ProtectedComponent'
+import {ROLES} from '../../constants/roles'
 
 const AnnouncementSection = (props) => {
   const { courseId } = props;
@@ -73,23 +75,25 @@ const AnnouncementSection = (props) => {
           </Typography>
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{
-            padding: "16px",
-            textAlign: "end",
-          }}
-        >
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={handleOnAddAnnouncementBtnClick}
+        <ProtectComponent allowedRoles={[ROLES.LECTURER]}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              padding: "16px",
+              textAlign: "end",
+            }}
           >
-            {isAnnouncementFormVisible ? "Collapse form" : "Add Announcement"}
-          </Button>
-        </Grid>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={handleOnAddAnnouncementBtnClick}
+            >
+              {isAnnouncementFormVisible ? "Collapse form" : "Add Announcement"}
+            </Button>
+          </Grid>
+        </ProtectComponent>
       </Grid>
 
       {isAnnouncementFormVisible && (

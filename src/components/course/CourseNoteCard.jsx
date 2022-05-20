@@ -2,11 +2,11 @@ import { Box, Card, Grid } from "@mui/material";
 import React, { useState } from "react";
 import FilePresentIcon from "@mui/icons-material/FilePresent";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import ConfirmationDialog from "./utilsComponents/ConfirmationDialog";
+import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import DeleteIcon from '@mui/icons-material/Delete';
-import ProtectedComponent from "./utilsComponents/ProtectedComponent";
+import ProtectedComponent from "../utilsComponents/ProtectedComponent";
 import { Typography, Switch } from 'antd';
-import {ROLES} from '../constants/roles'
+import {ROLES} from '../../constants/roles'
 const { Paragraph, Text } = Typography
 
 const CourseNoteCard = () => {

@@ -100,4 +100,17 @@ export default class lecturerServices {
         console.log(err);
       });
   }
+
+  static async getLecturerProfileByEmail(email){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: `api/v1/lecturer/profile-by-email/${email}`
+    })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        return err
+      })
+  }
 }

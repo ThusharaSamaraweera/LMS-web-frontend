@@ -25,7 +25,7 @@ const Signup = () => {
   const [universityEmail, setUniversityEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [isEmailValid, setEmailValid] = useState(true);
+  const [isEmailValid, setEmailValid] = useState(false);
   const [isEmailDisabled, setEmailDisable] = useState(false);
   const [universityEmailError, setUniversityEmailError] = useState("");
   const [inputOtp, setInputOtp] = useState("");

@@ -4,13 +4,21 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UserApp from "./views/UserApp";
 import PublicApp from "./views/PublicApp";
 import { setAuthUser } from "./store/actions/authAction";
-import Home from "./components/home";
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const ClientApp = () => {
   const currentUserRole = useSelector((state) => state.authReducer.authUser);
   const [user, setUser] = useState();
   const dispatch = useDispatch();
-  
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#a52a2a',
+      }
+    },
+  });
+
   useEffect(() => {
     if (!user) {
       const responseUser = JSON.parse(sessionStorage.getItem("responseUser"));
@@ -23,9 +31,11 @@ const ClientApp = () => {
 
   return (
     <div>
-      <BrowserRouter>
-        {(currentUserRole) ? <UserApp /> : <PublicApp />}
-      </BrowserRouter>
+     <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          {(currentUserRole) ? <UserApp /> : <PublicApp />}
+        </BrowserRouter>
+     </ThemeProvider>
     </div>
   );
 };

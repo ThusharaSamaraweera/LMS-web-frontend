@@ -17,6 +17,7 @@ import Alert from "../utilsComponents/Alert";
 import { getStudentEnrollCourseIds } from "../../store/actions/studentAction";
 import ProtectedComponent from "../utilsComponents/ProtectedComponent";
 import { ROLES } from "../../constants/roles";
+import lecturerServices from "../../services/lecturer.service";
 
 const LecturerCourse = () => {
   const { courseId } = useParams();
@@ -30,9 +31,13 @@ const LecturerCourse = () => {
   const [isAddNoteSectionOpen, setAddNoteSection] = useState(false)
   const [isUnenrollConfirmationDialogOpen, setUnerollConfirmationDialogOpen] =
     useState("");
+  const [lecturerProfile, setLecturerProfile] = useState(null)
 
   useEffect(() => {
     fetchCourseDetail();
+    setAnnouncementOpen(false)
+    setGradeTableVisible(false)
+    setAddNoteSection(false)
   }, [courseId]);
 
   const handleOnAddGradeBtnClick = () => {
@@ -40,9 +45,10 @@ const LecturerCourse = () => {
   };
 
   const fetchCourseDetail = async () => {
-    await StudentService.getCourseDetails(courseId).then((res) => {
-      setCourseDetails(res);
-    });
+    const course = await StudentService.getCourseDetails(courseId)
+    setCourseDetails(course);
+    const lecturerProfile = await lecturerServices.getLecturerProfileByEmail(course.lecturer)
+    setLecturerProfile(lecturerProfile)
   };
 
   const handleOnToggleAnnoucementBtn = () => {
@@ -106,7 +112,8 @@ const LecturerCourse = () => {
           <Box>
             <Typography>Course code : {courseDetails.course_id}</Typography>
             <Typography>Course name : {courseDetails.course_name}</Typography>
-            <Typography>Lecturer : {courseDetails.lecturer}</Typography>
+            <Typography>Lecturer name : {lecturerProfile?.first_name} {lecturerProfile?.last_name}</Typography>
+            <Typography>Lecturer email: {courseDetails.lecturer}</Typography>
           </Box>
         </Grid>
 

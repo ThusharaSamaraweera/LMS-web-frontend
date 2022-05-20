@@ -36,12 +36,13 @@
 }
 
 .paragraph-more {
-  color: blue;
+  color: brown;
   cursor: pointer;
   font-size: smaller;
 }
 
 .note-paragraph {
-  color: brown;
+  /* color: brown; */
   font-size: small;
 }
+
