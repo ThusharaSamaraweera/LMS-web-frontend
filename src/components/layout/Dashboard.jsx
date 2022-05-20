@@ -28,7 +28,7 @@ const Dashboard = () => {
         open={isLoading}
         onClick={handleOnLoading}
       >
-        <CircularProgress color="inherit" />
+        <CircularProgress color="primary" />
       </Backdrop>
     );
   }

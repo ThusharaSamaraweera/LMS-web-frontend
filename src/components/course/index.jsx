@@ -1,7 +1,7 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 
 import AddGradeTable from "./AddGradeTable";
 import StudentService from "../../services/student.service";
@@ -9,8 +9,8 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import AnnouncementSection from "../announcement/AnnouncementSection";
 import CourseContent from "./CourseContent";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import AddNotesSection from "./AddNotesSection";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import Alert from "../utilsComponents/Alert";
@@ -18,6 +18,7 @@ import { getStudentEnrollCourseIds } from "../../store/actions/studentAction";
 import ProtectedComponent from "../utilsComponents/ProtectedComponent";
 import { ROLES } from "../../constants/roles";
 import lecturerServices from "../../services/lecturer.service";
+import CourseService from "../../services/course.service";
 
 const LecturerCourse = () => {
   const { courseId } = useParams();
@@ -28,16 +29,18 @@ const LecturerCourse = () => {
   const [isGradeTableVisible, setGradeTableVisible] = useState(false);
   const [courseDetails, setCourseDetails] = useState({});
   const [isAnnoucementSectionOpen, setAnnouncementOpen] = useState(false);
-  const [isAddNoteSectionOpen, setAddNoteSection] = useState(false)
+  const [isAddNoteSectionOpen, setAddNoteSection] = useState(false);
   const [isUnenrollConfirmationDialogOpen, setUnerollConfirmationDialogOpen] =
     useState("");
-  const [lecturerProfile, setLecturerProfile] = useState(null)
+  const [lecturerProfile, setLecturerProfile] = useState(null);
+  const [grades, setGrades] = useState([]);
 
   useEffect(() => {
     fetchCourseDetail();
-    setAnnouncementOpen(false)
-    setGradeTableVisible(false)
-    setAddNoteSection(false)
+    fetchCourseGrades();
+    setAnnouncementOpen(false);
+    setGradeTableVisible(false);
+    setAddNoteSection(false);
   }, [courseId]);
 
   const handleOnAddGradeBtnClick = () => {
@@ -45,10 +48,19 @@ const LecturerCourse = () => {
   };
 
   const fetchCourseDetail = async () => {
-    const course = await StudentService.getCourseDetails(courseId)
+    const course = await StudentService.getCourseDetails(courseId);
     setCourseDetails(course);
-    const lecturerProfile = await lecturerServices.getLecturerProfileByEmail(course.lecturer)
-    setLecturerProfile(lecturerProfile)
+    const lecturerProfile = await lecturerServices.getLecturerProfileByEmail(
+      course.lecturer
+    );
+    setLecturerProfile(lecturerProfile);
+  };
+
+  const fetchCourseGrades = async () => {
+    await CourseService.getCourseGrade(courseId)
+      .then((res) => {
+        setGrades(res);
+      })
   };
 
   const handleOnToggleAnnoucementBtn = () => {
@@ -56,8 +68,8 @@ const LecturerCourse = () => {
   };
 
   const handleOnToggleAddNotes = () => {
-    setAddNoteSection(!isAddNoteSectionOpen)
-  }
+    setAddNoteSection(!isAddNoteSectionOpen);
+  };
 
   const handleOnClickUnenroll = () => {
     setUnerollConfirmationDialogOpen(true);
@@ -86,11 +98,11 @@ const LecturerCourse = () => {
       });
     dispatch(getStudentEnrollCourseIds());
     navigate(-1);
-  }
+  };
 
   const handleOnCancelUnenroll = () => {
     setUnerollConfirmationDialogOpen(false);
-  }
+  };
 
   return (
     <Container>
@@ -112,7 +124,10 @@ const LecturerCourse = () => {
           <Box>
             <Typography>Course code : {courseDetails.course_id}</Typography>
             <Typography>Course name : {courseDetails.course_name}</Typography>
-            <Typography>Lecturer name : {lecturerProfile?.first_name} {lecturerProfile?.last_name}</Typography>
+            <Typography>
+              Lecturer name : {lecturerProfile?.first_name}{" "}
+              {lecturerProfile?.last_name}
+            </Typography>
             <Typography>Lecturer email: {courseDetails.lecturer}</Typography>
           </Box>
         </Grid>
@@ -149,7 +164,7 @@ const LecturerCourse = () => {
                 margin: 1,
               }}
               size="small"
-              startIcon={<ExitToAppIcon/>}
+              startIcon={<ExitToAppIcon />}
             >
               Unenroll
             </Button>
@@ -158,31 +173,31 @@ const LecturerCourse = () => {
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "end", marginY: 2 }}>
-      <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
-        <Button
-          variant="outlined"
-          onClick={handleOnAddGradeBtnClick}
-          size="small"
-          sx={{
-            margin: 1,
-          }}
-          startIcon={<AddCircleIcon/>}
-        >
-          {isGradeTableVisible ? "Collapse table" : "Add grades"}
-        </Button>
+        <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
+          <Button
+            variant="outlined"
+            onClick={handleOnAddGradeBtnClick}
+            size="small"
+            sx={{
+              margin: 1,
+            }}
+            startIcon={<AddCircleIcon />}
+          >
+            {isGradeTableVisible ? "Collapse table" : "Add grades"}
+          </Button>
 
-        <Button
-          variant="outlined"
-          onClick={handleOnToggleAddNotes}
-          sx={{
-            margin: 1,
-          }}
-          size="small"
-          startIcon={<NoteAddIcon />}
-        >
-          {isAddNoteSectionOpen ? "Close adding note" : "Add notes"}
-        </Button>
-      </ProtectedComponent>
+          <Button
+            variant="outlined"
+            onClick={handleOnToggleAddNotes}
+            sx={{
+              margin: 1,
+            }}
+            size="small"
+            startIcon={<NoteAddIcon />}
+          >
+            {isAddNoteSectionOpen ? "Close adding note" : "Add notes"}
+          </Button>
+        </ProtectedComponent>
 
         <Button
           variant="outlined"
@@ -195,17 +210,16 @@ const LecturerCourse = () => {
         >
           {isAnnoucementSectionOpen ? "Close Announcement" : "Announcement"}
         </Button>
-
-
       </Box>
 
       <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
-        {isGradeTableVisible && <AddGradeTable courseId={courseId} />}
-        {isAddNoteSectionOpen && <AddNotesSection /> }
+        {isGradeTableVisible && (
+          <AddGradeTable courseId={courseId} grades={grades} />
+        )}
+        {isAddNoteSectionOpen && <AddNotesSection />}
       </ProtectedComponent>
 
       {isAnnoucementSectionOpen && <AnnouncementSection courseId={courseId} />}
-
 
       <CourseContent />
     </Container>

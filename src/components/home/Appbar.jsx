@@ -13,8 +13,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/images/uni-logo.png";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/actions/authAction";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
 const pages = [
   {
@@ -34,7 +35,7 @@ const pages = [
 const settings = [
   {
     title: "Profile",
-    path: "/profile"
+    path: "/dashboard/profile"
   },
   {
     title: "Dashboard",
@@ -47,6 +48,7 @@ const Appbar = () => {
   const dispatch = useDispatch()
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const user = useSelector((state) => state.authReducer.authUser)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -152,11 +154,13 @@ const Appbar = () => {
               </Button>
             ))}
           </Box>
-
+        
+        {
+          user &&
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <AccountCircle fontSize="large"/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -185,6 +189,7 @@ const Appbar = () => {
                 </MenuItem>
             </Menu>
           </Box>
+        }
         </Toolbar>
       </Container>
     </AppBar>

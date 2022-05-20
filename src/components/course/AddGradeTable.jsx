@@ -6,37 +6,6 @@ import { getGradeByMarks } from "../../utils/grade";
 
 const originData = [];
 
-const students = [
-  {
-    name: "amal1@stu.kln.ac.lk",
-    studentId: "SE/2018/001",
-    finalExamScore: 50,
-    finalGrade: "C"
-  },
-  {
-    name: "amal2@stu.kln.ac.lk",
-    studentId: "SE/2018/002",
-    finalExamScore: 60,
-    finalGrade: "B"
-  },
-  {
-    name: "amal3@stu.kln.ac.lk",
-    studentId: "SE/2018/003",
-    finalExamScore: 70,
-    finalGrade: "A"
-  }
-]
-
-for (let i = 0; i < students.length; i++) {
-  originData.push({
-    key: i.toString(),
-    name: students[i].name,
-    studentId: students[i].studentId,
-    finalExamScore: students[i].finalExamScore,
-    finalGrade: getGradeByMarks(students[i].finalExamScore),
-  });
-}
-
 const EditableCell = ({
   editing,
   dataIndex,
@@ -77,13 +46,22 @@ const EditableCell = ({
 };
 
 const AddGradeTable = (props) => {
-  const {courseId} = props;
+  const {courseId, grades} = props;
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState("");
 
   const isEditing = (record) => record.key === editingKey;
-
+  console.log(grades)
+  for (let i = 0; i < grades.length; i++) {
+  originData.push({
+    key: i.toString(),
+    name: `${grades[i].first_name} ${grades[i].last_name}`,
+    studentId: grades[i].student_id,
+    finalExamScore: grades[i].score,
+    finalGrade: getGradeByMarks(grades[i].score),
+  });
+}
   const edit = (record) => {
     form.setFieldsValue({
       studentId: "",
@@ -147,6 +125,7 @@ const AddGradeTable = (props) => {
       dataIndex: "studentId",
       width: "15%",
       editable: false,
+      // todo sorter: (a, b) => a.studentId - b.studentId,
     },
     {
       title: "Final exam score",

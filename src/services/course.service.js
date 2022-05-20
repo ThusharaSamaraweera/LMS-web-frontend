@@ -37,4 +37,17 @@ export default class CourseService {
       throw new Error("Fetch course in department failed")
     })
   }
+
+  static async getCourseGrade(courseId){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: `/lecturer/course_marks_and_grades/${courseId}`
+    })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 }

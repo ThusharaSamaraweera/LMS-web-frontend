@@ -120,7 +120,7 @@ const Navbar = (props) => {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <AccountCircle fontSize="large"/>
         </IconButton>
         <p style={{marginBottom: '0em'}}>Profile</p>
       </MenuItem>
@@ -172,7 +172,7 @@ const Navbar = (props) => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <AccountCircle fontSize="large" />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
