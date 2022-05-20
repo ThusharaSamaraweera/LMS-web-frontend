@@ -3,8 +3,7 @@ import React from "react";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import lecturerServices from "../../services/lecturer.service";
 import Alert from "../utilsComponents/Alert";
-
-const department = ["Software Engineering", "Physical Science"];
+import { useSelector } from "react-redux";
 
 const faculty = [
   "Commerce and Management Studies",
@@ -18,6 +17,9 @@ const faculty = [
 const CourseCreationForm = () => {
   const [form] = Form.useForm();
   const { Option } = Select;
+  const allDepartments = useSelector(state => state.courseReducer.department)
+
+  const department = allDepartments.map((item) => item.department)
 
   const HandleOnSubmit = async (values) => {
     try {

@@ -123,7 +123,7 @@ const CourseNoteCard = () => {
 
         <Box
           sx={{
-            
+            marginTop: 1,
           }}
         >
           <Paragraph ellipsis={isEllipsis ? { rows: 2 } : false} className='note-paragraph'>

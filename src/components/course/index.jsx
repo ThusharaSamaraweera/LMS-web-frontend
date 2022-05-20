@@ -57,10 +57,9 @@ const LecturerCourse = () => {
   };
 
   const fetchCourseGrades = async () => {
-    await CourseService.getCourseGrade(courseId)
-      .then((res) => {
-        setGrades(res);
-      })
+    await CourseService.getCourseGrade(courseId).then((res) => {
+      setGrades(res);
+    });
   };
 
   const handleOnToggleAnnoucementBtn = () => {
@@ -214,7 +213,11 @@ const LecturerCourse = () => {
 
       <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
         {isGradeTableVisible && (
-          <AddGradeTable courseId={courseId} grades={grades} />
+          <AddGradeTable
+            courseId={courseId}
+            grades={grades}
+            fetchCourseGrades={fetchCourseGrades}
+          />
         )}
         {isAddNoteSectionOpen && <AddNotesSection />}
       </ProtectedComponent>
