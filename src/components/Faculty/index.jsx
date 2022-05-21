@@ -23,6 +23,9 @@ const Faculty = () => {
         sx={{
           border: 1,
           marginY: 1,
+          "&:hover": {
+            color: 'white'
+          },
         }}
         key={item.department}
       >
@@ -34,6 +37,9 @@ const Faculty = () => {
             sx={{
               backgroundColor: "#ffdca8",
               border: 1,
+              "&:hover": {
+                backgroundColor: '#ff8c69',
+              },
             }}
           >
             <Typography

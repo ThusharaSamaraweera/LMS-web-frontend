@@ -22,7 +22,7 @@ function App() {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <ClientApp/>
-      </ThemeProvider>
+        </ThemeProvider>
       </Provider>
     </div>
   );
