@@ -1,0 +1,48 @@
+.ant-form-item-label{
+  text-align: start;
+}
+.ant-form-item-with-help {
+  margin-bottom: 1rem;
+}
+
+.ant-form-item-explain-error{
+  font-size: 0.7rem;
+}
+
+/*style course description label in course creation form  */
+.description-label .ant-form-item-label label{
+    margin-left: 10px;
+}
+
+/* style disabled input field */
+.ant-input[disabled]{
+  color: black;
+}
+
+/* home carousel */
+.img-div{
+  display: flex !important;
+  justify-content: center;
+}
+
+.home-carousel-image {
+  object-fit: cover
+}
+
+/* style disabled input field on student profile */
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  -webkit-text-fill-color: black !important;
+  cursor: not-allowed;
+}
+
+.paragraph-more {
+  color: brown;
+  cursor: pointer;
+  font-size: smaller;
+}
+
+.note-paragraph {
+  /* color: brown; */
+  font-size: small;
+}
+
