@@ -14,25 +14,6 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getGPAByMarks, getGradeByMarks } from "../../utils/grade";
 import { useSelector } from "react-redux";
 
-// const grades = [
-//   {
-//     course_id: "11223",
-//     course_name: "SE",
-//     score: 80,
-//     grade: "A",
-//   },
-// ];
-
-
-
-// get GPA by passing score
-// const getGPAFromScore = (mark) => {
-//   if (mark >= 75) return 4.0;
-//   else if (mark >= 50) return 2.0;
-//   else if (mark > 0) return 1.0;
-//   else return 0.0;
-// };
-
 const getAvgGPA = (courses) => {
   if (!courses) {
     return 0;

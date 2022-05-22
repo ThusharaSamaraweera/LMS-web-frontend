@@ -60,7 +60,6 @@ const AddGradeTable = (props) => {
         name: `${grades[i].first_name} ${grades[i].last_name}`,
         studentId: grades[i].student_id,
         finalExamScore: grades[i].score,
-        finalGrade: getGradeByMarks(grades[i].score),
       });
     }
     console.log(originData)
@@ -148,12 +147,6 @@ const AddGradeTable = (props) => {
       dataIndex: "finalExamScore",
       width: "15%",
       editable: true,
-    },
-    {
-      title: "Final grade",
-      dataIndex: "finalGrade",
-      width: "10%",
-      editable: false,
     },
     {
       title: "",

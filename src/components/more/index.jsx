@@ -9,7 +9,7 @@ const faculties = [
   "Medicine",
   "Science",
   "Social Sciences",
-  "Computing and Technology",
+  "Computing & Technology",
 ];
 
 const unitsAndCetres = [
