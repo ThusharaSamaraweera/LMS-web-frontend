@@ -8,6 +8,8 @@ import { useState } from "react";
 import StudentService from "../../services/student.service";
 import { getStudentEnrollCourseIds } from "../../store/actions/studentAction";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { ROLES } from "../../constants/roles";
+import ProtectedComponent from "../utilsComponents/ProtectedComponent";
 
 const { Panel } = Collapse;
 
@@ -87,20 +89,23 @@ const Courses = () => {
           <Grid item xs={12} sm={6}>
             <Typography>{course.course_name}</Typography>
           </Grid>
-          <Grid item xs={12} sm={3}>
-            {enrolled ? (
-              <Typography color={"brown"}>ENROLLED</Typography>
-            ) : (
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => handleOnClickEnroll(course.course_id)}
-                startIcon={<ArrowCircleRightIcon />}
-              >
-                Enroll me
-              </Button>
-            )}
-          </Grid>
+
+          <ProtectedComponent allowedRoles={[ROLES.STUDENT]}>
+            <Grid item xs={12} sm={3}>
+              {enrolled ? (
+                <Typography color={"brown"}>ENROLLED</Typography>
+              ) : (
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => handleOnClickEnroll(course.course_id)}
+                  startIcon={<ArrowCircleRightIcon />}
+                >
+                  Enroll me
+                </Button>
+              )}
+            </Grid>
+          </ProtectedComponent>
         </Grid>
       );
     });

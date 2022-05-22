@@ -19,7 +19,7 @@ export default class CourseService {
       method: HTTPS_METHODS.GET,
       url: "/api/v1/public/faculty",
     })
-      .then((res) => {
+    .then((res) => {
         return res;
       })
       .catch((err) => {

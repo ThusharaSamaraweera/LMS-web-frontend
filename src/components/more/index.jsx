@@ -1,16 +1,7 @@
 import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
-const faculties = [
-  "commerce and Management Studies",
-  "Humanities",
-  "Medicine",
-  "Science",
-  "Social Sciences",
-  "Computing & Technology",
-];
+import { useSelector } from "react-redux";
 
 const unitsAndCetres = [
   "Centre for Asian Studies",
@@ -25,7 +16,7 @@ const unitsAndCetres = [
 ];
 
 const More = () => {
-  const dispatch = useDispatch();
+  const faculties = useSelector((state) => state.courseReducer.faculties)
 
   const renderFaculties = faculties.map((faculty) => {
     return (

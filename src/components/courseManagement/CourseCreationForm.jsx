@@ -5,19 +5,11 @@ import lecturerServices from "../../services/lecturer.service";
 import Alert from "../utilsComponents/Alert";
 import { useSelector } from "react-redux";
 
-const faculty = [
-  "Commerce and Management Studies",
-  "Humanities",
-  "Medicine",
-  "Science",
-  "Social Sciences",
-  "Computing & Technology",
-];
-
 const CourseCreationForm = () => {
   const [form] = Form.useForm();
   const { Option } = Select;
   const allDepartments = useSelector(state => state.courseReducer.department)
+  const faculty = useSelector((state) => state.courseReducer.faculties)
 
   const department = allDepartments.map((item) => item.department)
 
@@ -25,7 +17,7 @@ const CourseCreationForm = () => {
     try {
       await lecturerServices.addNewCourse(values)
       Alert({ message: "New course creation successful", type: "success"})
-      // form.resetFields();
+      form.resetFields();
     } catch (error) {
       Alert({ message: error.message, type: "error"})
     }
