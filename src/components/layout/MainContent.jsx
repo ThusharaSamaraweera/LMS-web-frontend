@@ -6,13 +6,11 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 import CourseManagement from '../courseManagement';
 import { useSelector } from 'react-redux';
 import { ROLES } from '../../constants/roles';
-import LecturerCourse from '../lecturerCourse';
+import Course from '../course';
 import Grades from '../courseGrades';
 import More from '../more/routes';
 import StudentProfile from '../studentProfile';
 import LecturerProfile from '../lecturerProfile';
-import AnnouncementManagement from '../announcement';
-import StudentCourse from '../studentCourse';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -60,7 +58,7 @@ const MainContent = (props) => {
         {
           currentUserRole === ROLES.STUDENT && (
             <>
-              <Route path="course/:courseId" element={<StudentCourse />} />
+              <Route path="course/:courseId" element={<Course />} />
               <Route path="grades" element={<Grades />} />
               <Route path='profile' element={<StudentProfile/>}/>
             </>
@@ -70,9 +68,8 @@ const MainContent = (props) => {
         {
           currentUserRole === ROLES.LECTURER && (
             <>
-              <Route path='course/:course' element={<LecturerCourse />} />
+              <Route path='course/:courseId' element={<Course />} />
               <Route path='profile' element={<LecturerProfile/>}/>
-              <Route path='announcement' element={<AnnouncementManagement />}/>
             </>
           )
         }

@@ -1,45 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Input, InputNumber, Popconfirm, Form, Typography } from "antd";
 import lecturerServices from "../../services/lecturer.service";
-
-const originData = [];
-
-const getGradeByMarks = (mark) => {
-  if(mark > 75) return 'A'
-  else if(mark > 65) return 'B'
-  else return 'D'
-};
-
-const students = [
-  {
-    name: "amal1@stu.kln.ac.lk",
-    studentId: "SE/2018/001",
-    finalExamScore: 50,
-    finalGrade: "C"
-  },
-  {
-    name: "amal2@stu.kln.ac.lk",
-    studentId: "SE/2018/002",
-    finalExamScore: 60,
-    finalGrade: "B"
-  },
-  {
-    name: "amal3@stu.kln.ac.lk",
-    studentId: "SE/2018/003",
-    finalExamScore: 70,
-    finalGrade: "A"
-  }
-]
-
-for (let i = 0; i < students.length; i++) {
-  originData.push({
-    key: i.toString(),
-    name: students[i].name,
-    studentId: students[i].studentId,
-    finalExamScore: students[i].finalExamScore,
-    finalGrade: getGradeByMarks(students[i].finalGrade),
-  });
-}
+import { Box } from "@mui/material";
+import { getGradeByMarks } from "../../utils/grade";
 
 const EditableCell = ({
   editing,
@@ -66,9 +29,9 @@ const EditableCell = ({
               message: `Please Input ${title}!`,
             },
             {
-              type: 'number',
-              message: 'Please enter number'
-            }
+              type: "number",
+              message: "Please enter number",
+            },
           ]}
         >
           {inputNode}
@@ -81,12 +44,28 @@ const EditableCell = ({
 };
 
 const AddGradeTable = (props) => {
-  const {courseId} = props;
+  let originData = [];
+  const { courseId, grades, fetchCourseGrades } = props;
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState("");
 
   const isEditing = (record) => record.key === editingKey;
+  console.log(grades)
+  const createRows = () => {
+    for (let i = 0; i < grades?.length; i++) {
+      originData.push({
+        key: i.toString(),
+        email: grades[i].studentEmail,
+        name: `${grades[i].first_name} ${grades[i].last_name}`,
+        studentId: grades[i].student_id,
+        finalExamScore: grades[i].score,
+      });
+    }
+    console.log(originData)
+  }
+
+  createRows()
 
   const edit = (record) => {
     form.setFieldsValue({
@@ -107,22 +86,22 @@ const AddGradeTable = (props) => {
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
 
-      const editedRow = {...record, ...row}
-
+      const editedRow = { ...record, ...row };
       const editedGrade = {
-        student_email: editedRow.name,
+        student_email: editedRow.email,
         course_id: courseId,
         score: editedRow.finalExamScore,
-        grade: editedRow.finalGrade
-      }
+        grade: getGradeByMarks(editedRow.finalExamScore),
+      };
 
-      await lecturerServices.addGradeForStudent(editedGrade)
+      await lecturerServices
+        .addGradeForStudent(editedGrade)
         .then((res) => {
-          console.log(res)
+          console.log(res);
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
 
       if (index > -1) {
         const item = newData[index];
@@ -134,6 +113,10 @@ const AddGradeTable = (props) => {
         setData(newData);
         setEditingKey("");
       }
+      await fetchCourseGrades();
+      originData = []
+      // createRows()
+      // console.log(originData)
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo);
     }
@@ -147,22 +130,23 @@ const AddGradeTable = (props) => {
       editable: false,
     },
     {
+      title: "Email",
+      dataIndex: "email",
+      width: "25%",
+      editable: false,
+    },
+    {
       title: "Student Id",
       dataIndex: "studentId",
       width: "15%",
       editable: false,
+      // todo sorter: (a, b) => a.studentId - b.studentId,
     },
     {
       title: "Final exam score",
       dataIndex: "finalExamScore",
-      width: "20%",
+      width: "15%",
       editable: true,
-    },
-    {
-      title: "Final grade",
-      dataIndex: "finalGrade",
-      width: "20%",
-      editable: false,
     },
     {
       title: "",
@@ -211,23 +195,32 @@ const AddGradeTable = (props) => {
       }),
     };
   });
+
   return (
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>
+    <Box
+      sx={{
+        marginY: 5,
+        border: 2,
+        padding: 2,
+      }}
+    >
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={data}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
+    </Box>
   );
 };
 

@@ -49,7 +49,7 @@ export default class StudentService {
         return res.data;
       })
       .catch((err) => {
-        throw new Error(`Fetching ${courseId} couse details failed`);
+        throw new Error(`Fetching ${courseId} course details request failed`);
       });
   }
 
@@ -95,10 +95,18 @@ export default class StudentService {
         return res.data;
       })
       .catch((err) => {
-        throw new Error(
-          "error",
-          console.log("error-get-notifications")
-        );
+        throw new Error("Fetching notification request failed");
       });
+  }
+
+  static async getGradesForStudent(){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: "/api/student_marks_grades/"
+    }).then((res) => {
+      return res.data
+    }).catch((err) => {
+      throw new Error("Fetching grades request failed")
+    })
   }
 }

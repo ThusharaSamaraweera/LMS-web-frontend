@@ -3,8 +3,6 @@ import React from 'react'
 import AnnouncementCard from './AnnouncementCard'
 const AnnouncementSection = () => {
 
-
-
   return (
     <Box
       sx={{

@@ -4,9 +4,11 @@ import Appbar from "./Appbar";
 import CarouselImages from "./CarouselImages";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.authReducer.authUser)
 
   const handleOnClickLogin = () => {
     navigate("/login");
@@ -25,6 +27,9 @@ const Home = () => {
         }}
       >
         <CarouselImages />
+
+      {
+        !user &&
         <Box
           component={"div"}
           sx={{
@@ -55,6 +60,7 @@ const Home = () => {
             Signup
           </Button>
         </Box>
+      }
       </Box>
       <Footer />
     </>

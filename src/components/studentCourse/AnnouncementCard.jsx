@@ -33,11 +33,11 @@ const AnnouncementCard = () => {
 
   useEffect(() => {
     fetchNotificationDetails();
-  }, [course]);
+  }, []);
 
   return (
     <Collapse ghost>
-      {notificationValues.length === 0 && (
+      {notificationValues?.length === 0 && (
         <Typography
           sx={{
             padding: 2,
@@ -48,8 +48,8 @@ const AnnouncementCard = () => {
           No annoucement yet
         </Typography>
       )}
-      {notificationValues.map((values) => (
-        <Panel header={values.title} key={values.id}>
+      {notificationValues.map((values, index) => (
+        <Panel header={values.title} key={index} panelKey={index}>
           {values.body}
         </Panel>
       ))}

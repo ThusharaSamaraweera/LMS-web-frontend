@@ -19,7 +19,7 @@ export default class CourseService {
       method: HTTPS_METHODS.GET,
       url: "/api/v1/public/faculty",
     })
-      .then((res) => {
+    .then((res) => {
         return res;
       })
       .catch((err) => {
@@ -35,6 +35,30 @@ export default class CourseService {
       console.log(res)
     }).catch((err) => {
       throw new Error("Fetch course in department failed")
+    })
+  }
+
+  static async getCourseGrade(courseId){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: `/lecturer/course_marks_and_grades/${courseId}`
+    })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  static async getCourseContent(courseName, academicYear){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: `api/v1/lecturer/note-details/${courseName}/${academicYear}`
+    }).then((res) => {
+      return res.data;
+    }).catch((err) => {
+      console.log(err)
     })
   }
 }

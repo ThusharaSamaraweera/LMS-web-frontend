@@ -9,8 +9,6 @@ import {
 import MuiDrawer from "@mui/material/Drawer";
 import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Dashboard } from "@mui/icons-material";
 import SchoolIcon from "@mui/icons-material/School";
 import CoursesMenu from "./CoursesMenu";
@@ -21,6 +19,8 @@ import { ROLES } from "../../constants/roles";
 import {useSelector} from 'react-redux';
 import GradingIcon from '@mui/icons-material/Grading';
 import InfoIcon from '@mui/icons-material/Info';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ProtectedComponent from '../utilsComponents/ProtectedComponent'
 
 const drawerWidth = 256;
 
@@ -138,9 +138,9 @@ const Sidebar = (props) => {
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
+            <MoreVertIcon />
           ) : (
-            <ChevronLeftIcon />
+            <MoreVertIcon />
           )}
         </IconButton>
       </DrawerHeader>
@@ -186,45 +186,10 @@ const Sidebar = (props) => {
           </React.Fragment>
         ))}
 
-        {
-          currentUserRole === ROLES.STUDENT && (
-            <>
-              <Link to='/dashboard/grades'>
-                <Tooltip title="Grades" placement="right-start">
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: isDrawerOpen ? "initial" : "center",
-                      pl: 2.5,
-                      color: 'gray'
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: isDrawerOpen ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <GradingIcon/>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary='Grades'
-                      sx={{ opacity: isDrawerOpen ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </Tooltip>
-              </Link>
-
-
-            </>
-          )
-        }        
-
-        {
-          currentUserRole === ROLES.LECTURER && (
-            <Link to='/dashboard/courses-management'>
-            <Tooltip title="Course management" placement="right-start">
+        <ProtectedComponent allowedRoles={[ROLES.STUDENT]}>
+        <>
+          <Link to='/dashboard/grades'>
+            <Tooltip title="Grades" placement="right-start">
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -240,17 +205,46 @@ const Sidebar = (props) => {
                     justifyContent: "center",
                   }}
                 >
-                  <SettingsIcon/>
+                  <GradingIcon/>
                 </ListItemIcon>
                 <ListItemText
-                  primary='Course management'
+                  primary='Grades'
                   sx={{ opacity: isDrawerOpen ? 1 : 0 }}
                 />
               </ListItemButton>
             </Tooltip>
-            </Link>
-          )
-        }
+          </Link>
+        </>
+        </ProtectedComponent>        
+
+        <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
+          <Link to='/dashboard/courses-management'>
+              <Tooltip title="Course management" placement="right-start">
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: isDrawerOpen ? "initial" : "center",
+                    pl: 2.5,
+                    color: 'gray'
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: isDrawerOpen ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <SettingsIcon/>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary='Course management'
+                    sx={{ opacity: isDrawerOpen ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </Tooltip>
+          </Link>
+        </ProtectedComponent>
 
         <Link to='/dashboard/more'>
           <Tooltip title="More" placement="right-start">

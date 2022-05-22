@@ -3,27 +3,24 @@ import React from "react";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import lecturerServices from "../../services/lecturer.service";
 import Alert from "../utilsComponents/Alert";
-
-const department = ["Software Engineering", "Physical Science"];
-
-const faculty = [
-  "Commerce and Management Studies",
-  "Humanities",
-  "Medicine",
-  "Science",
-  "Social Science",
-  "Computing and Technology",
-];
+import { useSelector, useDispatch } from "react-redux";
+import { getAllLecturerCourses } from '../../store/actions/lecturerAction'
 
 const CourseCreationForm = () => {
   const [form] = Form.useForm();
   const { Option } = Select;
+  const dispatch = useDispatch()
+  const allDepartments = useSelector(state => state.courseReducer.department)
+  const faculty = useSelector((state) => state.courseReducer.faculties)
+
+  const department = allDepartments.map((item) => item.department)
 
   const HandleOnSubmit = async (values) => {
     try {
       await lecturerServices.addNewCourse(values)
       Alert({ message: "New course creation successful", type: "success"})
-      // form.resetFields();
+      dispatch(getAllLecturerCourses());
+      form.resetFields();
     } catch (error) {
       Alert({ message: error.message, type: "error"})
     }
@@ -115,7 +112,9 @@ const CourseCreationForm = () => {
               hasFeedback
               rules={[{ required: true, message: "Please enter lecturer email" }]}
             >
-              <Input placeholder="Enter academic year" />
+              <Select placeholder="Select academic year">
+                <Option value="2019-2020">2019-2020</Option>
+              </Select>
             </Form.Item>
 
             <Form.Item
@@ -172,7 +171,7 @@ const CourseCreationForm = () => {
 
 
             <Form.Item wrapperCol={{ offset:11, span: 13 }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" className="course-creation-add-btn">
                 ADD
               </Button>
 
@@ -181,6 +180,7 @@ const CourseCreationForm = () => {
                 htmlType="submit"
                 style={{ marginLeft: "10px" }}
                 onClick={(e) => handleOnResetClick(e)}
+                className='course-creation-reset-btn'
               >
                 Reset
               </Button>

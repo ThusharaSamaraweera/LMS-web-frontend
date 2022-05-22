@@ -8,7 +8,7 @@ export const HTTPS_METHODS = {
   DELETE: "delete",
 };
 
-export const restClient = async ({ method, url, body = {} }) => {
+export const restClient = async ({ method, url, body = {}, contentType = "application/json" }) => {
   const token = sessionStorage.getItem('token')
 
   return await axios({
@@ -18,12 +18,12 @@ export const restClient = async ({ method, url, body = {} }) => {
     data: body,
     headers: {
       "auth-token": `Bearer ${token}`,
-      Accept: "application/json",
+      Accept: contentType,
     },
   }).then((res) => {
       return res;
     })
     .catch((err) => {
-      throw new Error()
+      return err;
     });
 };

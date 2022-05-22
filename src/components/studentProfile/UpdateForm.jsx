@@ -19,8 +19,6 @@ import StudentService from "../../services/student.service";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 import Alert from "../utilsComponents/Alert";
 
-const department = ["SE", "PS", "PE"];
-
 const UpdateForm = () => {
   const userEmail = useSelector((state) => state.authReducer.authUser.username);
   const [initialValues, setInitialValues] = useState({
@@ -37,6 +35,9 @@ const UpdateForm = () => {
   const [departmentError, setDepartmentError] = useState("");
   const [isDisabled, setDisabled] = useState(false);
   const [isConfirmatinDislogOpen, setConfirmationDialogOpen] = useState(false);
+  const allDepartments = useSelector(state => state.courseReducer.department)
+
+  const department = allDepartments.map((item) => item.department)
 
   const handleOnGetProfile = async () => {
     setDisabled(true)

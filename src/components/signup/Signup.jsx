@@ -38,6 +38,7 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState("");
   const [studentId, setStudentId] = useState("");
   const [studentIdError, setStudentIdError] = useState("");
+
   const navigate = useNavigate()
 
   const handleOnUnversityEmailChanged = (email) => {
@@ -61,22 +62,38 @@ const Signup = () => {
     setPasswordVisible(!isPasswordVisible);
   };
 
-  const handleOnSignClick = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    let isFormValid = true;
 
     if (!firstName) {
       setFirstNameError("First name is required");
+      isFormValid = false
     }
     if (!lastName) {
       setLastNameError("Last name is required");
+      isFormValid = false
     }
-    if (!studentId) {
+    if (!studentId && userType === ROLES.STUDENT) {
       setStudentIdError("Student is Id required");
+      isFormValid = false
     }
     if (!password) {
       setPasswordError("Password is required");
+      isFormValid = false
     }
 
+    return isFormValid;
+  }
+
+  const handleOnSignClick = async (e) => {
+    e.preventDefault();
+
+    const isFormValid = validateForm()
+    console.log(isFormValid)
+    if(!isFormValid){  
+      return;
+    }
+    
     const user = {
       email: universityEmail,
       role: userType,
@@ -85,7 +102,7 @@ const Signup = () => {
       id: studentId,
       password: password,
     };
-
+    console.log(user)
     await authService
       .signup(user)
       .then((res) => {

@@ -20,12 +20,13 @@ import {
   import Alert from "../utilsComponents/Alert";
   
   
-  const department = ["SE", "PS", "PE"];
-  
   const UpdateForm = () => {
   
     const userEmail = useSelector(state=>state.authReducer.authUser.username)
-  
+    const allDepartments = useSelector(state => state.courseReducer.department)
+
+    const department = allDepartments.map((item) => item.department)
+
     const [initialValues,setInitialValues] = useState({
       firstName: "",
       lastName: "",

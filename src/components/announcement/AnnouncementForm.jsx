@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import { Button, Col, Form, Input, Row } from "antd";
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import LecturerService from "../../services/lecturer.service";
 import Alert from "../utilsComponents/Alert";
-import ConfirmationDialog from "../utilsComponents/ConfirmationDialog"
+import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
 
-const AnnouncementForm = () => {
+const AnnouncementForm = (props) => {
+  const { courseId, academicYear, fetchAnnouncements } = props;
   const [form] = Form.useForm();
-  const { Option } = Select;
-  const courses = useSelector((state) => state.lecturerReducer.courses).map(
-    (course) => course.course_id
-  );
-  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
-  const [courseId, setCourseId] = useState("");
-  const [academicYear, setAcademinYear] = useState("")
-  const [formValues, setFormValues] = useState()
+  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+  const [formValues, setFormValues] = useState(null);
 
   useEffect(() => {
     form.setFieldsValue({
@@ -25,11 +20,9 @@ const AnnouncementForm = () => {
 
   const userEmail = useSelector((state) => state.authReducer.authUser.username);
 
-  const HandleOnSubmit = async (values) => {
-    setCourseId(values.category)
-    setAcademinYear(values.academic_year)
-    setConfirmationDialogOpen(true)
-    setFormValues(values)
+  const HandleOnSubmit = (values) => {
+    setConfirmationDialogOpen(true);
+    setFormValues(values);
   };
 
   const handleOnResetClick = (e) => {
@@ -37,50 +30,56 @@ const AnnouncementForm = () => {
     form.resetFields(["body", "title", "category", "academic_year"]);
   };
 
-  const courseOptions = courses.map((course) => {
-    return (
-      <Option value={course} key={course}>
-        {course}
-      </Option>
-    );
-  });
-
   const handleOnAccept = async () => {
-    setConfirmationDialogOpen(false)
-    
+    setConfirmationDialogOpen(false);
+
+    const newAnnouncement = {
+      title: formValues.title,
+      body: formValues.body,
+      category: courseId,
+      academic_year: academicYear,
+    };
+
     try {
-      await LecturerService.addNewAnnouncement(formValues);
+      await LecturerService.addNewAnnouncement(newAnnouncement);
+
       Alert({
-        message: "New announcement added successfully",
+        message: "New announcement is sent successfully",
         type: "success",
+      });
+
+      // fetch announcemnts
+      fetchAnnouncements({
+        category: courseId,
+        academicYear: academicYear,
       });
     } catch (error) {
       Alert({ message: error.message, type: "error" });
     }
-  }
+  };
 
   const handleOnCancel = () => {
-    setConfirmationDialogOpen(false)
-  }
+    setConfirmationDialogOpen(false);
+  };
 
   return (
     <>
-      {isConfirmationDialogOpen && 
-        <ConfirmationDialog 
+      {isConfirmationDialogOpen && (
+        <ConfirmationDialog
           title={`Do you want to sent the announcement to student 
           those have been enrolled ${courseId} course for ${academicYear} academic year ?`}
           handleOnAccept={handleOnAccept}
           handleOnCancel={handleOnCancel}
         />
-      }
+      )}
       <Box
         sx={{
-          width: 1200,
           border: 1,
           paddingBottom: 3,
           paddingTop: 1,
           paddingX: 2,
           display: "block",
+          marginX: 2,
         }}
       >
         <Typography
@@ -100,7 +99,7 @@ const AnnouncementForm = () => {
           onFinish={HandleOnSubmit}
         >
           <Row>
-            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+            <Col xs={{ span: 24 }}>
               <Form.Item
                 name="email"
                 label="Email"
@@ -110,34 +109,6 @@ const AnnouncementForm = () => {
                 <Input placeholder="Enter Email" disabled />
               </Form.Item>
 
-              <Form.Item
-                name="academic_year"
-                label="Academic Year"
-                hasFeedback
-                rules={[
-                  { required: true, message: "Please enter academic year!" },
-                ]}
-              >
-                <Select placeholder="Select Academic Year">
-                  <Option value="2018-2019">2018-2019</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-
-            <Col xs={{ span: 24 }} lg={{ span: 11, offset: 1 }}>
-              <Form.Item
-                name="category"
-                label="Course"
-                hasFeedback
-                rules={[{ required: true, message: "Please select course!" }]}
-              >
-                <Select placeholder="Select cource" showSearch>
-                  {courseOptions}
-                </Select>
-              </Form.Item>
-            </Col>
-
-            <Col xs={{ span: 24 }}>
               <Form.Item
                 name="title"
                 label="Title"
@@ -154,14 +125,19 @@ const AnnouncementForm = () => {
                 className="body-label"
                 rules={[{ required: true, message: "Please enter message!" }]}
               >
-                <Input.TextArea allowClear showCount maxLength={1000} rows={10} />
+                <Input.TextArea
+                  allowClear
+                  showCount
+                  maxLength={1000}
+                  rows={10}
+                />
               </Form.Item>
             </Col>
 
             <Col xs={{ span: 24 }}>
               <Form.Item wrapperCol={{ offset: 11, span: 13 }}>
                 <Button type="primary" htmlType="submit">
-                  ADD
+                  Send
                 </Button>
 
                 <Button
