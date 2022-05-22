@@ -141,7 +141,7 @@ const LecturerCourse = () => {
             flexDirection: "column",
           }}
         >
-          <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
+          {/* <ProtectedComponent allowedRoles={[ROLES.LECTURER]}>
             <Button
               variant="outlined"
               // onClick={handleOnClickUnenroll}
@@ -153,7 +153,7 @@ const LecturerCourse = () => {
             >
               Delete
             </Button>
-          </ProtectedComponent>
+          </ProtectedComponent> */}
 
           <ProtectedComponent allowedRoles={[ROLES.STUDENT]}>
             <Button
@@ -224,7 +224,7 @@ const LecturerCourse = () => {
 
       {isAnnoucementSectionOpen && <AnnouncementSection courseId={courseId} />}
 
-      <CourseContent />
+      <CourseContent courseName={courseDetails.course_name} academicYear={courseDetails.academic_year} />
     </Container>
   );
 };

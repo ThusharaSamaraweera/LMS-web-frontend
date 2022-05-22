@@ -3,16 +3,20 @@ import React, { useState } from "react";
 import FilePresentIcon from "@mui/icons-material/FilePresent";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import ConfirmationDialog from "../utilsComponents/ConfirmationDialog";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import ProtectedComponent from "../utilsComponents/ProtectedComponent";
-import { Typography, Switch } from 'antd';
-import {ROLES} from '../../constants/roles'
-const { Paragraph, Text } = Typography
+import { Typography } from "antd";
+import { ROLES } from "../../constants/roles";
+const { Paragraph } = Typography;
 
-const CourseNoteCard = () => {
-  const [isDownloadConfirmationDialogOpen, setDownloadConfirmationDialogOpen] = useState(false);
-  const [isDeleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =  useState(false)
-  const [isEllipsis, toggleEllipsis] = useState(true)
+const CourseNoteCard = (props) => {
+  const { note } = props;
+  const dataAndTime = new Date(note.date);
+  const [isDownloadConfirmationDialogOpen, setDownloadConfirmationDialogOpen] =
+    useState(false);
+  const [isDeleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =
+    useState(false);
+  const [isEllipsis, toggleEllipsis] = useState(true);
 
   const handleOnDownloadBtn = () => {
     setDownloadConfirmationDialogOpen(true);
@@ -28,8 +32,8 @@ const CourseNoteCard = () => {
   };
 
   const handleOnDelete = () => {
-    setDeleteConfirmationDialogOpen(true)
-  }
+    setDeleteConfirmationDialogOpen(true);
+  };
 
   const handleOnDeleteAccept = () => {
     setDeleteConfirmationDialogOpen(false);
@@ -40,8 +44,8 @@ const CourseNoteCard = () => {
   };
 
   const handleOnClickMore = () => {
-    toggleEllipsis(!isEllipsis)
-  }
+    toggleEllipsis(!isEllipsis);
+  };
 
   return (
     <>
@@ -64,7 +68,7 @@ const CourseNoteCard = () => {
           padding: 0.8,
           marginY: 1,
           "&:hover": {
-            boxShadow: '10px 10px #ffc252'
+            boxShadow: "10px 10px #ffc252",
           },
         }}
       >
@@ -78,15 +82,16 @@ const CourseNoteCard = () => {
             >
               <FilePresentIcon />
               <Typography
-                sx={{
-                  marginX: 1,
-                }}
+                style={{margin: 3}}
               >
-                file name
+                {note.file_name}
               </Typography>
-              <Typography>upload date</Typography>
+              <Typography
+                style={{marginLeft: 5, marginTop: 3}}
+              >
+                {dataAndTime.toLocaleDateString()}
+              </Typography>
             </Box>
-
           </Grid>
           <Grid
             item
@@ -113,10 +118,7 @@ const CourseNoteCard = () => {
                 display: "flex",
               }}
             >
-              <DeleteIcon
-                onClick={handleOnDelete}
-                sx={{ cursor: "pointer" }}
-              />
+              <DeleteIcon onClick={handleOnDelete} sx={{ cursor: "pointer" }} />
             </Grid>
           </ProtectedComponent>
         </Grid>
@@ -126,15 +128,13 @@ const CourseNoteCard = () => {
             marginTop: 1,
           }}
         >
-          <Paragraph ellipsis={isEllipsis ? { rows: 2 } : false} className='note-paragraph'>
-            Ant Design, a design language for background applications, is refined by Ant UED Team. Ant
-            Design, a design language for background applications, is refined by Ant UED Team. Ant
-            Design, a design language for background applications, is refined by Ant UED Team. Ant
-            Design, a design language for background applications, is refined by Ant UED Team. Ant
-            Design, a design language for background applications, is refined by Ant UED Team. Ant
-            Design, a design language for background applications, is refined by Ant UED Team.
+          <Paragraph
+            ellipsis={isEllipsis ? { rows: 2 } : false}
+            className="note-paragraph"
+          >
+            {note.description}
           </Paragraph>
-          <Paragraph onClick={handleOnClickMore} className='paragraph-more'>
+          <Paragraph onClick={handleOnClickMore} className="paragraph-more">
             {isEllipsis ? "Expand" : "Collapse"}
           </Paragraph>
         </Box>

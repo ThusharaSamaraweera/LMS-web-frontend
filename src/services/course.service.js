@@ -50,4 +50,15 @@ export default class CourseService {
         console.log(err)
       })
   }
+
+  static async getCourseContent(courseName, academicYear){
+    return await restClient({
+      method: HTTPS_METHODS.GET,
+      url: `api/v1/lecturer/note-details/${courseName}/${academicYear}`
+    }).then((res) => {
+      return res.data;
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 }
