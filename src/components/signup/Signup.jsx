@@ -73,7 +73,7 @@ const Signup = () => {
       setLastNameError("Last name is required");
       isFormValid = false
     }
-    if (!studentId) {
+    if (!studentId && userType === ROLES.STUDENT) {
       setStudentIdError("Student is Id required");
       isFormValid = false
     }
@@ -89,6 +89,7 @@ const Signup = () => {
     e.preventDefault();
 
     const isFormValid = validateForm()
+    console.log(isFormValid)
     if(!isFormValid){  
       return;
     }
@@ -101,7 +102,7 @@ const Signup = () => {
       id: studentId,
       password: password,
     };
-
+    console.log(user)
     await authService
       .signup(user)
       .then((res) => {

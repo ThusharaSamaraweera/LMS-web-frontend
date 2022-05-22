@@ -16,6 +16,7 @@ export default class authService {
         body,
         config
       );
+      console.log(res)
       return res.data;
     } catch (error) {
       throw new Error("Login failed");
