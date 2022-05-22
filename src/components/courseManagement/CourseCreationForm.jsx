@@ -10,8 +10,8 @@ const faculty = [
   "Humanities",
   "Medicine",
   "Science",
-  "Social Science",
-  "Computing and Technology",
+  "Social Sciences",
+  "Computing & Technology",
 ];
 
 const CourseCreationForm = () => {
@@ -117,7 +117,9 @@ const CourseCreationForm = () => {
               hasFeedback
               rules={[{ required: true, message: "Please enter lecturer email" }]}
             >
-              <Input placeholder="Enter academic year" />
+              <Select placeholder="Select academic year">
+                <Option value="2019-2020">2019-2020</Option>
+              </Select>
             </Form.Item>
 
             <Form.Item
