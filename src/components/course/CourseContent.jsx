@@ -18,7 +18,7 @@ const CourseContent = (props) => {
       })
   };
 
-  const renderContent = notes.map((note, index) => {
+  const renderContent = notes?.map((note, index) => {
     return <CourseNoteCard key={index} note={note} />
   })
 

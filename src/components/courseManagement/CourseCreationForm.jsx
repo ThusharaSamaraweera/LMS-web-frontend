@@ -3,11 +3,13 @@ import React from "react";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import lecturerServices from "../../services/lecturer.service";
 import Alert from "../utilsComponents/Alert";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllLecturerCourses } from '../../store/actions/lecturerAction'
 
 const CourseCreationForm = () => {
   const [form] = Form.useForm();
   const { Option } = Select;
+  const dispatch = useDispatch()
   const allDepartments = useSelector(state => state.courseReducer.department)
   const faculty = useSelector((state) => state.courseReducer.faculties)
 
@@ -17,6 +19,7 @@ const CourseCreationForm = () => {
     try {
       await lecturerServices.addNewCourse(values)
       Alert({ message: "New course creation successful", type: "success"})
+      dispatch(getAllLecturerCourses());
       form.resetFields();
     } catch (error) {
       Alert({ message: error.message, type: "error"})

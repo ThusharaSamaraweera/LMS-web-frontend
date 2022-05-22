@@ -53,7 +53,7 @@ const AddGradeTable = (props) => {
   const isEditing = (record) => record.key === editingKey;
   console.log(grades)
   const createRows = () => {
-    for (let i = 0; i < grades.length; i++) {
+    for (let i = 0; i < grades?.length; i++) {
       originData.push({
         key: i.toString(),
         email: grades[i].studentEmail,
