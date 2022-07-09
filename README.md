@@ -25,3 +25,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### Backend app repo
 [https://github.com/MalshaniDahanayaka/Student-Management-System---Backend.git]
+
+### Mobile app repo
+[https://github.com/MalshaniDahanayaka/Student-Management-System---MobileApp]
